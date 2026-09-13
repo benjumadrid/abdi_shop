@@ -497,31 +497,46 @@ export default function OrderModal({ isOpen, onClose, product }) {
                   )}
                   <div className="min-w-0">
                     <h3 className="font-bold text-gray-900 text-sm line-clamp-1">{productName}</h3>
-                    <p className="text-sm font-bold text-[#006838] mt-0.5">{formatPrice(unitPrice)}</p>
+                    <div className="flex items-baseline gap-1.5 mt-0.5">
+                      <p className="text-sm sm:text-base font-black text-[#006838]">{formatPrice(totalPrice)}</p>
+                      {quantity > 1 && (
+                        <span className="text-[11px] text-gray-500 font-medium">
+                          ({quantity} × {formatPrice(unitPrice)})
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
 
-                {/* Quantity selector pill */}
-                <div className="flex items-center gap-4 px-3.5 py-1.5 rounded-xl border border-gray-200 bg-white shadow-2xs shrink-0">
-                  <button
-                    type="button"
-                    onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                    disabled={quantity <= 1 || submitting}
-                    className="text-gray-500 hover:text-gray-800 font-semibold text-base transition disabled:opacity-25 cursor-pointer leading-none"
-                    aria-label="Decrease quantity"
-                  >
-                    −
-                  </button>
-                  <span className="text-sm font-bold text-gray-900 min-w-[12px] text-center select-none">{quantity}</span>
-                  <button
-                    type="button"
-                    onClick={() => setQuantity((q) => Math.min(99, q + 1))}
-                    disabled={submitting}
-                    className="text-gray-500 hover:text-gray-800 font-semibold text-base transition disabled:opacity-25 cursor-pointer leading-none"
-                    aria-label="Increase quantity"
-                  >
-                    +
-                  </button>
+                {/* Quantity selector pill with max 5 limit */}
+                <div className="flex flex-col items-end shrink-0">
+                  <div className="flex items-center gap-3.5 px-3.5 py-1.5 rounded-xl border border-gray-200 bg-white shadow-2xs">
+                    <button
+                      type="button"
+                      onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                      disabled={quantity <= 1 || submitting}
+                      className="text-gray-500 hover:text-gray-800 font-semibold text-base transition disabled:opacity-25 cursor-pointer leading-none"
+                      aria-label="Decrease quantity"
+                    >
+                      −
+                    </button>
+                    <span className="text-sm font-bold text-gray-900 min-w-[12px] text-center select-none">{quantity}</span>
+                    <button
+                      type="button"
+                      onClick={() => setQuantity((q) => Math.min(5, q + 1))}
+                      disabled={quantity >= 5 || submitting}
+                      className="text-gray-500 hover:text-gray-800 font-semibold text-base transition disabled:opacity-25 cursor-pointer leading-none"
+                      aria-label="Increase quantity"
+                      title={quantity >= 5 ? (isAmharic ? "በአንድ ትዕዛዝ ከፍተኛው ገደብ 5 እቃዎች ነው" : "Maximum limit is 5 items per order") : ""}
+                    >
+                      +
+                    </button>
+                  </div>
+                  {quantity >= 5 && (
+                    <span className="text-[10px] text-amber-700 font-bold mt-1">
+                      {isAmharic ? "ከፍተኛው ገደብ: 5" : "Max limit: 5"}
+                    </span>
+                  )}
                 </div>
               </div>
 
@@ -802,7 +817,11 @@ export default function OrderModal({ isOpen, onClose, product }) {
                           </div>
                           <div className="flex items-start gap-2">
                             <span className="w-4 h-4 rounded-full bg-[#0066b2] text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">2</span>
-                            <span className="font-medium leading-tight">{t("orderModal.step2")}</span>
+                            <span className="font-medium leading-tight">
+                              {isAmharic
+                                ? `ትክክለኛውን የብር መጠን (${formatPrice(totalPrice)}) ከላይ ወደተጠቀሰው ቁጥር ይላኩ`
+                                : `Send the exact amount (${formatPrice(totalPrice)}) to the number above`}
+                            </span>
                           </div>
                           <div className="flex items-start gap-2">
                             <span className="w-4 h-4 rounded-full bg-[#0066b2] text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">3</span>
@@ -973,7 +992,7 @@ export default function OrderModal({ isOpen, onClose, product }) {
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
                     </svg>
-                    <span>{pendingOrder ? t("orderModal.retryPayment") : t("orderModal.submit")}</span>
+                    <span>{pendingOrder ? t("orderModal.retryPayment") : `${t("orderModal.submit")} (${formatPrice(totalPrice)})`}</span>
                   </>
                 )}
               </button>

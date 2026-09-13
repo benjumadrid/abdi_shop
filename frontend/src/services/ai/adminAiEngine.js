@@ -1226,8 +1226,8 @@ export async function processAdminQuery({
 
     return {
       text: isAmharicResponse
-        ? `📋 **የዛሬ ትዕዛዞች ማጠቃለያ** (${today.orders_count} ትዕዛዞች / **${today.revenue.toLocaleString()} ETB**)፡\n\n${orderLines}\n\n• **ክፍያ ማረጋገጫ የሚጠብቁ**፡ ${today.payment_review}\n• **የተረጋገጡ/በማድረስ ላይ**፡ ${today.confirmed + today.out_for_delivery}\n• **የደረሱ**፡ ${today.delivered}`
-        : `📋 **Today's Orders Breakdown** (${today.orders_count} orders / **${today.revenue.toLocaleString()} ETB**):\n\n${orderLines}\n\n• **Awaiting Payment Review**: ${today.payment_review}\n• **Confirmed / Out for Delivery**: ${today.confirmed + today.out_for_delivery}\n• **Delivered**: ${today.delivered}`,
+        ? `📋 **የዛሬ ትዕዛዞች ማጠቃለያ** (${today.orders_count} ${today.orders_count === 1 ? 'ትዕዛዝ' : 'ትዕዛዞች'})፡\n\n${orderLines}\n\n• **ክፍያ ማረጋገጫ የሚጠብቁ**፡ ${today.payment_review}\n• **የተረጋገጡ/በማድረስ ላይ**፡ ${today.confirmed + today.out_for_delivery}\n• **የደረሱ**፡ ${today.delivered}`
+        : `📋 **Today's Orders Breakdown** (${today.orders_count} ${today.orders_count === 1 ? 'order' : 'orders'}):\n\n${orderLines}\n\n• **Awaiting Payment Review**: ${today.payment_review}\n• **Confirmed / Out for Delivery**: ${today.confirmed + today.out_for_delivery}\n• **Delivered**: ${today.delivered}`,
       actions: [
         { type: 'NAVIGATE', path: '/admin/orders?date=today', label: isAmharicResponse ? 'የዛሬ ትዕዛዞችን ዝርዝር ክፈት' : "Filter Today's Orders" }
       ]

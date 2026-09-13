@@ -213,6 +213,8 @@ function validateOrderCreate(data) {
         errors.push(`Item at index ${index} must have a quantity`);
       } else if (typeof item.quantity !== 'number' || !Number.isInteger(item.quantity) || item.quantity <= 0) {
         errors.push(`Item at index ${index} quantity must be a positive integer greater than 0`);
+      } else if (item.quantity > 5) {
+        errors.push(`Item at index ${index} quantity cannot exceed 5 items per order`);
       }
     });
   }

@@ -93,6 +93,14 @@ async function createOrder(orderData) {
       itemQuantityMap.set(item.product_id, currentQty + item.quantity);
     }
 
+    for (const [prodId, qty] of itemQuantityMap.entries()) {
+      if (qty > 5) {
+        const error = new Error('Maximum allowed quantity is 5 items per product in a single order.');
+        error.status = 400;
+        throw error;
+      }
+    }
+
     const uniqueProductIds = Array.from(itemQuantityMap.keys());
 
     // 2. Query products from database using lock/snapshot
