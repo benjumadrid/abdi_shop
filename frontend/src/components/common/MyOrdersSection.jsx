@@ -242,7 +242,7 @@ export default function MyOrdersSection() {
   const earlierOrdersCount = Math.max(0, savedOrders.length - 4);
 
   return (
-    <section id="my-orders" className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 py-10 md:py-14 font-sans">
+    <section id="my-orders" className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 py-10 md:py-14 font-sans scroll-mt-20 md:scroll-mt-24">
       {/* ── Section Header (Clean, no tracking badges) ── */}
       <div className="flex items-center justify-between mb-6 sm:mb-8">
         <div>

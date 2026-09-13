@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useLanguage } from "../hooks/useLanguage";
 import { getProducts, getCachedProducts, subscribeToStoreUpdates } from "../services/api";
 import ProductCard from "../components/common/ProductCard";
@@ -349,6 +349,8 @@ export default function HomePage() {
     }
   }, []);
 
+  const location = useLocation();
+
   useEffect(() => {
     fetchProducts(false);
     // Background live updates are silent (stale-while-revalidate without skeleton flicker)
@@ -358,8 +360,22 @@ export default function HomePage() {
     return () => unsubscribe();
   }, [fetchProducts]);
 
+  // Handle hash scrolling (e.g. from Abdi AI to #my-orders or #products)
+  useEffect(() => {
+    if (location.hash) {
+      const hashId = location.hash.replace('#', '');
+      const targetId = hashId === 'products' ? 'featured-products' : hashId;
+      setTimeout(() => {
+        const el = document.getElementById(targetId) || document.getElementById(hashId);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 150);
+    }
+  }, [location.hash]);
+
   const scrollToProducts = () => {
-    const el = document.getElementById("featured-products");
+    const el = document.getElementById("featured-products") || document.getElementById("products");
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -386,7 +402,8 @@ export default function HomePage() {
 
       <div className="space-y-12 sm:space-y-16 md:space-y-20 pb-24">
         {/* 2. Featured Products */}
-        <section id="featured-products" className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 pt-2 sm:pt-4">
+        <div id="products" className="scroll-mt-20" />
+        <section id="featured-products" className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 pt-2 sm:pt-4 scroll-mt-20">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 sm:mb-8 gap-4">
             <div>
               <span className="inline-flex text-xs font-extrabold text-brand-700 uppercase tracking-widest px-4 py-1.5 rounded-full bg-brand-50 border border-brand-200/70 mb-2">

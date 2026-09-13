@@ -119,6 +119,7 @@ export default function AbdiAI() {
 
   const handleQuickOrder = (product) => {
     if (!product) return;
+    setIsOpen(false);
     setOrderModalProduct(product);
     setIsOrderModalOpen(true);
   };
@@ -240,15 +241,20 @@ export default function AbdiAI() {
   const handleActionClick = (action) => {
     if (!action) return;
 
+    // Immediately close the AI chat panel so the customer sees the navigated destination
+    setIsOpen(false);
+
     if (action.type === 'SCROLL_SECTION') {
-      // If not on home page, navigate to home first with hash
+      const targetId = action.targetId === 'products' ? 'featured-products' : action.targetId;
       if (location.pathname !== '/') {
-        navigate(`/#${action.targetId}`);
+        navigate(`/#${targetId}`);
       } else {
-        const el = document.getElementById(action.targetId);
-        if (el) {
-          el.scrollIntoView({ behavior: 'smooth' });
-        }
+        setTimeout(() => {
+          const el = document.getElementById(targetId) || document.getElementById(action.targetId);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 120);
       }
     } else if (action.type === 'VIEW_PRODUCT') {
       navigate(`/products/${action.productId}`);
@@ -397,7 +403,10 @@ export default function AbdiAI() {
 
             <button
               type="button"
-              onClick={() => navigate(`/products/${prod.id}`)}
+              onClick={() => {
+                setIsOpen(false);
+                navigate(`/products/${prod.id}`);
+              }}
               title={isAmharic ? 'ዝርዝር' : 'Details'}
               className="py-1.5 px-2 rounded-lg bg-surface-100 hover:bg-surface-200 text-ink-700 text-[11px] font-semibold transition cursor-pointer"
             >
