@@ -1,0 +1,43 @@
+{
+  "name": "abdi",
+  "version": "1.0.0",
+  "main": "backend/src/server.js",
+  "scripts": {
+    "dev": "nodemon backend/src/server.js",
+    "dev:backend": "nodemon backend/src/server.js",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "start": "node backend/src/server.js",
+    "build": "npm --prefix frontend install && npm --prefix frontend run build",
+    "migrate": "node backend/database/migrate.js",
+    "admin:setup": "node backend/database/admin-setup.js",
+    "admin:reset": "node backend/database/emergency-reset-admin.js",
+    "cleanup:test-data": "node backend/database/cleanup-test-data.js",
+    "test": "node backend/test/test-payments-api.js",
+    "test:products": "node backend/test/test-products-api.js",
+    "test:orders": "node backend/test/test-orders-api.js",
+    "test:payments": "node backend/test/test-payments-api.js",
+    "test:auth": "node backend/test/test-auth-api.js",
+    "test:media": "node backend/test/test-product-media-api.js",
+    "test:security": "node backend/test/test-security.js",
+    "test:maintenance": "node backend/test/test-maintenance-mode.js",
+    "test:all": "node backend/test/test-products-api.js && node backend/test/test-orders-api.js && node backend/test/test-payments-api.js && node backend/test/test-auth-api.js && node backend/test/test-product-media-api.js && node backend/test/test-security.js && node backend/test/test-maintenance-mode.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.7.0",
+    "helmet": "^8.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.3.0",
+    "pg": "^8.23.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

@@ -1,0 +1,87 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-sans: "Plus Jakarta Sans", "Noto Sans Ethiopic", system-ui, sans-serif;
+    color-scheme: light;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    /* Warm ivory background — not cold slate-50 */
+    background-color: #f8f6f1;
+    color: #312f2b;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Premium selection highlight */
+  ::selection {
+    background: #a8e5c7;
+    color: #09402e;
+  }
+
+  /* Ethiopic / Amharic text enhancements */
+  [lang="am"] {
+    line-height: 1.7;
+    letter-spacing: 0.01em;
+  }
+
+  /* Smooth focus rings */
+  :focus-visible {
+    outline: 2px solid #0f7d55;
+    outline-offset: 2px;
+  }
+}
+
+@layer utilities {
+  /* Hide scrollbar for clean horizontal tab lists */
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* Shimmer loading animation */
+  .shimmer {
+    background: linear-gradient(90deg, #f0ece3 25%, #fdfcf9 50%, #f0ece3 75%);
+    background-size: 400px 100%;
+    animation: shimmer 1.8s infinite;
+  }
+
+  /* Text balance for headings */
+  .text-balance { text-wrap: balance; }
+
+  /* Gradient text */
+  .text-gradient-brand {
+    background: linear-gradient(135deg, #0f7d55, #1a9969, #38b582);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Glass morphism card */
+  .glass {
+    background: rgba(253, 252, 249, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* Subtle texture overlay on dark sections */
+  .noise-overlay::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    border-radius: inherit;
+  }
+}
