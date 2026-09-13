@@ -14,6 +14,11 @@ function getAllowedOrigins() {
     origins.add(process.env.FRONTEND_URL.trim().replace(/\/+$/, ''));
   }
 
+  // Render automatically sets RENDER_EXTERNAL_URL (e.g. https://abdi-shop.onrender.com)
+  if (process.env.RENDER_EXTERNAL_URL && process.env.RENDER_EXTERNAL_URL.trim()) {
+    origins.add(process.env.RENDER_EXTERNAL_URL.trim().replace(/\/+$/, ''));
+  }
+
   if (process.env.ALLOWED_ORIGINS && process.env.ALLOWED_ORIGINS.trim()) {
     process.env.ALLOWED_ORIGINS.split(',')
       .map(o => o.trim().replace(/\/+$/, ''))
@@ -48,6 +53,11 @@ const corsOptions = {
     const allowed = getAllowedOrigins();
 
     if (allowed.includes(normalizedOrigin)) {
+      return callback(null, true);
+    }
+
+    // Always allow Render deployed domains (*.onrender.com)
+    if (/^https:\/\/([a-zA-Z0-9_-]+\.)?onrender\.com$/.test(normalizedOrigin)) {
       return callback(null, true);
     }
 
