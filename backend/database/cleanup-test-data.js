@@ -37,6 +37,8 @@ dotenv.config();
 
 // Explicit list of known test order numbers created during development/testing
 const DEFAULT_TEST_ORDER_NUMBERS = [
+  'ORD-20260913-0154',
+  'ORD-20260913-0153',
   'ORD-20260912-0152',
   'ORD-20260911-0151',
   'ORD-20260911-0150',
@@ -46,6 +48,7 @@ const DEFAULT_TEST_ORDER_NUMBERS = [
 async function runCleanup() {
   const args = process.argv.slice(2);
   const isConfirmed = args.includes('--confirm');
+  const isAll = args.includes('--all');
   
   // Collect custom order numbers if passed, otherwise use DEFAULT_TEST_ORDER_NUMBERS
   const customOrderArgs = args.filter(a => a.startsWith('ORD-'));
@@ -55,7 +58,7 @@ async function runCleanup() {
   console.log('🧹 ABDI ONLINE SHOPPING - TEST DATA CLEANUP SCRIPT');
   console.log('===============================================================');
   console.log(`Execution Mode: ${isConfirmed ? '🔴 LIVE EXECUTION (--confirm)' : '🟡 DRY RUN (No changes will be saved)'}`);
-  console.log(`Target Test Orders: ${targetOrderNumbers.join(', ')}\n`);
+  console.log(`Target: ${isAll ? 'ALL test orders in database' : targetOrderNumbers.join(', ')}\n`);
 
   if (!process.env.DATABASE_URL) {
     console.error('❌ [FATAL] DATABASE_URL environment variable is not defined.');
@@ -80,13 +83,21 @@ async function runCleanup() {
     console.log(`   Products: ${productCountBefore}, Media: ${mediaCountBefore}, Admins: ${adminCountBefore}, Settings: ${settingsCountBefore}\n`);
 
     // 2. Identify candidate orders
-    const findOrdersRes = await client.query(
-      `SELECT o.id, o.order_number, o.status, o.total_amount, o.customer_id, c.name as customer_name, c.phone as customer_phone
-       FROM orders o
-       LEFT JOIN customers c ON o.customer_id = c.id
-       WHERE o.order_number = ANY($1::text[]);`,
-      [targetOrderNumbers]
-    );
+    const findOrdersRes = isAll
+      ? await client.query(
+          `SELECT o.id, o.order_number, o.status, o.total_amount, o.customer_id, c.name as customer_name, c.phone as customer_phone
+           FROM orders o
+           LEFT JOIN customers c ON o.customer_id = c.id
+           ORDER BY o.created_at DESC;`
+        )
+      : await client.query(
+          `SELECT o.id, o.order_number, o.status, o.total_amount, o.customer_id, c.name as customer_name, c.phone as customer_phone
+           FROM orders o
+           LEFT JOIN customers c ON o.customer_id = c.id
+           WHERE o.order_number = ANY($1::text[])
+           ORDER BY o.created_at DESC;`,
+          [targetOrderNumbers]
+        );
 
     const ordersToDelete = findOrdersRes.rows;
     if (ordersToDelete.length === 0) {
