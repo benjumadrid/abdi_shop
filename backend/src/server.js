@@ -121,11 +121,11 @@ if (process.env.NODE_ENV === 'production') {
   const frontendDistPath = path.join(__dirname, '../../frontend/dist');
   app.use(express.static(frontendDistPath));
 
-  app.get('*', (req, res, next) => {
-    if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) {
-      return next();
+  app.use((req, res, next) => {
+    if (req.method === 'GET' && !req.path.startsWith('/api') && !req.path.startsWith('/uploads')) {
+      return res.sendFile(path.join(frontendDistPath, 'index.html'));
     }
-    res.sendFile(path.join(frontendDistPath, 'index.html'));
+    next();
   });
 }
 
