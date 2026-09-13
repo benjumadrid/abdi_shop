@@ -90,6 +90,7 @@ export default function AdminOrdersPage() {
   // Open order detail
   const openOrderDetail = async (orderId) => {
     setSelectedOrderId(orderId);
+    setSelectedOrder(null);
     setDetailLoading(true);
     setDetailError(null);
     setActionSuccess(null);
@@ -98,11 +99,13 @@ export default function AdminOrdersPage() {
     setInlineNoteSuccess(null);
     setShowRejectPaymentForm(false);
     setPaymentRejectReason('The order payment pic is not real');
-    setPaymentRejectAdminNote('');
     try {
       const data = await adminGetOrderById(orderId);
+      if (!data) {
+        throw new Error('Order details could not be loaded from server.');
+      }
       setSelectedOrder(data);
-      setNewStatus(data.status);
+      setNewStatus(data.status || 'pending');
       setAdminNoteText(data.admin_note || '');
     } catch (err) {
       console.error('Failed to load order detail:', err);
@@ -495,7 +498,7 @@ export default function AdminOrdersPage() {
                   const itemsCount = order.items?.length || 1;
                   const firstItem = order.items?.[0];
                   const activePayment = order.active_payment || (order.payments && order.payments[0]);
-                  const isTelebirr = activePayment?.method === 'telebirr' || order.customer_note?.toUpperCase().includes('TELEBIRR');
+                  const isTelebirr = activePayment?.method === 'telebirr' || (typeof order.customer_note === 'string' && order.customer_note.toUpperCase().includes('TELEBIRR'));
 
                   return (
                     <tr key={order.id} className="hover:bg-surface-50/50 transition-colors">
@@ -776,7 +779,7 @@ export default function AdminOrdersPage() {
                 {/* ── PAYMENT & RECEIPT VERIFICATION ── */}
                 {(() => {
                   const activePayment = selectedOrder.active_payment || (selectedOrder.payments && selectedOrder.payments[0]);
-                  const isTelebirr = activePayment?.method === 'telebirr' || selectedOrder.customer_note?.toUpperCase().includes('TELEBIRR');
+                  const isTelebirr = activePayment?.method === 'telebirr' || (typeof selectedOrder.customer_note === 'string' && selectedOrder.customer_note.toUpperCase().includes('TELEBIRR'));
 
                   return (
                     <div className="rounded-xl border border-surface-200/90 bg-surface-50/70 p-4 sm:p-4.5 space-y-3.5 text-xs">
