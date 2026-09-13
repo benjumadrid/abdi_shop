@@ -28,15 +28,7 @@ if (process.env.NODE_ENV === 'production') {
 app.disable('x-powered-by');
 app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' }, // Allows cross-origin rendering of product media & proof images
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      imgSrc: ["'self'", 'data:', 'blob:'],
-      mediaSrc: ["'self'", 'data:', 'blob:'],
-      scriptSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'"]
-    }
-  },
+  contentSecurityPolicy: false, // Allows React SPA assets, fonts, and inline styles to render smoothly
   hsts: process.env.NODE_ENV === 'production' ? {
     maxAge: 31536000,
     includeSubDomains: true,
@@ -54,8 +46,8 @@ app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 // 4. Rate Limiting for Public APIs
 app.use('/api', publicApiLimiter);
 
-// Root endpoint
-app.get('/', (req, res) => {
+// Root API info endpoint (moved to /api so / serves the frontend in production)
+app.get('/api', (req, res) => {
   res.status(200).json({
     success: true,
     message: 'Welcome to Abdi Online Order System API',
