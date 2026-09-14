@@ -87,11 +87,32 @@ export default function AdminOrdersPage() {
     loadOrders();
   }, [loadOrders]);
 
+  // Preload receipt screenshots in the background so they open instantly when clicked
+  useEffect(() => {
+    if (Array.isArray(orders)) {
+      orders.forEach((o) => {
+        const proofUrl = o.active_payment?.payment_proof_url || o.payments?.[0]?.payment_proof_url;
+        if (proofUrl) {
+          const img = new Image();
+          img.src = proofUrl;
+        }
+      });
+    }
+  }, [orders]);
+
   // Open order detail
   const openOrderDetail = async (orderId) => {
     setSelectedOrderId(orderId);
-    setSelectedOrder(null);
-    setDetailLoading(true);
+    // Instant optimistic modal population from already loaded list
+    const existing = orders.find((o) => o.id === orderId);
+    if (existing) {
+      setSelectedOrder(existing);
+      setNewStatus(existing.status || 'pending');
+      setAdminNoteText(existing.admin_note || '');
+    } else {
+      setSelectedOrder(null);
+    }
+    setDetailLoading(!existing);
     setDetailError(null);
     setActionSuccess(null);
     setInlineStatusSuccess(null);
@@ -109,7 +130,9 @@ export default function AdminOrdersPage() {
       setAdminNoteText(data.admin_note || '');
     } catch (err) {
       console.error('Failed to load order detail:', err);
-      setDetailError(err?.message || 'Could not load order details.');
+      if (!existing) {
+        setDetailError(err?.message || 'Could not load order details.');
+      }
     } finally {
       setDetailLoading(false);
     }
@@ -855,6 +878,9 @@ export default function AdminOrdersPage() {
                               <img
                                 src={activePayment.payment_proof_url}
                                 alt="Payment Proof Screenshot"
+                                loading="eager"
+                                fetchPriority="high"
+                                decoding="async"
                                 className="max-h-64 w-auto max-w-full object-contain rounded-lg shadow-2xs hover:opacity-95 transition"
                               />
                             </a>

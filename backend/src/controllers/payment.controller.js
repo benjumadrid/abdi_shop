@@ -97,10 +97,17 @@ async function getPaymentProofFile(req, res, next) {
       });
     }
 
+    const etag = `"${file.id}"`;
+    const ifNoneMatch = req.headers['if-none-match'];
+    if (ifNoneMatch === etag) {
+      return res.status(304).end();
+    }
+
     res.setHeader('Content-Type', file.mime_type);
     res.setHeader('Content-Length', file.file_size);
     res.setHeader('Content-Disposition', `inline; filename="${file.filename}"`);
-    res.setHeader('Cache-Control', 'public, max-age=86400');
+    res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    res.setHeader('ETag', etag);
     res.setHeader('X-Content-Type-Options', 'nosniff');
 
     return res.status(200).send(file.file_data);

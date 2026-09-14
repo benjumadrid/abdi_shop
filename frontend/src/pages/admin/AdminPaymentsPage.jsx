@@ -59,9 +59,26 @@ export default function AdminPaymentsPage() {
     loadPayments();
   }, [loadPayments]);
 
+  // Preload receipt screenshots in the background so they open instantly when clicked
+  useEffect(() => {
+    if (Array.isArray(payments)) {
+      payments.forEach((p) => {
+        if (p.payment_proof_url) {
+          const img = new Image();
+          img.src = p.payment_proof_url;
+        }
+      });
+    }
+  }, [payments]);
+
   const openPaymentDetail = async (paymentId) => {
     setSelectedPaymentId(paymentId);
-    setDetailLoading(true);
+    // Instant optimistic modal population
+    const existing = payments.find((p) => p.id === paymentId);
+    if (existing) {
+      setSelectedPayment(existing);
+    }
+    setDetailLoading(!existing);
     setDetailError(null);
     setActionSuccess(null);
     setShowRejectForm(false);
@@ -73,7 +90,9 @@ export default function AdminPaymentsPage() {
       setSelectedPayment(data);
     } catch (err) {
       console.error('Failed to load payment details:', err);
-      setDetailError(err?.message || 'Could not load payment details.');
+      if (!existing) {
+        setDetailError(err?.message || 'Could not load payment details.');
+      }
     } finally {
       setDetailLoading(false);
     }
@@ -680,6 +699,9 @@ export default function AdminPaymentsPage() {
                           <img
                             src={selectedPayment.payment_proof_url}
                             alt="Payment Proof"
+                            loading="eager"
+                            fetchPriority="high"
+                            decoding="async"
                             className="w-full max-h-96 object-contain rounded-xl mx-auto shadow-sm bg-white"
                           />
                         </div>

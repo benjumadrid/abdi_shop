@@ -31,6 +31,124 @@ export default function AdminAI() {
     setChatLanguage(isAmharic ? 'am' : 'en');
   }, [isAmharic]);
 
+  // ── Draggable Floating Trigger Button State ──
+  const [buttonPos, setButtonPos] = useState(() => {
+    try {
+      const saved = localStorage.getItem('abdi_admin_ai_pos');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (typeof parsed?.x === 'number' && typeof parsed?.y === 'number') {
+          return parsed;
+        }
+      }
+    } catch (_) {}
+    return null;
+  });
+  const [isDraggingButton, setIsDraggingButton] = useState(false);
+  const dragButtonRef = useRef({
+    active: false,
+    startX: 0,
+    startY: 0,
+    initLeft: 0,
+    initTop: 0,
+    btnWidth: 170,
+    btnHeight: 55,
+    moved: false
+  });
+  const floatingBtnRef = useRef(null);
+
+  // Keep button within window bounds on resize
+  useEffect(() => {
+    const handleResize = () => {
+      if (!buttonPos || !floatingBtnRef.current) return;
+      const rect = floatingBtnRef.current.getBoundingClientRect();
+      const maxX = Math.max(8, window.innerWidth - rect.width - 8);
+      const maxY = Math.max(8, window.innerHeight - rect.height - 8);
+      if (buttonPos.x > maxX || buttonPos.y > maxY) {
+        setButtonPos((prev) =>
+          prev
+            ? {
+                x: Math.min(Math.max(8, prev.x), maxX),
+                y: Math.min(Math.max(8, prev.y), maxY)
+              }
+            : null
+        );
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [buttonPos]);
+
+  const handleButtonPointerDown = (e) => {
+    if (e.button !== undefined && e.button !== 0) return;
+    const btn = floatingBtnRef.current;
+    if (!btn) return;
+    const rect = btn.getBoundingClientRect();
+
+    dragButtonRef.current = {
+      active: true,
+      startX: e.clientX,
+      startY: e.clientY,
+      initLeft: rect.left,
+      initTop: rect.top,
+      btnWidth: rect.width,
+      btnHeight: rect.height,
+      moved: false
+    };
+
+    const handlePointerMove = (moveEvent) => {
+      if (!dragButtonRef.current.active) return;
+      const dx = moveEvent.clientX - dragButtonRef.current.startX;
+      const dy = moveEvent.clientY - dragButtonRef.current.startY;
+
+      if (!dragButtonRef.current.moved && Math.hypot(dx, dy) > 5) {
+        dragButtonRef.current.moved = true;
+        setIsDraggingButton(true);
+      }
+
+      if (dragButtonRef.current.moved) {
+        const minX = 8;
+        const maxX = Math.max(8, window.innerWidth - dragButtonRef.current.btnWidth - 8);
+        const minY = 8;
+        const maxY = Math.max(8, window.innerHeight - dragButtonRef.current.btnHeight - 8);
+
+        const newX = Math.max(minX, Math.min(maxX, dragButtonRef.current.initLeft + dx));
+        const newY = Math.max(minY, Math.min(maxY, dragButtonRef.current.initTop + dy));
+
+        setButtonPos({ x: newX, y: newY });
+      }
+    };
+
+    const handlePointerUp = () => {
+      if (!dragButtonRef.current.active) return;
+      const moved = dragButtonRef.current.moved;
+      dragButtonRef.current.active = false;
+      setIsDraggingButton(false);
+
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('pointerup', handlePointerUp);
+      window.removeEventListener('pointercancel', handlePointerUp);
+
+      if (moved) {
+        setButtonPos((curr) => {
+          if (curr) {
+            try {
+              localStorage.setItem('abdi_admin_ai_pos', JSON.stringify(curr));
+            } catch (_) {}
+          }
+          return curr;
+        });
+      } else {
+        // Normal tap / click -> toggle open
+        setIsOpen((prev) => !prev);
+      }
+    };
+
+    window.addEventListener('pointermove', handlePointerMove, { passive: false });
+    window.addEventListener('pointerup', handlePointerUp);
+    window.addEventListener('pointercancel', handlePointerUp);
+  };
+
   // ── 1. Fetch & Keep Admin Analytics Synchronized Without Refresh ──
   const refreshLiveAnalytics = useCallback(async () => {
     try {
@@ -250,15 +368,41 @@ export default function AdminAI() {
 
   return (
     <>
-      {/* ── FLOATING TRIGGER PILL (BOTTOM-RIGHT) ── */}
-      <div className="fixed bottom-5 right-5 z-40 flex items-center gap-2">
-        <button
-          type="button"
-          onClick={() => setIsOpen((prev) => !prev)}
-          className="flex items-center gap-2.5 px-4 py-3 rounded-2xl bg-ink-950 text-white shadow-xl hover:bg-black border border-amber-500/30 transition-all duration-200 hover:scale-[1.02] cursor-pointer group"
-          title="Toggle Admin AI Copilot (Ctrl+K)"
+      {/* ── FLOATING TRIGGER PILL (DRAGGABLE & MOVEABLE ANYWHERE) ── */}
+      <div
+        ref={floatingBtnRef}
+        onPointerDown={handleButtonPointerDown}
+        style={
+          buttonPos
+            ? {
+                position: 'fixed',
+                left: `${buttonPos.x}px`,
+                top: `${buttonPos.y}px`,
+                touchAction: 'none'
+              }
+            : {
+                touchAction: 'none'
+              }
+        }
+        className={`${
+          buttonPos ? '' : 'fixed bottom-4 right-4 sm:bottom-5 sm:right-5'
+        } z-40 flex items-center gap-2 select-none ${
+          isDraggingButton ? 'cursor-grabbing opacity-90 scale-95 shadow-2xl' : 'cursor-grab'
+        }`}
+      >
+        <div
+          className="flex items-center gap-2 px-3 sm:px-4 py-2.5 sm:py-3 rounded-2xl bg-ink-950 text-white shadow-xl hover:bg-black border border-amber-500/30 transition-shadow duration-200 group"
+          title={isAmharic ? 'የትም ቦታ ያንቀሳቅሱት ወይም ይጫኑት (Ctrl+K)' : 'Drag anywhere to move • Click to open (Ctrl+K)'}
         >
-          <div className="relative flex items-center justify-center w-7 h-7 rounded-xl bg-amber-500 text-ink-950 font-black text-xs shadow-xs">
+          {/* Drag Grip Indicator Dots */}
+          <div
+            className="flex items-center text-amber-400/50 group-hover:text-amber-400 text-xs px-0.5 select-none"
+            title="Drag to reposition"
+          >
+            <span className="font-mono text-xs leading-none">⋮⋮</span>
+          </div>
+
+          <div className="relative flex items-center justify-center w-7 h-7 rounded-xl bg-amber-500 text-ink-950 font-black text-xs shadow-xs shrink-0">
             <span>⚡</span>
             <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-ink-950 animate-pulse" />
           </div>
@@ -269,16 +413,23 @@ export default function AdminAI() {
                 Copilot
               </span>
             </div>
-            <div className="text-[10px] text-ink-400 font-medium">
+            <div className="text-[10px] text-ink-400 font-medium whitespace-nowrap">
               {chatLanguage === 'am' ? 'የአስተዳዳሪ ረዳት' : 'Live Store AI'} • <kbd className="font-mono text-[9px] text-amber-300">Ctrl+K</kbd>
             </div>
           </div>
-        </button>
+        </div>
       </div>
 
       {/* ── EXPANDED ADMIN AI CHAT DRAWER / DIALOG ── */}
       {isOpen && (
-        <div className="fixed bottom-20 right-4 sm:right-6 z-50 w-[92vw] sm:w-[420px] h-[580px] max-h-[82vh] bg-white rounded-3xl shadow-float border border-surface-200 flex flex-col overflow-hidden animate-scale-in">
+        <>
+          {/* Mobile backdrop to easily close by tapping outside */}
+          <div
+            className="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 sm:hidden animate-fade-in"
+            onClick={() => setIsOpen(false)}
+          />
+
+          <div className="fixed bottom-4 sm:bottom-20 right-2 sm:right-6 z-50 w-[96vw] sm:w-[420px] h-[580px] max-h-[85vh] bg-white rounded-3xl shadow-float border border-surface-200 flex flex-col overflow-hidden animate-scale-in">
           {/* Header */}
           <div className="h-16 px-4 sm:px-5 bg-ink-950 text-white flex items-center justify-between border-b border-surface-800 shrink-0">
             <div className="flex items-center gap-3">
@@ -477,6 +628,7 @@ export default function AdminAI() {
             </form>
           </div>
         </div>
+        </>
       )}
     </>
   );

@@ -384,35 +384,56 @@ async function getAdminOrders({ status, date, limit = 20, offset = 0 } = {}) {
     SELECT o.id, o.order_number, o.total_amount, o.status, o.customer_note,
            o.admin_note, o.created_at, o.updated_at,
            c.id AS customer_id, c.name AS customer_name, c.phone AS customer_phone, c.address AS customer_address,
-           COUNT(oi.id)::int AS items_count
+           COUNT(DISTINCT oi.id)::int AS items_count,
+           py.id AS payment_id, py.method AS payment_method, py.amount AS payment_amount,
+           py.payment_proof_url, py.status AS payment_status
     FROM orders o
     JOIN customers c ON o.customer_id = c.id
     LEFT JOIN order_items oi ON o.id = oi.order_id
+    LEFT JOIN LATERAL (
+      SELECT id, method, amount, payment_proof_url, status
+      FROM payments
+      WHERE order_id = o.id
+      ORDER BY created_at DESC
+      LIMIT 1
+    ) py ON true
     ${whereClause}
-    GROUP BY o.id, c.id
+    GROUP BY o.id, c.id, py.id, py.method, py.amount, py.payment_proof_url, py.status
     ORDER BY o.created_at DESC
     LIMIT $${paramIdx++} OFFSET $${paramIdx++};
   `;
 
   const listResult = await db.query(listQuery, queryParams);
 
-  const formattedOrders = listResult.rows.map(row => ({
-    id: row.id,
-    order_number: row.order_number,
-    status: row.status,
-    total_amount: parseFloat(row.total_amount),
-    items_count: row.items_count,
-    customer_note: row.customer_note,
-    admin_note: row.admin_note,
-    created_at: row.created_at,
-    updated_at: row.updated_at,
-    customer: {
-      id: row.customer_id,
-      name: row.customer_name,
-      phone: row.customer_phone,
-      address: row.customer_address
-    }
-  }));
+  const formattedOrders = listResult.rows.map(row => {
+    const activePayment = row.payment_id ? {
+      id: row.payment_id,
+      method: row.payment_method,
+      amount: parseFloat(row.payment_amount || 0),
+      payment_proof_url: row.payment_proof_url,
+      status: row.payment_status
+    } : null;
+
+    return {
+      id: row.id,
+      order_number: row.order_number,
+      status: row.status,
+      total_amount: parseFloat(row.total_amount),
+      items_count: row.items_count,
+      customer_note: row.customer_note,
+      admin_note: row.admin_note,
+      created_at: row.created_at,
+      updated_at: row.updated_at,
+      customer: {
+        id: row.customer_id,
+        name: row.customer_name,
+        phone: row.customer_phone,
+        address: row.customer_address
+      },
+      active_payment: activePayment,
+      payments: activePayment ? [activePayment] : []
+    };
+  });
 
   return {
     total,
