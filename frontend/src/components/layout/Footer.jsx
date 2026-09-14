@@ -123,19 +123,8 @@ export default function Footer() {
 
               {/* CBE */}
               <div className="flex items-center gap-3 p-2.5 rounded-xl bg-surface-900/80 border border-surface-800/80 hover:border-purple-800/60 transition-colors">
-                <div className="w-8 h-8 rounded-lg bg-[#581C87] flex items-center justify-center shrink-0 shadow-float-sm p-1 border border-purple-500/40">
-                  <svg viewBox="0 0 100 100" className="w-full h-full" fill="none">
-                    <circle cx="50" cy="50" r="45" fill="none" stroke="#F59E0B" strokeWidth="6" strokeDasharray="5.89 5.89" strokeLinecap="round" />
-                    <circle cx="50" cy="50" r="41" fill="#F59E0B" />
-                    <circle cx="50" cy="50" r="35" fill="#581C87" />
-                    <circle cx="50" cy="50" r="32" fill="none" stroke="#F59E0B" strokeWidth="1.5" />
-                    <path d="M 64 28 A 20 20 0 1 0 64 72 L 64 64 A 12 12 0 1 1 64 36 Z" fill="#F59E0B" />
-                    <rect x="36" y="31" width="6.5" height="38" rx="1" fill="#F59E0B" />
-                    <path d="M 42.5 31 H 53.5 C 57.5 31 60.5 33.5 60.5 38 C 60.5 42.5 57.5 45 53.5 45 H 42.5 Z M 48 35.5 V 40.5 H 53 C 54.5 40.5 55.5 39.5 55.5 38 C 55.5 36.5 54.5 35.5 53 35.5 Z" fill="#F59E0B" />
-                    <path d="M 42.5 44 H 55 C 59.5 44 62.5 47 62.5 52 C 62.5 57 59.5 60 55 60 H 42.5 Z M 48 48.5 V 55.5 H 54 C 55.8 55.5 57 54 57 52 C 57 50 55.8 48.5 54 48.5 Z" fill="#F59E0B" />
-                    <rect x="52" y="46.5" width="13" height="4.5" rx="0.5" fill="#F59E0B" />
-                    <rect x="52" y="62.5" width="12" height="4.5" rx="0.5" fill="#F59E0B" />
-                  </svg>
+                <div className="w-8 h-8 rounded-lg bg-[#3b0764] flex items-center justify-center shrink-0 shadow-float-sm p-0.5 border border-purple-500/40">
+                  <img src="/images/cbe-logo-transparent.png" alt="CBE" className="w-full h-full object-contain" />
                 </div>
                 <div className="flex flex-col leading-tight">
                   <span className="text-xs font-bold text-white">{t("footer.cbeBadge")}</span>

@@ -69,74 +69,20 @@ function CbeLogo({ size = "md", variant = "default" }) {
 
   return (
     <div className={`flex ${isPhone ? "flex-col items-center text-center" : "items-center gap-2"} select-none`}>
-      <svg
-        className={isPhone ? "w-8 h-8 drop-shadow-md shrink-0" : isSm ? "w-7 h-7 shrink-0" : "w-8 h-8 shrink-0"}
-        viewBox="0 0 100 100"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <defs>
-          <linearGradient id="cbeGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#FDE047" />
-            <stop offset="45%" stopColor="#F59E0B" />
-            <stop offset="100%" stopColor="#B45309" />
-          </linearGradient>
-          <linearGradient id="cbePurpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#6B21A8" />
-            <stop offset="100%" stopColor="#4C1D95" />
-          </linearGradient>
-        </defs>
-
-        {/* Outer 24 Scalloped Golden Coin Notches */}
-        <circle
-          cx="50"
-          cy="50"
-          r="45"
-          fill="none"
-          stroke="url(#cbeGoldGrad)"
-          strokeWidth="6"
-          strokeDasharray="5.89 5.89"
-          strokeLinecap="round"
-        />
-
-        {/* Outer Gold Coin Medallion Disc */}
-        <circle cx="50" cy="50" r="42" fill="url(#cbeGoldGrad)" />
-
-        {/* Inner CBE Purple Disc */}
-        <circle cx="50" cy="50" r="35" fill="url(#cbePurpleGrad)" />
-
-        {/* Inner Gold Thin Ring */}
-        <circle cx="50" cy="50" r="32" fill="none" stroke="url(#cbeGoldGrad)" strokeWidth="1.5" />
-
-        {/* Interlocking CBE Monogram */}
-        {/* Outer letter C enclosing B and E */}
-        <path
-          d="M 64 28 A 20 20 0 1 0 64 72 L 64 64 A 12 12 0 1 1 64 36 Z"
-          fill="url(#cbeGoldGrad)"
-        />
-
-        {/* Letter B vertical spine */}
-        <rect x="36" y="31" width="6.5" height="38" rx="1" fill="url(#cbeGoldGrad)" />
-
-        {/* Letter B upper loop */}
-        <path
-          d="M 42.5 31 H 53.5 C 57.5 31 60.5 33.5 60.5 38 C 60.5 42.5 57.5 45 53.5 45 H 42.5 Z M 48 35.5 V 40.5 H 53 C 54.5 40.5 55.5 39.5 55.5 38 C 55.5 36.5 54.5 35.5 53 35.5 Z"
-          fill="url(#cbeGoldGrad)"
-        />
-
-        {/* Letter B lower loop */}
-        <path
-          d="M 42.5 44 H 55 C 59.5 44 62.5 47 62.5 52 C 62.5 57 59.5 60 55 60 H 42.5 Z M 48 48.5 V 55.5 H 54 C 55.8 55.5 57 54 57 52 C 57 50 55.8 48.5 54 48.5 Z"
-          fill="url(#cbeGoldGrad)"
-        />
-
-        {/* Letter E horizontal arms */}
-        <rect x="52" y="46.5" width="13" height="4.5" rx="0.5" fill="url(#cbeGoldGrad)" />
-        <rect x="52" y="62.5" width="12" height="4.5" rx="0.5" fill="url(#cbeGoldGrad)" />
-      </svg>
+      <img
+        src="/images/cbe-logo-transparent.png"
+        alt="Commercial Bank of Ethiopia"
+        className={
+          isPhone
+            ? "w-14 h-14 object-contain drop-shadow-md shrink-0 transition-transform group-hover:scale-105"
+            : isSm
+            ? "w-8 h-8 object-contain shrink-0"
+            : "w-9 h-9 object-contain shrink-0"
+        }
+      />
 
       {isPhone ? (
-        <span className="text-[10px] font-black text-[#FFD100] mt-0.5 tracking-wider uppercase">
+        <span className="text-[10px] font-black text-[#FFD100] mt-0.5 tracking-wider uppercase drop-shadow-xs">
           CBE
         </span>
       ) : (
