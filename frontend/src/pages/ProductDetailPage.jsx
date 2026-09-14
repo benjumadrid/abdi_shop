@@ -31,7 +31,7 @@ function ImageGallery({ media, name }) {
     <div className="flex flex-col gap-4">
       {/* ── Main Image ────────────────────────────── */}
       <div className="relative rounded-3xl overflow-hidden bg-surface-100 border border-surface-200/80 shadow-card">
-        <div className="relative w-full" style={{ aspectRatio: "1/1" }}>
+        <div className="relative w-full aspect-square">
           {activeUrl && !mainError ? (
             <img
               src={activeUrl}
@@ -39,8 +39,7 @@ function ImageGallery({ media, name }) {
               fetchPriority="high"
               decoding="async"
               onError={() => setMainError(true)}
-              className="w-full h-full object-contain object-center transition-all duration-200"
-              style={{ padding: "14px" }}
+              className="w-full h-full object-cover object-center transition-all duration-300"
             />
           ) : (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-surface-100 to-surface-200 p-8">
@@ -340,22 +339,6 @@ export default function ProductDetailPage() {
             </div>
           )}
 
-          {/* Payment methods */}
-          <div className="rounded-3xl border border-surface-200/90 bg-white p-5 space-y-3 shadow-card">
-            <h3 className="text-[11px] font-extrabold uppercase tracking-widest text-ink-400">
-              {t("footer.paymentMethodsTitle")}
-            </h3>
-            <div className="flex flex-wrap gap-2.5">
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl text-xs font-bold bg-[#005fb2]/10 text-[#005fb2] border border-[#005fb2]/20">
-                <span className="w-2 h-2 rounded-full bg-[#005fb2]" />
-                {t("footer.telebirrBadge")}
-              </span>
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl text-xs font-bold bg-brand-50 text-brand-800 border border-brand-200/60">
-                <span className="w-2 h-2 rounded-full bg-brand-600" />
-                {t("footer.cashBadge")}
-              </span>
-            </div>
-          </div>
 
           {/* Back to Products */}
           <Link to="/products">
