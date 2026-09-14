@@ -1,8 +1,8 @@
 /**
- * Abdi Admin AI Copilot Reasoning Engine
+ * Abdela Admin AI Copilot Reasoning Engine
  *
  * Provides real-time operational intelligence, financial calculations,
- * inventory monitoring, and interactive administrative actions for Brother Abdi
+ * inventory monitoring, and interactive administrative actions for Brother Abdela
  * and the store management team.
  *
  * Features:
@@ -204,6 +204,7 @@ const ETHIOPIC_NAME_MAP = {
   'መብራቱ': 'mebratu',
   'መልአኩ': 'melaku',
   'መላኩ': 'melaku',
+  'አብደላ': 'abdela',
   'አብዲ': 'abdi',
   'አበበ': 'abebe',
   'ከበደ': 'kebede',
@@ -944,8 +945,8 @@ export async function processAdminQuery({
   if (concepts.isHowToChangePasswordOrSecurity) {
     return {
       text: isAmharicResponse
-        ? `🔒 **የአድሚን የይለፍ ቃል (Password) እና ኢሜይል እንዴት መቀየር እንደሚቻል**፡\n\n1. **የደህንነት መስኮትን ይክፈቱ**፡ በግራ በኩል በስምዎ ስር ያለውን **"Account & Security"** የሚለውን ቁልፍ (ወይም ከላይ በቀኝ በኩል ያለውን የቁልፍ ምልክት) ይጫኑ።\n2. **ኢሜይል ወይም ስም ይቀይሩ**፡ አዲሱን የግል ኢሜይልዎን (ለምሳሌ \`abdi@gmail.com\`) ያስገቡ።\n3. **አሁን ያለውን የይለፍ ቃል ያስገቡ (Current Password)**፡ ለደህንነት ሲባል እርስዎ መሆንዎን ለማረጋገጥ አሁን የሚጠቀሙበትን የይለፍ ቃል ያስገቡ።\n4. **አዲስ የይለፍ ቃል ያስገቡ (New Password)**፡ አዲስ ሚስጥራዊ የይለፍ ቃል (ቢያንስ 6 ፊደላት) ያስገቡ እና በድጋሚ በማስገባት ያረጋግጡ (Confirm)።\n5. **"Save Changes"** የሚለውን ይጫኑ።\n\n🛡️ **ሙሉ ሚስጥራዊነት**፡ አዲሱ የይለፍ ቃል በከፍተኛ የ \`bcrypt\` ምስጠራ (encryption) ዳታቤዝ ውስጥ ስለሚቀመጥ ማንም ሰው (የሲስተሙ ሰሪዎችም ጭምር) ሊያዩት ወይም ሊያውቁት አይችሉም! እርስዎ ብቻ ነዎት የሚያውቁት።`
-        : `🔒 **How to Change Admin Password & Login Email**:\n\n1. **Open Account & Security**: Click the **"Account & Security"** button in the sidebar (bottom profile card) or in the top header bar.\n2. **Update Email / Name**: Enter your personal email address (e.g. \`abdi@gmail.com\`) and display name.\n3. **Enter Current Password**: Type your current password to authorize the change and verify your identity.\n4. **Enter New Secret Password**: Type your new password (min. 6 characters) and re-type it in the confirm box.\n5. **Click "Save Changes"**.\n\n🛡️ **100% Privacy Guarantee**: Your new password is immediately encrypted using high-grade \`bcrypt\` hashing in the database. Neither developers nor anyone else can view or read your password. Only you have access!`,
+        ? `🔒 **የአድሚን የይለፍ ቃል (Password) እና ኢሜይል እንዴት መቀየር እንደሚቻል**፡\n\n1. **የደህንነት መስኮትን ይክፈቱ**፡ በግራ በኩል በስምዎ ስር ያለውን **"Account & Security"** የሚለውን ቁልፍ (ወይም ከላይ በቀኝ በኩል ያለውን የቁልፍ ምልክት) ይጫኑ።\n2. **ኢሜይል ወይም ስም ይቀይሩ**፡ አዲሱን የግል ኢሜይልዎን (ለምሳሌ \`abdela@gmail.com\`) ያስገቡ።\n3. **አሁን ያለውን የይለፍ ቃል ያስገቡ (Current Password)**፡ ለደህንነት ሲባል እርስዎ መሆንዎን ለማረጋገጥ አሁን የሚጠቀሙበትን የይለፍ ቃል ያስገቡ።\n4. **አዲስ የይለፍ ቃል ያስገቡ (New Password)**፡ አዲስ ሚስጥራዊ የይለፍ ቃል (ቢያንስ 6 ፊደላት) ያስገቡ እና በድጋሚ በማስገባት ያረጋግጡ (Confirm)።\n5. **"Save Changes"** የሚለውን ይጫኑ።\n\n🛡️ **ሙሉ ሚስጥራዊነት**፡ አዲሱ የይለፍ ቃል በከፍተኛ የ \`bcrypt\` ምስጠራ (encryption) ዳታቤዝ ውስጥ ስለሚቀመጥ ማንም ሰው (የሲስተሙ ሰሪዎችም ጭምር) ሊያዩት ወይም ሊያውቁት አይችሉም! እርስዎ ብቻ ነዎት የሚያውቁት።`
+        : `🔒 **How to Change Admin Password & Login Email**:\n\n1. **Open Account & Security**: Click the **"Account & Security"** button in the sidebar (bottom profile card) or in the top header bar.\n2. **Update Email / Name**: Enter your personal email address (e.g. \`abdela@gmail.com\`) and display name.\n3. **Enter Current Password**: Type your current password to authorize the change and verify your identity.\n4. **Enter New Secret Password**: Type your new password (min. 6 characters) and re-type it in the confirm box.\n5. **Click "Save Changes"**.\n\n🛡️ **100% Privacy Guarantee**: Your new password is immediately encrypted using high-grade \`bcrypt\` hashing in the database. Neither developers nor anyone else can view or read your password. Only you have access!`,
       actions: [
         { type: 'NAVIGATE', path: '/admin', label: isAmharicResponse ? 'ወደ ዳሽቦርድ ሂድ' : 'Open Dashboard' }
       ]
@@ -1281,7 +1282,7 @@ export async function processAdminQuery({
 
     return {
       text: isAmharicResponse
-        ? `⚠️ **ክምችት ያለቀባቸው (${inventory.out_of_stock_count}) እቃዎች**፡\n\n${oosList}\n\nአዲስ ክምችት ሲገባ በምርቶች ገጽ ላይ በመግባት ሁኔታውን ወደ **In Stock** መቀየር ይችላሉ — ደንበኞች በሱቁ ገጽ እና በአብዲ AI ወዲያውኑ ማዘዝ ይችላሉ።`
+        ? `⚠️ **ክምችት ያለቀባቸው (${inventory.out_of_stock_count}) እቃዎች**፡\n\n${oosList}\n\nአዲስ ክምችት ሲገባ በምርቶች ገጽ ላይ በመግባት ሁኔታውን ወደ **In Stock** መቀየር ይችላሉ — ደንበኞች በሱቁ ገጽ እና በአብደላ AI ወዲያውኑ ማዘዝ ይችላሉ።`
         : `⚠️ **Out-of-Stock Alert (${inventory.out_of_stock_count} item(s))**:\n\n${oosList}\n\nOrders for these items are currently paused on the storefront. Once new inventory arrives, toggle their status back to **In Stock** in Products Management!`,
       actions: [
         { type: 'NAVIGATE', path: '/admin/products', label: isAmharicResponse ? 'እቃዎችን አስተካክል / Restock' : 'Go to Products / Restock' }
@@ -1373,8 +1374,8 @@ export async function processAdminQuery({
   if (concepts.isGreeting) {
     return {
       text: isAmharicResponse
-        ? `👋 **ሰላም ወንድም አብዲ! የአስተዳዳሪ ረዳት AI ነኝ።**\n\nየሱቁ የቀጥታ ሁኔታ፡\n• **የዛሬ ሽያጭ**፡ **${today.revenue.toLocaleString()} ETB** (${today.orders_count} ትዕዛዞች)\n• **ማረጋገጫ የሚጠብቁ ክፍያዎች**፡ **${pendingPayments.count} ክፍያዎች**\n• **ያለቁ እቃዎች**፡ **${inventory.out_of_stock_count} እቃዎች**\n\nምን ማወቅ ይፈልጋሉ? ስለ ዛሬ ገቢ፣ ስለ ክፍያዎች፣ ስለ ትዕዛዞች፣ ስለ ደንበኞች ወይም እቃዎችን እንዴት ማስተካከል/መሰረዝ እንደሚቻል ሊጠይቁኝ ይችላሉ!`
-        : `👋 **Hello Brother Abdi! I am your Admin AI Copilot.**\n\nHere is your live store pulse right now:\n• **Today's Revenue**: **${today.revenue.toLocaleString()} ETB** (${today.orders_count} orders)\n• **Payments Awaiting Review**: **${pendingPayments.count} payment(s)**\n• **Out-of-Stock Items**: **${inventory.out_of_stock_count} item(s)**\n\nHow can I help you? You can ask about today's income, recent orders, pending payments, customer lookups, or how to edit/delete products!`,
+        ? `👋 **ሰላም ወንድም አብደላ! የአስተዳዳሪ ረዳት AI ነኝ።**\n\nየሱቁ የቀጥታ ሁኔታ፡\n• **የዛሬ ሽያጭ**፡ **${today.revenue.toLocaleString()} ETB** (${today.orders_count} ትዕዛዞች)\n• **ማረጋገጫ የሚጠብቁ ክፍያዎች**፡ **${pendingPayments.count} ክፍያዎች**\n• **ያለቁ እቃዎች**፡ **${inventory.out_of_stock_count} እቃዎች**\n\nምን ማወቅ ይፈልጋሉ? ስለ ዛሬ ገቢ፣ ስለ ክፍያዎች፣ ስለ ትዕዛዞች፣ ስለ ደንበኞች ወይም እቃዎችን እንዴት ማስተካከል/መሰረዝ እንደሚቻል ሊጠይቁኝ ይችላሉ!`
+        : `👋 **Hello Brother Abdela! I am your Admin AI Copilot.**\n\nHere is your live store pulse right now:\n• **Today's Revenue**: **${today.revenue.toLocaleString()} ETB** (${today.orders_count} orders)\n• **Payments Awaiting Review**: **${pendingPayments.count} payment(s)**\n• **Out-of-Stock Items**: **${inventory.out_of_stock_count} item(s)**\n\nHow can I help you? You can ask about today's income, recent orders, pending payments, customer lookups, or how to edit/delete products!`,
       actions: [
         { type: 'NAVIGATE', path: '/admin/orders?date=today', label: isAmharicResponse ? 'የዛሬ ትዕዛዞች' : "Today's Orders" },
         { type: 'NAVIGATE', path: '/admin/payments?status=submitted', label: isAmharicResponse ? 'ክፍያዎችን መርምር' : 'Review Payments' },
@@ -1386,8 +1387,8 @@ export async function processAdminQuery({
   // ─── SCENARIO 11: HELP / CAPABILITIES ─────────────────────────────────────
   return {
     text: isAmharicResponse
-      ? `💡 **የአስተዳዳሪ ረዳት AI ምን ማወቅ እና ማድረግ ይችላል?**\n\n1. 💰 **የዛሬ ገቢ እና ሽያጭ** (ለምሳሌ: *"የዛሬ ገቢ ስንት ነው"*, *"today income"*, *"daily revenue"*)\n2. 📋 **የትዕዛዞች እና የደንበኛ ታሪክ** (ለምሳሌ: *"recent orders"*, *"የቅርብ ጊዜ ትዕዛዞች"*, *"ስለ ደንበኛ መብራቱ ንገረኝ"*)\n3. ✏️ **የአስተዳዳሪ እርዳታ እና መመሪያ** (ለምሳሌ: *"እቃ እንዴት ማስተካከል እችላለሁ"*, *"እንዴት እቃ መሰረዝ እችላለሁ"*, *"አዲስ እቃ መጨመር"*)\n4. 🔒 **የይለፍ ቃል እና ኢሜይል መቀየር** (ለምሳሌ: *"የይለፍ ቃል እንዴት መቀየር ይቻላል"*, *"how to change password"*)\n5. ⚠️ **የቴሌብር ክፍያዎች** (ለምሳሌ: *"ማረጋገጫ የሚጠብቁ ክፍያዎች"*, *"pending payments"*)\n6. 📦 **የእቃዎች ክምችት እና ዋጋ** (ለምሳሌ: *"ያለቁ እቃዎች አሉ?"*, *"የየመን ማር ዋጋ ስንት ነው"*)\n7. 🏆 **ምርጥ ሻጭ እቃዎች እና የመንደር መላኪያ** (ለምሳሌ: *"በብዛት የተሸጠ እቃ"*, *"ከቧንቧ ውሃ የመጣ ትዕዛዝ"*)\n\nበእንግሊዝኛም ሆነ በአማርኛ በማንኛውም አጠያየቅ በቀጥታ መጠየቅ ይችላሉ!`
-      : `💡 **What can the Admin AI Copilot do?**\n\n1. 💰 **Today's Revenue & Income** (e.g. *"today income ?"*, *"how much did make income today"*, *"daily sales"*)\n2. 📋 **Orders & Customer Lookups** (e.g. *"recent orders ?"*, *"tell me about user mebratu melaku"*, *"who ordered"*)\n3. ✏️ **Store Management Guides** (e.g. *"how to edit product"*, *"how to delete product"*, *"how to verify telebirr"*)\n4. 🔒 **Change Password & Email** (e.g. *"how to change password"*, *"how to update email"*, *"account security"*)\n5. ⚠️ **Pending Telebirr Payments** (e.g. *"any payments to verify?"*, *"show telebirr screenshots"*)\n6. 📦 **Stock & Catalog Inquiries** (e.g. *"what is out of stock?"*, *"price of yemen honey"*, *"inventory status"*)\n7. 🏆 **Best Sellers & Village Logistics** (e.g. *"which item sells most?"*, *"orders from Buanbuha"*)\n\nAsk me anything in English or Amharic, using your own words or voice dictation!`,
+      ? `💡 **የአስተዳዳሪ ረዳት AI ምን ማወቅ እና ማድረግ ይችላል?**\n\n1. 💰 **የዛሬ ገቢ እና ሽያጭ** (ለምሳሌ: *"የዛሬ ገቢ ስንት ነው"*, *"today income"*, *"daily revenue"*)\n2. 📋 **የትዕዛዞች እና የደንበኛ ታሪክ** (ለምሳሌ: *"recent orders"*, *"የቅርብ ጊዜ ትዕዛዞች"*, *"ስለ ደንበኛ መብራቱ ንገረኝ"*)\n3. ✏️ **የአስተዳዳሪ እርዳታ እና መመሪያ** (ለምሳሌ: *"እቃ እንዴት ማስተካከል እችላለሁ"*, *"እንዴት እቃ መሰረዝ እችላለሁ"*, *"አዲስ እቃ መጨመር"*)\n4. 🔒 **የይለፍ ቃል እና ኢሜይል መቀየር** (ለምሳሌ: *"የይለፍ ቃል እንዴት መቀየር ይቻላል"*, *"how to change password"*)\n5. ⚠️ **የክፍያ ማረጋገጫዎች** (ለምሳሌ: *"ማረጋገጫ የሚጠብቁ ክፍያዎች"*, *"pending payments"*)\n6. 📦 **የእቃዎች ክምችት እና ዋጋ** (ለምሳሌ: *"ያለቁ እቃዎች አሉ?"*, *"የየመን ማር ዋጋ ስንት ነው"*)\n7. 🏆 **ምርጥ ሻጭ እቃዎች እና የመንደር መላኪያ** (ለምሳሌ: *"በብዛት የተሸጠ እቃ"*, *"ከቧንቧ ውሃ የመጣ ትዕዛዝ"*)\n\nበእንግሊዝኛም ሆነ በአማርኛ በማንኛውም አጠያየቅ በቀጥታ መጠየቅ ይችላሉ!`
+      : `💡 **What can the Admin AI Copilot do?**\n\n1. 💰 **Today's Revenue & Income** (e.g. *"today income ?"*, *"how much did make income today"*, *"daily sales"*)\n2. 📋 **Orders & Customer Lookups** (e.g. *"recent orders ?"*, *"tell me about user mebratu melaku"*, *"who ordered"*)\n3. ✏️ **Store Management Guides** (e.g. *"how to edit product"*, *"how to delete product"*, *"how to verify payments"*)\n4. 🔒 **Change Password & Email** (e.g. *"how to change password"*, *"how to update email"*, *"account security"*)\n5. ⚠️ **Pending Payments** (e.g. *"any payments to verify?"*, *"show payment screenshots"*)\n6. 📦 **Stock & Catalog Inquiries** (e.g. *"what is out of stock?"*, *"price of yemen honey"*, *"inventory status"*)\n7. 🏆 **Best Sellers & Village Logistics** (e.g. *"which item sells most?"*, *"orders from Buanbuha"*)\n\nAsk me anything in English or Amharic, using your own words or voice dictation!`,
     actions: [
       { type: 'NAVIGATE', path: '/admin/orders?date=today', label: isAmharicResponse ? 'የዛሬ ገቢ' : "Today's Income" },
       { type: 'NAVIGATE', path: '/admin/orders', label: isAmharicResponse ? 'የቅርብ ጊዜ ትዕዛዞች' : 'Recent Orders' },

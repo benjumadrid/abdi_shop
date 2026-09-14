@@ -26,10 +26,10 @@ export default function MaintenancePage() {
             </div>
             <div className="flex flex-col leading-none">
               <span className="text-xl font-black text-ink-900 tracking-tight leading-none">
-                Abdi<span className="text-accent-500">.</span>
+                Abdela<span className="text-accent-500">.</span>
               </span>
               <span className="text-[10px] font-semibold text-ink-400 tracking-wide mt-0.5 leading-none">
-                አብዲ ኦንላይን ሾፒንግ
+                አብደላ ኦንላይን ሾፒንግ
               </span>
             </div>
           </div>

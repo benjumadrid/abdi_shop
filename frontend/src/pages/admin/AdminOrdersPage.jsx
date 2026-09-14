@@ -521,7 +521,12 @@ export default function AdminOrdersPage() {
                   const itemsCount = order.items?.length || 1;
                   const firstItem = order.items?.[0];
                   const activePayment = order.active_payment || (order.payments && order.payments[0]);
-                  const isTelebirr = activePayment?.method === 'telebirr' || (typeof order.customer_note === 'string' && order.customer_note.toUpperCase().includes('TELEBIRR'));
+                  const method = activePayment?.method;
+                  const paymentMethodLabel =
+                    method === 'cbe' ? 'CBE (ንግድ ባንክ)' :
+                    method === 'abyssinia' ? 'Bank of Abyssinia' :
+                    (method === 'telebirr' || (typeof order.customer_note === 'string' && order.customer_note.toUpperCase().includes('TELEBIRR'))) ? 'Telebirr' :
+                    'Cash on Delivery';
 
                   return (
                     <tr key={order.id} className="hover:bg-surface-50/50 transition-colors">
@@ -563,7 +568,7 @@ export default function AdminOrdersPage() {
                       <td className="py-3.5 px-5">
                         <div className="flex flex-col items-start gap-1">
                           <span className="inline-flex items-center text-xs text-ink-700 font-medium">
-                            {isTelebirr ? 'Telebirr' : 'Cash on Delivery'}
+                            {paymentMethodLabel}
                           </span>
                           {activePayment?.payment_proof_url && (
                             <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-brand-700 bg-brand-50 px-1.5 py-0.5 rounded border border-brand-200">
@@ -802,7 +807,12 @@ export default function AdminOrdersPage() {
                 {/* ── PAYMENT & RECEIPT VERIFICATION ── */}
                 {(() => {
                   const activePayment = selectedOrder.active_payment || (selectedOrder.payments && selectedOrder.payments[0]);
-                  const isTelebirr = activePayment?.method === 'telebirr' || (typeof selectedOrder.customer_note === 'string' && selectedOrder.customer_note.toUpperCase().includes('TELEBIRR'));
+                  const method = activePayment?.method;
+                  const paymentMethodLabel =
+                    method === 'cbe' ? 'Commercial Bank of Ethiopia (CBE)' :
+                    method === 'abyssinia' ? 'Bank of Abyssinia' :
+                    (method === 'telebirr' || (typeof selectedOrder.customer_note === 'string' && selectedOrder.customer_note.toUpperCase().includes('TELEBIRR'))) ? 'Telebirr Transfer' :
+                    'Cash on Delivery';
 
                   return (
                     <div className="rounded-xl border border-surface-200/90 bg-surface-50/70 p-4 sm:p-4.5 space-y-3.5 text-xs">
@@ -813,7 +823,7 @@ export default function AdminOrdersPage() {
                           </h4>
                           <div className="flex items-center gap-2 mt-1">
                             <span className="font-bold text-ink-950 text-sm">
-                              {isTelebirr ? 'Telebirr Transfer' : 'Cash on Delivery'}
+                              {paymentMethodLabel}
                             </span>
                             {activePayment && (
                               <span className="font-mono text-ink-500 font-semibold text-xs">
@@ -886,13 +896,13 @@ export default function AdminOrdersPage() {
                             </a>
                           </div>
                         </div>
-                      ) : isTelebirr ? (
+                      ) : activePayment?.method !== 'cash' ? (
                         <div className="p-3 rounded-lg bg-amber-50/80 border border-amber-200/70 text-amber-800 text-[11px]">
-                          ⚠️ No receipt screenshot file was uploaded with this Telebirr payment.
+                          ⚠️ No receipt screenshot file was uploaded with this payment.
                         </div>
                       ) : (
                         <div className="text-[11px] text-ink-500 pt-1">
-                          💵 Payment will be collected in cash upon physical delivery.
+                          💵 Cash on Delivery with 200 ETB Advance Deposit.
                         </div>
                       )}
 

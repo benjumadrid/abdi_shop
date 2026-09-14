@@ -23,10 +23,10 @@ export default function Footer() {
               </div>
               <div className="flex flex-col leading-none">
                 <span className="text-xl font-black text-white tracking-tight">
-                  Abdi<span className="text-accent-400">.</span>
+                  Abdela<span className="text-accent-400">.</span>
                 </span>
                 <span className="text-[10px] font-semibold text-surface-500 mt-0.5 tracking-wide">
-                  አብዲ ኦንላይን ሾፒንግ
+                  አብደላ ኦንላይን ሾፒንግ
                 </span>
               </div>
             </Link>
@@ -76,15 +76,26 @@ export default function Footer() {
             <h4 className="text-white text-xs font-extrabold uppercase tracking-widest mb-5">
               {t("footer.customerCareTitle")}
             </h4>
-            <ul className="space-y-3.5 text-sm">
-              <li className="flex items-start gap-3 text-surface-400">
-                <svg className="w-4 h-4 text-brand-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <ul className="space-y-3 text-sm text-surface-400">
+              <li>
+                <a
+                  href={`tel:${t("footer.supportPhone").replace(/\s/g, "")}`}
+                  className="hover:text-white transition-colors font-semibold text-white/90 inline-flex items-center gap-2"
+                >
+                  <svg className="w-4 h-4 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                  {t("footer.supportPhone")}
+                </a>
+              </li>
+              <li className="flex items-center gap-2">
+                <svg className="w-4 h-4 text-surface-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <span>{t("footer.supportHours")}</span>
               </li>
-              <li className="flex items-start gap-3 text-surface-400">
-                <svg className="w-4 h-4 text-brand-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <li className="flex items-center gap-2">
+                <svg className="w-4 h-4 text-surface-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
@@ -95,31 +106,47 @@ export default function Footer() {
 
           {/* Col 4: Payment Methods */}
           <div>
-            <h4 className="text-white text-xs font-extrabold uppercase tracking-widest mb-5">
+            <h4 className="text-white text-xs font-extrabold uppercase tracking-widest mb-4">
               {t("footer.paymentMethodsTitle")}
             </h4>
-            <div className="space-y-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-2.5">
               {/* Telebirr */}
-              <div className="flex items-center gap-3.5 p-3.5 rounded-2xl bg-surface-900/80 border border-surface-800/80 hover:border-brand-800/60 transition-colors">
-                <div className="w-9 h-9 rounded-xl bg-[#005fb2] flex items-center justify-center font-black text-white text-xs tracking-wider shrink-0 shadow-float-sm">
+              <div className="flex items-center gap-3 p-2.5 rounded-xl bg-surface-900/80 border border-surface-800/80 hover:border-brand-800/60 transition-colors">
+                <div className="w-8 h-8 rounded-lg bg-[#005fb2] flex items-center justify-center font-black text-white text-[11px] tracking-wider shrink-0 shadow-float-sm">
                   TB
                 </div>
                 <div className="flex flex-col leading-tight">
                   <span className="text-xs font-bold text-white">{t("footer.telebirrBadge")}</span>
-                  <span className="text-[11px] text-brand-400 font-medium mt-0.5">Mobile Transfer</span>
+                  <span className="text-[10px] text-brand-400 font-medium">0931862253</span>
+                </div>
+              </div>
+
+              {/* CBE */}
+              <div className="flex items-center gap-3 p-2.5 rounded-xl bg-surface-900/80 border border-surface-800/80 hover:border-purple-800/60 transition-colors">
+                <img src="/images/cbe-logo.jpg" alt="CBE" className="w-8 h-8 rounded-lg object-cover shrink-0 border border-purple-500/40" />
+                <div className="flex flex-col leading-tight">
+                  <span className="text-xs font-bold text-white">{t("footer.cbeBadge")}</span>
+                  <span className="text-[10px] text-purple-300 font-medium">1000584744573</span>
+                </div>
+              </div>
+
+              {/* Bank of Abyssinia */}
+              <div className="flex items-center gap-3 p-2.5 rounded-xl bg-surface-900/80 border border-surface-800/80 hover:border-amber-800/60 transition-colors">
+                <img src="/images/abyssinia-logo.jpg" alt="BoA" className="w-8 h-8 rounded-lg object-cover shrink-0 border border-amber-500/40" />
+                <div className="flex flex-col leading-tight">
+                  <span className="text-xs font-bold text-white">{t("footer.abyssiniaBadge")}</span>
+                  <span className="text-[10px] text-amber-300 font-medium">251444412</span>
                 </div>
               </div>
 
               {/* Cash on Delivery */}
-              <div className="flex items-center gap-3.5 p-3.5 rounded-2xl bg-surface-900/80 border border-surface-800/80 hover:border-brand-800/60 transition-colors">
-                <div className="w-9 h-9 rounded-xl bg-brand-700 flex items-center justify-center shrink-0 shadow-float-sm">
-                  <svg className="w-4.5 h-4.5 text-white w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
+              <div className="flex items-center gap-3 p-2.5 rounded-xl bg-surface-900/80 border border-surface-800/80 hover:border-emerald-800/60 transition-colors">
+                <div className="w-8 h-8 rounded-lg bg-emerald-700 flex items-center justify-center shrink-0 shadow-float-sm">
+                  <span className="text-xs">💵</span>
                 </div>
                 <div className="flex flex-col leading-tight">
                   <span className="text-xs font-bold text-white">{t("footer.cashBadge")}</span>
-                  <span className="text-[11px] text-surface-400 font-medium mt-0.5">Pay upon delivery</span>
+                  <span className="text-[10px] text-surface-400 font-medium">200 ETB advance deposit</span>
                 </div>
               </div>
             </div>
@@ -127,10 +154,10 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-6 border-t border-surface-800/60 flex flex-col sm:flex-row items-center justify-between text-xs text-surface-600 gap-3">
+        <div className="mt-10 pt-6 border-t border-surface-800/60 flex flex-col sm:flex-row items-center justify-between text-xs text-surface-600 gap-3">
           <p>© {year} {t("footer.copyright")}</p>
           <p className="text-surface-700">
-            Abdi Online Shop &nbsp;·&nbsp; Dessie, Ethiopia
+            Abdela Online Shop &nbsp;·&nbsp; Dessie, Ethiopia
           </p>
         </div>
       </div>

@@ -289,7 +289,7 @@ function validatePagination(pageQuery, limitQuery) {
   };
 }
 
-const ALLOWED_PAYMENT_METHODS = ['telebirr', 'cash'];
+const ALLOWED_PAYMENT_METHODS = ['telebirr', 'cbe', 'abyssinia', 'cash'];
 const ALLOWED_PAYMENT_STATUSES = ['pending', 'verified', 'rejected'];
 
 /**
@@ -311,7 +311,7 @@ function validatePaymentSubmission(data) {
 
   // method
   if (!data.method || typeof data.method !== 'string') {
-    errors.push('Payment method is required and must be either "telebirr" or "cash"');
+    errors.push('Payment method is required');
   } else {
     const normalizedMethod = data.method.trim().toLowerCase();
     if (!ALLOWED_PAYMENT_METHODS.includes(normalizedMethod)) {
@@ -329,14 +329,9 @@ function validatePaymentSubmission(data) {
     }
   }
 
-  // payment_proof_url
-  const method = data.method ? data.method.trim().toLowerCase() : '';
-  if (method === 'telebirr') {
-    if (!data.payment_proof_url || typeof data.payment_proof_url !== 'string' || data.payment_proof_url.trim() === '') {
-      errors.push('payment_proof_url is required for Telebirr payments');
-    }
-  } else if (data.payment_proof_url !== undefined && data.payment_proof_url !== null && typeof data.payment_proof_url !== 'string') {
-    errors.push('payment_proof_url must be a string or null');
+  // payment_proof_url: required for all payment methods (Telebirr, CBE, Abyssinia, and Cash deposit proof)
+  if (!data.payment_proof_url || typeof data.payment_proof_url !== 'string' || data.payment_proof_url.trim() === '') {
+    errors.push('payment_proof_url is required');
   }
 
   return {

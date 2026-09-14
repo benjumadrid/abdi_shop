@@ -4,7 +4,7 @@
 export default {
   // Navigation
   nav: {
-    brandName: 'አብዲ',
+    brandName: 'አብደላ',
     brandSub: 'ኦንላይን ሾፒንግ',
     home: 'ዋና ገጽ',
     products: 'ምርቶች',
@@ -21,7 +21,7 @@ export default {
     badge: 'በኢትዮጵያ አስተማማኝና ታማኝ የኦንላይን ሾፒንግ',
     titleStart: 'ጥራት ያላቸው እቃዎች፣',
     titleHighlight: 'በቀላሉ ወደ እርስዎ',
-    description: 'በኦርጅናል እና በጥንካሬ መለያው የምታውቋቸው የአብዲ ምርቶች አሁን በዌብሳይት ብቅ ብለዋል። ሁላችሁም በቀላሉ የምትፈልጉትን ምርት በማዘዝ በፍጥነት ወዳላችሁበት አካባቢ እናደርሳለን።',
+    description: 'በኦርጅናል እና በጥንካሬ መለያው የምታውቋቸው የአብደላ ምርቶች አሁን በዌብሳይት ብቅ ብለዋል። ሁላችሁም በቀላሉ የምትፈልጉትን ምርት በማዘዝ በፍጥነት ወዳላችሁበት አካባቢ እናደርሳለን።',
     shopNow: 'አሁን ይዘዙ',
     exploreProducts: 'ምርቶችን ይመልከቱ',
     howItWorks: 'እንዴት ይሰራል?',
@@ -30,8 +30,8 @@ export default {
       authenticDesc: 'የተረጋገጠ ጥራት',
       delivery: 'ፈጣን ማድረስ',
       deliveryDesc: 'ደሴ እና መላው ሀገሪቱ',
-      payments: 'ቴሌብር እና ካሽ',
-      paymentsDesc: 'በእጅ ሲቀበሉ ክፍያ'
+      payments: 'ቴሌብር፣ ንግድ ባንክ፣ አቢሲኒያ',
+      paymentsDesc: 'አስተማማኝ ክፍያ'
     },
     featuredBadge: 'ተወዳጅ ምርት',
     previewCard: {
@@ -44,7 +44,7 @@ export default {
 
   // Features / Value Props
   features: {
-    badge: 'ለምን አብዲን ይመርጣሉ?',
+    badge: 'ለምን አብደላን ይመርጣሉ?',
     title: 'በእምነት እና በጥራት ላይ የተገነባ አገልግሎት',
     subtitle: 'ትክክለኛ እቃዎችን እና ፈጣን የደንበኞች ድጋፍ በማቅረብ የኦንላይን ግብይትዎን ምቹ እና አስተማማኝ እናደርጋለን።',
     items: [
@@ -60,8 +60,8 @@ export default {
       },
       {
         id: 'payments',
-        title: 'በቴሌብር ወይም በእጅ ክፍያ (ካሽ)',
-        description: 'በቀላሉ በቴሌብር የሞባይል ዝውውር ይክፈሉ፣ ወይም እቃዎ በሰላም ደጃፍዎ ሲደርስ በእጅ ገንዘብ ይክፈሉ።'
+        title: 'በቴሌብር፣ ንግድ ባንክ፣ አቢሲኒያ ወይም በእጅ ክፍያ',
+        description: 'በቴሌብር፣ በኢትዮጵያ ንግድ ባንክ (CBE)፣ በአቢሲኒያ ባንክ ወይም በካሽ ሲረከቡ በፍጥነት ይክፈሉ።'
       },
       {
         id: 'delivery',
@@ -107,7 +107,7 @@ export default {
       {
         number: '02',
         title: 'መረጃዎን ያስገቡ',
-        description: 'ስምዎን፣ ስልክ ቁጥርዎን እና የመኖሪያ አድራሻዎን ያስገቡ። የቴሌብር ክፍያ ወይም በእጅ ክፍያ ይምረጡ።'
+        description: 'ስምዎን፣ ስልክ ቁጥርዎን እና የመኖሪያ አድራሻዎን ያስገቡ። የቴሌብር፣ የንግድ ባንክ፣ የአቢሲኒያ ወይም የካሽ ክፍያ ይምረጡ።'
       },
       {
         number: '03',
@@ -119,7 +119,7 @@ export default {
 
   // CTA Section
   cta: {
-    badge: 'አብዲ ኦንላይን ሾፒንግን ለመሞከር ዝግጁ ነዎት?',
+    badge: 'አብደላ ኦንላይን ሾፒንግን ለመሞከር ዝግጁ ነዎት?',
     title: 'ዛሬውኑ በልበ ሙሉነት ይዘዙ',
     description: 'በሺዎች የሚቆጠሩ ደንበኞች እውነተኛ ጥራት ያላቸውን እቃዎች በተመጣጣኝ ዋጋ እና በአስተማማኝ አድራሻ ማድረስ እየተጠቀሙ ነው።',
     button: 'ምርቶችን አሁን ይመልከቱ'
@@ -135,8 +135,10 @@ export default {
     location: 'ደሴ፣ ኢትዮጵያ',
     paymentMethodsTitle: 'የምንቀበላቸው የክፍያ አማራጮች',
     telebirrBadge: 'በቴሌብር ዝውውር',
+    cbeBadge: 'የኢትዮጵያ ንግድ ባንክ (CBE)',
+    abyssiniaBadge: 'አቢሲኒያ ባንክ (BoA)',
     cashBadge: 'በእጅ ክፍያ (ካሽ)',
-    copyright: 'አብዲ ኦንላይን ሾፒንግ። መብቱ በህግ የተጠበቀ ነው።'
+    copyright: 'አብደላ ኦንላይን ሾፒንግ። መብቱ በህግ የተጠበቀ ነው።'
   },
 
   // 404 Page
@@ -172,8 +174,17 @@ export default {
     paymentMethod: 'የክፍያ አማራጭ',
     telebirr: 'ቴሌብር',
     telebirrSub: 'በቴሌብር ሂሳብዎ ይክፈሉ',
+    cbe: 'የኢትዮጵያ ንግድ ባንክ (CBE)',
+    cbeSub: 'በንግድ ባንክ አካውንት ወይም ሞባይል ባንኪንግ ይክፈሉ',
+    abyssinia: 'አቢሲኒያ ባንክ (BoA)',
+    abyssiniaSub: 'በአቢሲኒያ ሞባይል ባንኪንግ ወይም ቅርንጫፍ ይክፈሉ',
     cash: 'እጅ በእጅ (ሲረከቡ)',
-    cashSub: 'እቃው ደጃፍዎ ሲደርስ በካሽ ይክፈሉ',
+    cashSub: 'እቃው ደጃፍዎ ሲደርስ በካሽ ይክፈሉ (የ 200 ብር ቅድመ ክፍያ ያስፈልጋል)',
+    advanceDepositNotice: 'ቅድመ ክፍያ ያስፈልጋል፡ 200 ብር',
+    advanceDepositExplanation: 'ትዕዛዙን አረጋግጦ ወዲያውኑ ወደ ደጃፍዎ ለመላክ የ 200 ብር ማስያዣ ቅድመ ክፍያ በቴሌብር፣ በንግድ ባንክ (CBE) ወይም በአቢሲኒያ ባንክ በመላክ የደረሰኙን ስክሪንሾት ያያይዙ። ቀሪው ገንዘብ እቃው ደጃፍዎ ሲደርስ በካሽ ይከፈላል።',
+    remainingBalance: 'እቃው ሲደርስ የሚከፈል ቀሪ ሂሳብ',
+    advanceDepositAmount: 'የቅድመ ክፍያ መጠን',
+    payDepositTo: 'የ 200 ብር ቅድመ ክፍያውን ከሚከተሉት በአንዱ ይላኩ፡',
     note: 'ተጨማሪ ማስታወሻ (አማራጭ)',
     notePlaceholder: 'ለማድረስ የሚረዳ ተጨማሪ መረጃ...',
     total: 'ጠቅላላ ዋጋ',
@@ -181,37 +192,47 @@ export default {
     submitting: 'ትዕዛዝ እና ክፍያ እየተላከ ነው...',
     cancel: 'ተመለስ',
     howToPay: 'እንዴት መክፈል እንደሚቻል',
-    step1: 'የቴሌብር መተግበሪያዎን ይክፈቱ',
-    step2: 'ትክክለኛውን የብር መጠን ከላይ ወደተጠቀሰው ቁጥር ይላኩ',
+    step1: 'የባንክ ወይም የቴሌብር መተግበሪያዎን ይክፈቱ',
+    step2: 'ትክክለኛውን የብር መጠን ከላይ ወደተጠቀሰው የሂሳብ ቁጥር ይላኩ',
     step3: 'የክፍያ ማረጋገጫ ደረሰኝ ስክሪንሾት ያስቀምጡ',
-    step4: 'ትክክለኛውን የክፍያ ደረሰኝ ስክሪንሾት ከስር ያያይዙ (የተከፈለበት ሰዓትና ዝርዝር በግልጽ መታየት አለበት)',
+    step4: 'ትክክለኛውን የክፍያ ደረሰኝ ስክሪንሾት ከስር ያያይዙ (የተከፈለበት ሰዓትና ማጣቀሻ በግልጽ መታየት አለበት)',
     screenshotNotice: 'ስክሪንሾቱ የክፍያውን መጠን፣ ቀን እና የተከፈለበትን ትክክለኛ ሰዓት በግልጽ ማሳየት አለበት።',
     successTitle: 'ትዕዛዝዎ በተሳካ ሁኔታ ተልኳል!',
-    successDesc: 'እናመሰግናለን! ትዕዛዝዎ እና የቴሌብር ክፍያ ደረሰኝዎ ደርሶናል፤ ትዕዛዙን አረጋግጠን እቃውን ለማድረስ በቅርቡ በስልክ እንደውላለን።',
-    successDescCash: 'እናመሰግናለን! ትዕዛዝዎ ደርሶናል፤ አድራሻዎን ለማረጋገጥ እና እቃውን ለማድረስ በቅርቡ በስልክ እንደውላለን።',
+    successDesc: 'እናመሰግናለን! ትዕዛዝዎ እና የክፍያ ደረሰኝዎ ደርሶናል፤ ትዕዛዙን አረጋግጠን እቃውን ለማድረስ በቅርቡ በስልክ እንደውላለን።',
+    successDescCash: 'እናመሰግናለን! ትዕዛዝዎ እና የ 200 ብር ቅድመ ክፍያ ደረሰኝዎ ደርሶናል፤ ትዕዛዙን አረጋግጠን እቃውን ለማድረስ በቅርቡ በስልክ እንደውላለን።',
     orderNumber: 'የትዕዛዝ ቁጥር',
     paymentStatus: 'የክፍያ ሁኔታ',
-    paymentReview: 'በማረጋገጥ ላይ (ቴሌብር)',
-    paymentPendingCash: 'ሲረከቡ የሚከፈል (ካሽ)',
+    paymentReview: 'በማረጋገጥ ላይ',
+    paymentPendingCash: 'ቅድመ ክፍያ በማረጋገጥ ላይ',
     done: 'ወደ ገበያው ተመለስ',
     orCall: 'ወይም በቀጥታ በስልክ ይዘዙ፡',
-    // Telebirr payment section
+    // Payment details
     telebirrInstructions: 'እባክዎ የተጠቀሰውን ትክክለኛ የብር መጠን ከታች ባለው የቴሌብር ሂሳብ ይላኩ፣ ከዚያ የከፈሉበትን ደረሰኝ ስክሪንሾት ያያይዙ።',
     telebirrStep1: '1. በቴሌብር ይክፈሉ',
     telebirrStep2: '2. የደረሰኝ ስክሪንሾት ያያይዙ',
+    cbeInstructions: 'እባክዎ የተጠቀሰውን ትክክለኛ የብር መጠን ከታች ባለው የኢትዮጵያ ንግድ ባንክ (CBE) ሂሳብ ይላኩ፣ ከዚያ የከፈሉበትን ደረሰኝ ስክሪንሾት ያያይዙ።',
+    cbeStep1: '1. በኢትዮጵያ ንግድ ባንክ (CBE) ይላኩ',
+    cbeStep2: '2. የደረሰኝ ስክሪንሾት ያያይዙ',
+    abyssiniaInstructions: 'እባክዎ የተጠቀሰውን ትክክለኛ የብር መጠን ከታች ባለው የአቢሲኒያ ባንክ ሂሳብ ይላኩ፣ ከዚያ የከፈሉበትን ደረሰኝ ስክሪንሾት ያያይዙ።',
+    abyssiniaStep1: '1. በአቢሲኒያ ባንክ (BoA) ይላኩ',
+    abyssiniaStep2: '2. የደረሰኝ ስክሪንሾት ያያይዙ',
+    cashInstructions: 'እባክዎ የ 200 ብር ቅድመ ክፍያውን በቴሌብር፣ በንግድ ባንክ ወይም በአቢሲኒያ ሂሳባችን ይላኩ፣ ከዚያ የደረሰኝ ስክሪንሾት ያያይዙ።',
+    cashStep1: '1. የ 200 ብር ቅድመ ክፍያ ይላኩ',
+    cashStep2: '2. የደረሰኝ ስክሪንሾት ያያይዙ',
     accountNumber: 'የሂሳብ ቁጥር',
     accountName: 'የሂሳብ ስም',
+    bankName: 'ባንክ',
     copy: 'ኮፒ',
     copied: 'ተገልብጧል!',
     uploadScreenshot: 'የክፍያ ደረሰኝ ስክሪንሾት',
     uploadPrompt: 'የደረሰኝ ስክሪንሾት እዚህ ያስገቡ ወይም ይጫኑ',
     uploadFormats: 'JPG፣ PNG ወይም WEBP (እስከ 5 ሜጋባይት)',
-    screenshotRequired: 'ለቴሌብር ክፍያ የደረሰኝ ስክሪንሾት ማያያዝ ግዴታ ነው',
+    screenshotRequired: 'ትዕዛዝዎ እንዲረጋገጥ የደረሰኝ ስክሪንሾት ማያያዝ ግዴታ ነው',
     removeScreenshot: 'አስወግድ',
     changeScreenshot: 'ቀይር',
     selectedScreenshot: 'የተመረጠ ደረሰኝ',
     // Error messages
-    screenshotRequiredError: 'እባክዎ ትዕዛዙን ከማረጋገጥዎ በፊት የቴሌብር ደረሰኝ ስክሪንሾት ያያይዙ።',
+    screenshotRequiredError: 'እባክዎ ትዕዛዙን ከማረጋገጥዎ በፊት የክፍያ ደረሰኝ ስክሪንሾት ያያይዙ።',
     fileTooLargeError: 'የስክሪንሾቱ መጠን ከ 5 ሜጋባይት በላይ ነው። እባክዎ አነስ ያለ ምስል ይምረጡ።',
     invalidFileTypeError: 'የማይደገፍ የምስል አይነት። እባክዎ JPG፣ PNG ወይም WEBP ስክሪንሾት ያስገቡ።',
     paymentFailedTitle: 'ክፍያውን ማስተላለፍ አልተቻለም',
@@ -236,7 +257,12 @@ export default {
     telebirrPending: 'ክፍያው ተልኳል — ማረጋገጫ በመጠባበቅ ላይ',
     telebirrVerified: 'ክፍያው ተረጋግጧል',
     telebirrRejected: 'ክፍያው ተቀባይነት አላገኘም',
+    cbePending: 'የንግድ ባንክ ክፍያ ተልኳል — ማረጋገጫ በመጠባበቅ ላይ',
+    cbeVerified: 'የንግድ ባንክ ክፍያ ተረጋግጧል',
+    abyssiniaPending: 'የአቢሲኒያ ክፍያ ተልኳል — ማረጋገጫ በመጠባበቅ ላይ',
+    abyssiniaVerified: 'የአቢሲኒያ ክፍያ ተረጋግጧል',
     cashOnDelivery: 'በደረሰኝ ጊዜ የሚከፈል (በእጅ)',
+    cashAdvancePending: 'የቅድመ ክፍያ ደረሰኝ ተልኳል — ማረጋገጫ በመጠባበቅ ላይ',
     viewDetails: 'ዝርዝር ይመልከቱ',
     orderDetails: 'የትዕዛዝ ዝርዝር',
     customerName: 'የደንበኛ ስም',
@@ -278,7 +304,7 @@ export default {
     checkStatus: 'ተመልሶ መከፈቱን ያረጋግጡ',
     checking: 'በማረጋገጥ ላይ...',
     adminAccess: 'የሰራተኞች እና የአስተዳዳሪ መግቢያ',
-    copyright: 'አብዲ ኦንላይን ሾፒንግ። መብቱ በህግ የተጠበቀ ነው።'
+    copyright: 'አብደላ ኦንላይን ሾፒንግ። መብቱ በህግ የተጠበቀ ነው።'
   }
 };
 

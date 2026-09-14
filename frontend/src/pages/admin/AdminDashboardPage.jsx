@@ -159,7 +159,7 @@ export default function AdminDashboardPage() {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <h1 className="text-xl sm:text-2xl font-black text-ink-950 tracking-tight">
-              {getGreeting()}, Abdi
+              {getGreeting()}, Abdela
             </h1>
           </div>
           <p className="text-xs sm:text-sm text-ink-500">
@@ -421,7 +421,12 @@ export default function AdminDashboardPage() {
                   const itemsCount = order.items?.length || 1;
                   const firstItem = order.items?.[0];
                   const activePayment = order.active_payment || (order.payments && order.payments[0]);
-                  const isTelebirr = activePayment?.method === 'telebirr' || order.customer_note?.toUpperCase().includes('TELEBIRR');
+                  const method = activePayment?.method;
+                  const paymentMethodLabel =
+                    method === 'cbe' ? 'CBE (ንግድ ባንክ)' :
+                    method === 'abyssinia' ? 'Bank of Abyssinia' :
+                    (method === 'telebirr' || order.customer_note?.toUpperCase().includes('TELEBIRR')) ? 'Telebirr' :
+                    'Cash on Delivery';
 
                   return (
                     <tr key={order.id} className="hover:bg-surface-50/50 transition-colors">
@@ -462,7 +467,7 @@ export default function AdminDashboardPage() {
                       </td>
                       <td className="py-3.5 px-5">
                         <span className="inline-flex items-center text-xs text-ink-700 font-medium">
-                          {isTelebirr ? 'Telebirr' : 'Cash on Delivery'}
+                          {paymentMethodLabel}
                         </span>
                       </td>
                       <td className="py-3.5 px-5">

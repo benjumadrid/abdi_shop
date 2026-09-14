@@ -130,7 +130,7 @@ function HeroSection({ onShopNow, t }) {
             >
               <img
                 src={onlineImg}
-                alt="Abdi Online Shopping"
+                alt="Abdela Online Shopping"
                 className="w-full h-auto object-cover"
                 draggable={false}
               />

@@ -158,7 +158,7 @@ export default function AdminSecurityModal({ isOpen, onClose }) {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="e.g. Abdi"
+                placeholder="e.g. Abdela"
                 className="w-full px-4 py-2.5 sm:py-3 text-sm font-medium rounded-xl border-2 border-surface-300 bg-white text-ink-950 placeholder:text-ink-400 hover:border-surface-400 focus:outline-none focus:border-brand-600 focus:ring-4 focus:ring-brand-500/15 transition-all shadow-2xs"
               />
             </div>
@@ -173,7 +173,7 @@ export default function AdminSecurityModal({ isOpen, onClose }) {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="abdi@gmail.com"
+                placeholder="abdela@gmail.com"
                 className="w-full px-4 py-2.5 sm:py-3 text-sm font-medium rounded-xl border-2 border-surface-300 bg-white text-ink-950 placeholder:text-ink-400 hover:border-surface-400 focus:outline-none focus:border-brand-600 focus:ring-4 focus:ring-brand-500/15 transition-all shadow-2xs"
               />
               <p className="text-xs text-ink-500 mt-1.5">

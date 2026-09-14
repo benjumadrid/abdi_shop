@@ -63,6 +63,58 @@ function TelebirrLogo({ size = "md", variant = "default" }) {
   );
 }
 
+function CbeLogo({ size = "md", variant = "default" }) {
+  const isSm = size === "sm";
+  const isPhone = variant === "phone";
+
+  return (
+    <div className={`flex ${isPhone ? "flex-col items-center text-center" : "items-center gap-2"} select-none`}>
+      <img
+        src="/images/cbe-logo.jpg"
+        alt="Commercial Bank of Ethiopia (CBE)"
+        className={`rounded-full object-cover border border-[#F5A623]/60 shadow-sm ${
+          isPhone ? "w-8 h-8" : isSm ? "w-7 h-7" : "w-8 h-8"
+        }`}
+      />
+      {isPhone ? (
+        <span className="text-[10px] font-black text-[#FFD100] mt-0.5 tracking-wider italic uppercase">
+          CBE
+        </span>
+      ) : (
+        <span className="text-xs font-black text-[#6B21A8] tracking-tight leading-none uppercase">
+          CBE
+        </span>
+      )}
+    </div>
+  );
+}
+
+function AbyssiniaLogo({ size = "md", variant = "default" }) {
+  const isSm = size === "sm";
+  const isPhone = variant === "phone";
+
+  return (
+    <div className={`flex ${isPhone ? "flex-col items-center text-center" : "items-center gap-2"} select-none`}>
+      <img
+        src="/images/abyssinia-logo.jpg"
+        alt="Bank of Abyssinia (BoA)"
+        className={`rounded-full object-cover border border-[#F59E0B]/60 shadow-sm ${
+          isPhone ? "w-8 h-8" : isSm ? "w-7 h-7" : "w-8 h-8"
+        }`}
+      />
+      {isPhone ? (
+        <span className="text-[10px] font-black text-[#F59E0B] mt-0.5 tracking-wider italic">
+          Abyssinia
+        </span>
+      ) : (
+        <span className="text-xs font-black text-[#B45309] tracking-tight leading-none">
+          BoA
+        </span>
+      )}
+    </div>
+  );
+}
+
 export default function OrderModal({ isOpen, onClose, product }) {
   const { isAmharic, getProductName, formatPrice, t } = useLanguage();
 
@@ -74,14 +126,23 @@ export default function OrderModal({ isOpen, onClose, product }) {
   const [paymentMethod, setPaymentMethod] = useState("telebirr");
   const [customerNote, setCustomerNote] = useState("");
 
-  // Telebirr Account Info (seeded with verified defaults, refreshed from backend API)
+  // Configured Account Info (seeded with verified defaults, refreshed from backend API)
   const [telebirrAccount, setTelebirrAccount] = useState({
     account_number: "0931862253",
     account_name: "Nuru"
   });
-  const [copied, setCopied] = useState(false);
+  const [cbeAccount, setCbeAccount] = useState({
+    account_number: "1000584744573",
+    account_name: "Behrdin seid"
+  });
+  const [abyssiniaAccount, setAbyssiniaAccount] = useState({
+    account_number: "251444412",
+    account_name: "Abdulhafiz sani"
+  });
+  const [cashAdvanceAmount, setCashAdvanceAmount] = useState(200);
+  const [copiedKey, setCopiedKey] = useState(null);
 
-  // File upload state for Telebirr screenshot
+  // File upload state for payment proof screenshot (required for all payment methods)
   const [screenshotFile, setScreenshotFile] = useState(null);
   const [screenshotPreview, setScreenshotPreview] = useState(null);
   const fileInputRef = useRef(null);
@@ -113,7 +174,7 @@ export default function OrderModal({ isOpen, onClose, product }) {
         URL.revokeObjectURL(screenshotPreview);
         setScreenshotPreview(null);
       }
-      setCopied(false);
+      setCopiedKey(null);
 
       getPaymentMethods()
         .then((data) => {
@@ -124,6 +185,24 @@ export default function OrderModal({ isOpen, onClose, product }) {
                 account_number: tb.account_number,
                 account_name: tb.account_name || "Nuru"
               });
+            }
+            const cbe = data.methods.find((m) => m.method === "cbe");
+            if (cbe && cbe.account_number) {
+              setCbeAccount({
+                account_number: cbe.account_number,
+                account_name: cbe.account_name || "Behrdin seid"
+              });
+            }
+            const boa = data.methods.find((m) => m.method === "abyssinia");
+            if (boa && boa.account_number) {
+              setAbyssiniaAccount({
+                account_number: boa.account_number,
+                account_name: boa.account_name || "Abdulhafiz sani"
+              });
+            }
+            const cash = data.methods.find((m) => m.method === "cash");
+            if (cash && cash.advance_deposit) {
+              setCashAdvanceAmount(Number(cash.advance_deposit) || 200);
             }
           }
         })
@@ -160,11 +239,11 @@ export default function OrderModal({ isOpen, onClose, product }) {
     (Array.isArray(product.media) && product.media[0]?.url) ||
     null;
 
-  const handleCopyAccount = () => {
-    if (telebirrAccount.account_number) {
-      navigator.clipboard.writeText(telebirrAccount.account_number);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+  const handleCopy = (text, key = "default") => {
+    if (text) {
+      navigator.clipboard.writeText(text);
+      setCopiedKey(key);
+      setTimeout(() => setCopiedKey(null), 2000);
     }
   };
 
@@ -319,11 +398,15 @@ export default function OrderModal({ isOpen, onClose, product }) {
       return;
     }
 
-    if (paymentMethod === "telebirr" && !screenshotFile) {
+    if (!screenshotFile) {
       setErrorMsg(
-        isAmharic
-          ? "እባክዎ ትክክለኛውን የቴሌብር ክፍያ ደረሰኝ ስክሪንሾት ያያይዙ (የተከፈለበት ሰዓት በግልጽ መታየት አለበት)።"
-          : "Please attach the correct payment screenshot below (ensure the transaction time and details are clearly visible)."
+        paymentMethod === "cash"
+          ? (isAmharic
+              ? "እባክዎ የ 200 ብር ቅድመ ክፍያ ደረሰኝ ስክሪንሾት ያያይዙ።"
+              : "Please attach your 200 ETB advance deposit payment receipt screenshot.")
+          : (isAmharic
+              ? "እባክዎ ትክክለኛውን የክፍያ ደረሰኝ ስክሪንሾት ያያይዙ (የተከፈለበት ሰዓት በግልጽ መታየት አለበት)።"
+              : "Please attach the correct payment screenshot below (ensure the transaction time and details are clearly visible).")
       );
       if (fileInputRef.current) fileInputRef.current.focus();
       return;
@@ -343,21 +426,13 @@ export default function OrderModal({ isOpen, onClose, product }) {
         setPendingOrder(activeOrder);
       }
 
-      let submittedPayment = null;
-      if (paymentMethod === "telebirr") {
-        const fd = new FormData();
-        fd.append("order_id", activeOrder.id);
-        fd.append("method", "telebirr");
-        fd.append("amount", String(activeOrder.total_amount));
-        fd.append("screenshot", screenshotFile);
-        submittedPayment = await submitPayment(fd);
-      } else {
-        submittedPayment = await submitPayment({
-          order_id: activeOrder.id,
-          method: "cash",
-          amount: activeOrder.total_amount
-        });
-      }
+      // All payment methods (telebirr, cbe, abyssinia, cash advance) submit receipt proof
+      const fd = new FormData();
+      fd.append("order_id", activeOrder.id);
+      fd.append("method", paymentMethod);
+      fd.append("amount", String(activeOrder.total_amount));
+      fd.append("screenshot", screenshotFile);
+      const submittedPayment = await submitPayment(fd);
 
       const orderToSave = {
         ...activeOrder,
@@ -404,7 +479,7 @@ export default function OrderModal({ isOpen, onClose, product }) {
                 {t("orderModal.successTitle")}
               </h2>
               <p className="text-sm text-gray-500 leading-relaxed max-w-md mx-auto">
-                {paymentMethod === "telebirr" ? t("orderModal.successDesc") : t("orderModal.successDescCash")}
+                {paymentMethod === "cash" ? t("orderModal.successDescCash") : t("orderModal.successDesc")}
               </p>
             </div>
 
@@ -424,10 +499,18 @@ export default function OrderModal({ isOpen, onClose, product }) {
               <div className="flex justify-between items-center text-sm pt-2 border-t border-gray-200">
                 <span className="text-gray-500 font-medium">{t("orderModal.paymentStatus")}</span>
                 <span className={`inline-flex items-center gap-1.5 font-bold px-3 py-1 rounded-full text-xs ${
-                  paymentMethod === "telebirr" ? "bg-blue-50 text-blue-700 border border-blue-200" : "bg-emerald-50 text-[#006838] border border-emerald-200"
+                  paymentMethod === "telebirr" ? "bg-blue-50 text-blue-700 border border-blue-200" :
+                  paymentMethod === "cbe" ? "bg-purple-50 text-purple-700 border border-purple-200" :
+                  paymentMethod === "abyssinia" ? "bg-amber-50 text-amber-800 border border-amber-200" :
+                  "bg-emerald-50 text-[#006838] border border-emerald-200"
                 }`}>
-                  <span className={`w-2 h-2 rounded-full ${paymentMethod === "telebirr" ? "bg-blue-600" : "bg-[#006838]"}`} />
-                  {paymentMethod === "telebirr" ? t("orderModal.paymentReview") : t("orderModal.paymentPendingCash")}
+                  <span className={`w-2 h-2 rounded-full ${
+                    paymentMethod === "telebirr" ? "bg-blue-600" :
+                    paymentMethod === "cbe" ? "bg-purple-600" :
+                    paymentMethod === "abyssinia" ? "bg-amber-600" :
+                    "bg-[#006838]"
+                  }`} />
+                  {paymentMethod === "cash" ? t("orderModal.paymentPendingCash") : t("orderModal.paymentReview")}
                 </span>
               </div>
             </div>
@@ -666,21 +749,18 @@ export default function OrderModal({ isOpen, onClose, product }) {
                 <label className="block text-xs font-bold text-gray-800 mb-2">
                   {t("orderModal.paymentMethod")} <span className="text-red-500">*</span>
                 </label>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                  {/* Telebirr Card with Official Logo */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {/* Telebirr Card */}
                   <div
                     onClick={() => setPaymentMethod("telebirr")}
-                    className={`p-4 rounded-2xl border-2 transition cursor-pointer relative shadow-2xs ${
+                    className={`p-3.5 rounded-2xl border-2 transition cursor-pointer relative shadow-2xs ${
                       paymentMethod === "telebirr"
                         ? "border-[#006838] bg-[#f2faf5]/80 ring-1 ring-[#006838]/20"
                         : "border-gray-200 hover:border-gray-300 bg-white"
                     }`}
                   >
-                    <div className="flex items-center justify-between mb-2">
-                      {/* Official Telebirr Logo */}
-                      <TelebirrLogo size="md" />
-
-                      {/* Radio Indicator */}
+                    <div className="flex items-center justify-between mb-1.5">
+                      <TelebirrLogo size="sm" />
                       <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
                         paymentMethod === "telebirr" ? "border-[#006838]" : "border-gray-300"
                       }`}>
@@ -689,263 +769,508 @@ export default function OrderModal({ isOpen, onClose, product }) {
                         )}
                       </div>
                     </div>
+                    <span className="font-bold text-xs sm:text-sm text-gray-900 block">{t("orderModal.telebirr")}</span>
+                    <span className="text-[11px] text-gray-500 mt-0.5 block">{t("orderModal.telebirrSub")}</span>
+                  </div>
 
-                    <span className="font-bold text-sm text-gray-900 block">{t("orderModal.telebirr")}</span>
-                    <span className="text-xs text-gray-500 mt-0.5 block">{t("orderModal.telebirrSub")}</span>
+                  {/* CBE Card */}
+                  <div
+                    onClick={() => setPaymentMethod("cbe")}
+                    className={`p-3.5 rounded-2xl border-2 transition cursor-pointer relative shadow-2xs ${
+                      paymentMethod === "cbe"
+                        ? "border-[#6B21A8] bg-[#faf5ff] ring-1 ring-[#6B21A8]/20"
+                        : "border-gray-200 hover:border-gray-300 bg-white"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-1.5">
+                      <CbeLogo size="sm" />
+                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                        paymentMethod === "cbe" ? "border-[#6B21A8]" : "border-gray-300"
+                      }`}>
+                        {paymentMethod === "cbe" && (
+                          <div className="w-2.5 h-2.5 rounded-full bg-[#6B21A8]" />
+                        )}
+                      </div>
+                    </div>
+                    <span className="font-bold text-xs sm:text-sm text-gray-900 block">CBE (የኢትዮጵያ ንግድ ባንክ)</span>
+                    <span className="text-[11px] text-gray-500 mt-0.5 block">{t("orderModal.cbeSub")}</span>
+                  </div>
+
+                  {/* Bank of Abyssinia Card */}
+                  <div
+                    onClick={() => setPaymentMethod("abyssinia")}
+                    className={`p-3.5 rounded-2xl border-2 transition cursor-pointer relative shadow-2xs ${
+                      paymentMethod === "abyssinia"
+                        ? "border-[#B45309] bg-[#fffbeb] ring-1 ring-[#B45309]/20"
+                        : "border-gray-200 hover:border-gray-300 bg-white"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-1.5">
+                      <AbyssiniaLogo size="sm" />
+                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                        paymentMethod === "abyssinia" ? "border-[#B45309]" : "border-gray-300"
+                      }`}>
+                        {paymentMethod === "abyssinia" && (
+                          <div className="w-2.5 h-2.5 rounded-full bg-[#B45309]" />
+                        )}
+                      </div>
+                    </div>
+                    <span className="font-bold text-xs sm:text-sm text-gray-900 block">Bank of Abyssinia (አቢሲኒያ)</span>
+                    <span className="text-[11px] text-gray-500 mt-0.5 block">{t("orderModal.abyssiniaSub")}</span>
                   </div>
 
                   {/* Cash on Delivery Card */}
                   <div
                     onClick={() => setPaymentMethod("cash")}
-                    className={`p-4 rounded-2xl border-2 transition cursor-pointer relative shadow-2xs flex items-center justify-between ${
+                    className={`p-3.5 rounded-2xl border-2 transition cursor-pointer relative shadow-2xs ${
                       paymentMethod === "cash"
                         ? "border-[#006838] bg-[#f2faf5]/80 ring-1 ring-[#006838]/20"
                         : "border-gray-200 hover:border-gray-300 bg-white"
                     }`}
                   >
-                    <div className="flex items-center gap-3.5">
-                      {/* Cash/Banknote Icon */}
-                      <div className="w-11 h-8 rounded-lg bg-[#006838] text-white flex items-center justify-center shrink-0 shadow-2xs">
-                        <svg className="w-7 h-5" viewBox="0 0 32 20" fill="none" stroke="currentColor" strokeWidth="1.8">
-                          <rect x="2" y="2" width="28" height="16" rx="2" />
-                          <circle cx="16" cy="10" r="3.5" />
-                          <circle cx="6" cy="6" r="1" fill="currentColor" />
-                          <circle cx="26" cy="6" r="1" fill="currentColor" />
-                          <circle cx="6" cy="14" r="1" fill="currentColor" />
-                          <circle cx="26" cy="14" r="1" fill="currentColor" />
-                        </svg>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-6 rounded-md bg-[#006838] text-white flex items-center justify-center shrink-0 shadow-2xs">
+                          <svg className="w-5 h-3.5" viewBox="0 0 32 20" fill="none" stroke="currentColor" strokeWidth="2">
+                            <rect x="2" y="2" width="28" height="16" rx="2" />
+                            <circle cx="16" cy="10" r="3.5" />
+                          </svg>
+                        </div>
+                        <span className="bg-amber-100 text-amber-900 text-[10px] font-extrabold px-1.5 py-0.5 rounded border border-amber-300">
+                          200 ETB Deposit
+                        </span>
                       </div>
-                      <div>
-                        <span className="font-bold text-sm text-gray-900 block">{t("orderModal.cash")}</span>
-                        <span className="text-xs text-gray-500 mt-0.5 block">{t("orderModal.cashSub")}</span>
+                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
+                        paymentMethod === "cash" ? "border-[#006838]" : "border-gray-300"
+                      }`}>
+                        {paymentMethod === "cash" && (
+                          <div className="w-2.5 h-2.5 rounded-full bg-[#006838]" />
+                        )}
                       </div>
                     </div>
-
-                    {/* Radio Indicator */}
-                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
-                      paymentMethod === "cash" ? "border-[#006838]" : "border-gray-300"
-                    }`}>
-                      {paymentMethod === "cash" && (
-                        <div className="w-2.5 h-2.5 rounded-full bg-[#006838]" />
-                      )}
-                    </div>
+                    <span className="font-bold text-xs sm:text-sm text-gray-900 block">{t("orderModal.cash")}</span>
+                    <span className="text-[11px] text-gray-500 mt-0.5 block">
+                      {isAmharic ? "200 ብር ቅድመ ክፍያ + ቀሪው ሲረከቡ" : "200 ETB advance deposit + remaining at door"}
+                    </span>
                   </div>
                 </div>
               </div>
 
-              {/* ── TELEBIRR BLUE BANNER & STEP 4 ATTACHMENT INSTRUCTIONS ── */}
+              {/* ── 1. TELEBIRR BANNER & 3D PHONE MOCKUP ── */}
               {paymentMethod === "telebirr" && (
-                <div className="space-y-3 animate-fade-up">
-                  {/* Light-blue Banner matching reference */}
-                  <div className="bg-[#ecf5fe] border border-blue-100 rounded-2xl p-4 sm:p-5 relative overflow-hidden shadow-2xs">
-                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 relative z-10">
+                <div className="bg-[#ecf5fe] border border-blue-100 rounded-2xl p-4 sm:p-5 relative overflow-hidden shadow-2xs animate-fade-up">
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 relative z-10">
+                    <div className="space-y-3 shrink-0 sm:max-w-[210px]">
+                      <div className="flex items-center gap-2">
+                        <TelebirrLogo size="sm" />
+                        <span className="bg-[#dcfce7] text-[#15803d] border border-[#86efac] text-[10px] font-bold px-2 py-0.5 rounded-full">
+                          Official & Secure
+                        </span>
+                      </div>
+                      <div>
+                        <p className="text-[11px] text-blue-900/70 font-medium">{t("orderModal.accountName")}</p>
+                        <p className="text-base font-black text-gray-900 mt-0.5">{telebirrAccount.account_name}</p>
+                      </div>
+                      <div>
+                        <p className="text-[11px] text-blue-900/70 font-medium">{t("orderModal.accountNumber")}</p>
+                        <div
+                          onClick={() => handleCopy(telebirrAccount.account_number, "telebirr")}
+                          className="flex items-center gap-2 mt-0.5 cursor-pointer group"
+                          title="Click to copy account number"
+                        >
+                          <span className="text-base font-black text-gray-900 group-hover:text-[#0072CE] transition tracking-wide">
+                            {telebirrAccount.account_number}
+                          </span>
+                          {copiedKey === "telebirr" ? (
+                            <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md">
+                              ✓ {t("orderModal.copied")}
+                            </span>
+                          ) : (
+                            <span className="text-[10px] font-semibold text-[#0072CE] bg-blue-50/80 px-2 py-0.5 rounded-md opacity-80 group-hover:opacity-100">
+                              {t("orderModal.copy")}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
 
-                      {/* Left: Account Name & Number */}
-                      <div className="space-y-3 shrink-0 sm:max-w-[210px]">
-                        <div className="flex items-center gap-2">
-                          <TelebirrLogo size="sm" />
-                          <span className="bg-[#dcfce7] text-[#15803d] border border-[#86efac] text-[10px] font-bold px-2 py-0.5 rounded-full">
-                            Official & Secure
+                    <div className="flex-1 sm:border-l sm:border-blue-200/70 sm:pl-5 space-y-2">
+                      <div className="text-xs font-black text-blue-900 flex items-center gap-1.5">
+                        <span className="w-4 h-4 rounded-full bg-[#0066b2] text-white inline-flex items-center justify-center text-[10px]">i</span>
+                        <span>{t("orderModal.howToPay")}</span>
+                      </div>
+                      <div className="space-y-1.5 text-[11px] text-blue-950">
+                        <div className="flex items-start gap-2">
+                          <span className="w-4 h-4 rounded-full bg-[#0066b2] text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">1</span>
+                          <span className="font-medium">{t("orderModal.step1")}</span>
+                        </div>
+                        <div className="flex items-start gap-2">
+                          <span className="w-4 h-4 rounded-full bg-[#0066b2] text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">2</span>
+                          <span className="font-medium">
+                            {isAmharic
+                              ? `ትክክለኛውን የብር መጠን (${formatPrice(totalPrice)}) ከላይ ወደተጠቀሰው ቁጥር ይላኩ`
+                              : `Send the exact amount (${formatPrice(totalPrice)}) to the number above`}
                           </span>
                         </div>
-
-                        {/* Account Name */}
-                        <div>
-                          <p className="text-[11px] text-blue-900/70 font-medium flex items-center gap-1.5">
-                            <svg className="w-3.5 h-3.5 text-blue-900/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                            </svg>
-                            {t("orderModal.accountName")}
-                          </p>
-                          <div className="flex items-center gap-2 mt-1">
-                            <div className="w-6 h-6 rounded-full bg-blue-100/80 text-[#0072CE] flex items-center justify-center">
-                              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                              </svg>
-                            </div>
-                            <p className="text-base font-black text-gray-900">{telebirrAccount.account_name}</p>
-                          </div>
+                        <div className="flex items-start gap-2">
+                          <span className="w-4 h-4 rounded-full bg-[#0066b2] text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">3</span>
+                          <span className="font-medium">{t("orderModal.step3")}</span>
                         </div>
-
-                        {/* Account Number with Copy */}
-                        <div>
-                          <p className="text-[11px] text-blue-900/70 font-medium flex items-center gap-1.5">
-                            <svg className="w-3.5 h-3.5 text-blue-900/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                            </svg>
-                            {t("orderModal.accountNumber")}
-                          </p>
-                          <div
-                            onClick={handleCopyAccount}
-                            className="flex items-center gap-2 mt-1 cursor-pointer group"
-                            title="Click to copy account number"
-                          >
-                            <div className="w-6 h-6 rounded-full bg-blue-100/80 text-[#0072CE] flex items-center justify-center group-hover:scale-105 transition-transform">
-                              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                              </svg>
-                            </div>
-                            <span className="text-base font-black text-gray-900 group-hover:text-[#0072CE] transition tracking-wide">
-                              {telebirrAccount.account_number}
-                            </span>
-                            {copied ? (
-                              <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md">
-                                ✓ {t("orderModal.copied")}
-                              </span>
-                            ) : (
-                              <span className="text-[10px] font-semibold text-[#0072CE] bg-blue-50/80 px-2 py-0.5 rounded-md opacity-80 group-hover:opacity-100">
-                                {t("orderModal.copy")}
-                              </span>
-                            )}
-                          </div>
+                        <div className="flex items-start gap-2 pt-0.5">
+                          <span className="w-4 h-4 rounded-full bg-[#006838] text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">4</span>
+                          <span className="font-bold text-[#006838]">{t("orderModal.step4")}</span>
                         </div>
                       </div>
-
-                      {/* Center: How to Pay Steps with Step 4 */}
-                      <div className="flex-1 sm:border-l sm:border-blue-200/70 sm:pl-5 space-y-2">
-                        <div className="flex items-center gap-1.5 text-xs font-black text-blue-900">
-                          <div className="w-4 h-4 rounded-full bg-[#0066b2] text-white flex items-center justify-center text-[10px] font-bold">
-                            i
-                          </div>
-                          <span>{t("orderModal.howToPay")}</span>
-                        </div>
-
-                        <div className="space-y-1.5 text-[11px] text-blue-950">
-                          <div className="flex items-start gap-2">
-                            <span className="w-4 h-4 rounded-full bg-[#0066b2] text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">1</span>
-                            <span className="font-medium leading-tight">{t("orderModal.step1")}</span>
-                          </div>
-                          <div className="flex items-start gap-2">
-                            <span className="w-4 h-4 rounded-full bg-[#0066b2] text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">2</span>
-                            <span className="font-medium leading-tight">
-                              {isAmharic
-                                ? `ትክክለኛውን የብር መጠን (${formatPrice(totalPrice)}) ከላይ ወደተጠቀሰው ቁጥር ይላኩ`
-                                : `Send the exact amount (${formatPrice(totalPrice)}) to the number above`}
-                            </span>
-                          </div>
-                          <div className="flex items-start gap-2">
-                            <span className="w-4 h-4 rounded-full bg-[#0066b2] text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">3</span>
-                            <span className="font-medium leading-tight">{t("orderModal.step3")}</span>
-                          </div>
-                          {/* Step 4 explicitly added as requested */}
-                          <div className="flex items-start gap-2 pt-0.5">
-                            <span className="w-4 h-4 rounded-full bg-[#006838] text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">4</span>
-                            <span className="font-bold text-[#006838] leading-tight">
-                              {t("orderModal.step4")}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Right: Angled Smartphone Illustration - ALWAYS VISIBLE across screen sizes matching crop_phone.bmp */}
-                      <div className="relative shrink-0 w-28 sm:w-32 h-28 overflow-hidden flex items-center justify-end self-center">
-                        {/* Sparkle burst rays (3 golden-yellow capsules matching reference crop_phone.bmp) */}
-                        <div className="absolute left-1 top-7 flex flex-col items-center gap-1.5 select-none pointer-events-none z-10">
-                          {/* Top ray: angled up-left */}
-                          <div className="w-3.5 h-1 bg-[#F59E0B] rounded-full -rotate-[35deg] transform origin-right shadow-xs" />
-                          {/* Middle ray: horizontal */}
-                          <div className="w-4.5 h-1 bg-[#F59E0B] rounded-full shadow-xs" />
-                          {/* Bottom ray: angled down-left */}
-                          <div className="w-3.5 h-1 bg-[#F59E0B] rounded-full rotate-[35deg] transform origin-right shadow-xs" />
-                        </div>
-
-                        {/* 3D phone mockup rotated -10deg with white Telebirr emblem on screen */}
-                        <div className="w-22 sm:w-24 h-36 sm:h-40 bg-[#0a192f] rounded-[22px] p-1 shadow-2xl -rotate-[10deg] border border-blue-300/40 relative -mr-2">
-                          <div className="w-full h-full bg-gradient-to-b from-[#0072CE] to-[#004f93] rounded-[18px] flex flex-col items-center justify-center p-2 relative overflow-hidden">
-                            {/* Dynamic Island Notch */}
-                            <div className="w-6 h-1.5 bg-black/50 rounded-full mb-auto mt-0.5" />
-                            {/* Official white Telebirr emblem & golden script on phone screen */}
-                            <div className="my-auto">
-                              <TelebirrLogo size="sm" variant="phone" />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                    </div>
-                  </div>
-
-                  {/* ── SCREENSHOT ATTACHMENT BOX (REQUIRED FOR TELEBIRR) ── */}
-                  <div className="p-3.5 rounded-2xl bg-white border border-gray-200/90 shadow-2xs space-y-2">
-                    <div className="flex items-center justify-between">
-                      <label className="text-xs font-bold text-gray-800 flex items-center gap-1.5">
-                        <span>{t("orderModal.uploadScreenshot")}</span>
-                        <span className="text-red-500">*</span>
-                      </label>
-                      <span className="text-[10px] font-bold text-gray-500">
-                        {t("orderModal.uploadFormats")}
-                      </span>
                     </div>
 
-                    <input
-                      ref={fileInputRef}
-                      type="file"
-                      accept=".jpg,.jpeg,.png,.webp"
-                      disabled={submitting}
-                      onChange={(e) => handleFileSelect(e.target.files?.[0])}
-                      className="hidden"
-                    />
-
-                    {!screenshotFile ? (
-                      /* Upload Trigger Box */
-                      <div
-                        onClick={() => fileInputRef.current?.click()}
-                        className="border-2 border-dashed border-blue-300 hover:border-[#006838] bg-blue-50/20 hover:bg-blue-50/40 rounded-xl p-3.5 text-center cursor-pointer transition group"
-                      >
-                        <div className="w-9 h-9 rounded-xl bg-blue-100/70 text-[#0072CE] group-hover:text-[#006838] group-hover:bg-[#006838]/10 flex items-center justify-center mx-auto mb-1.5 transition">
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                          </svg>
-                        </div>
-                        <p className="text-xs font-bold text-gray-800 group-hover:text-[#006838] transition">
-                          {t("orderModal.uploadPrompt")}
-                        </p>
-                        <p className="text-[11px] font-semibold text-[#006838] mt-1">
-                          ⚠️ {t("orderModal.screenshotNotice")}
-                        </p>
-                      </div>
-                    ) : (
-                      /* Selected Screenshot Preview */
-                      <div className="bg-gray-50/80 rounded-xl border border-gray-200 p-3 flex items-center gap-3">
-                        <img
-                          src={screenshotPreview}
-                          alt="Payment screenshot preview"
-                          className="w-14 h-14 rounded-lg object-cover border border-gray-200 bg-white shrink-0"
-                        />
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-1.5">
-                            <span className="w-4 h-4 rounded-full bg-emerald-100 text-[#006838] flex items-center justify-center text-[10px] font-black shrink-0">✓</span>
-                            <p className="text-xs font-bold text-gray-900 truncate">
-                              {screenshotFile.name}
-                            </p>
-                          </div>
-                          <p className="text-[10px] text-gray-500 mt-0.5">
-                            {formatFileSize(screenshotFile.size)}
-                          </p>
-                          <div className="flex gap-3 mt-1">
-                            <button
-                              type="button"
-                              onClick={() => fileInputRef.current?.click()}
-                              disabled={submitting}
-                              className="text-[11px] font-bold text-blue-600 hover:text-blue-800 hover:underline cursor-pointer"
-                            >
-                              {t("orderModal.changeScreenshot")}
-                            </button>
-                            <button
-                              type="button"
-                              onClick={handleRemoveScreenshot}
-                              disabled={submitting}
-                              className="text-[11px] font-bold text-red-500 hover:text-red-700 hover:underline cursor-pointer"
-                            >
-                              {t("orderModal.removeScreenshot")}
-                            </button>
+                    <div className="relative shrink-0 w-28 sm:w-32 h-28 overflow-hidden flex items-center justify-end self-center">
+                      <div className="w-22 sm:w-24 h-36 sm:h-40 bg-[#0a192f] rounded-[22px] p-1 shadow-2xl -rotate-[10deg] border border-blue-300/40 relative -mr-2">
+                        <div className="w-full h-full bg-gradient-to-b from-[#0072CE] to-[#004f93] rounded-[18px] flex flex-col items-center justify-center p-2 relative overflow-hidden">
+                          <div className="w-6 h-1.5 bg-black/50 rounded-full mb-auto mt-0.5" />
+                          <div className="my-auto">
+                            <TelebirrLogo size="sm" variant="phone" />
                           </div>
                         </div>
                       </div>
-                    )}
+                    </div>
                   </div>
                 </div>
               )}
+
+              {/* ── 2. CBE BANNER & 3D PHONE MOCKUP ── */}
+              {paymentMethod === "cbe" && (
+                <div className="bg-[#fbf7ff] border border-purple-200 rounded-2xl p-4 sm:p-5 relative overflow-hidden shadow-2xs animate-fade-up">
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 relative z-10">
+                    <div className="space-y-3 shrink-0 sm:max-w-[220px]">
+                      <div className="flex items-center gap-2">
+                        <CbeLogo size="sm" />
+                        <span className="bg-purple-100 text-purple-900 border border-purple-300 text-[10px] font-bold px-2 py-0.5 rounded-full">
+                          {isAmharic ? "ንግድ ባንክ" : "Commercial Bank"}
+                        </span>
+                      </div>
+                      <div>
+                        <p className="text-[11px] text-purple-900/70 font-medium">{t("orderModal.accountName")}</p>
+                        <p className="text-base font-black text-gray-900 mt-0.5">{cbeAccount.account_name}</p>
+                      </div>
+                      <div>
+                        <p className="text-[11px] text-purple-900/70 font-medium">{t("orderModal.accountNumber")}</p>
+                        <div
+                          onClick={() => handleCopy(cbeAccount.account_number, "cbe")}
+                          className="flex items-center gap-2 mt-0.5 cursor-pointer group"
+                          title="Click to copy account number"
+                        >
+                          <span className="text-base font-black text-gray-900 group-hover:text-purple-700 transition tracking-wide font-mono">
+                            {cbeAccount.account_number}
+                          </span>
+                          {copiedKey === "cbe" ? (
+                            <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md">
+                              ✓ {t("orderModal.copied")}
+                            </span>
+                          ) : (
+                            <span className="text-[10px] font-semibold text-purple-700 bg-purple-100/80 px-2 py-0.5 rounded-md opacity-80 group-hover:opacity-100">
+                              {t("orderModal.copy")}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex-1 sm:border-l sm:border-purple-200/70 sm:pl-5 space-y-2">
+                      <div className="text-xs font-black text-purple-950 flex items-center gap-1.5">
+                        <span className="w-4 h-4 rounded-full bg-purple-700 text-white inline-flex items-center justify-center text-[10px]">i</span>
+                        <span>{isAmharic ? "በንግድ ባንክ እንዴት መክፈል እንደሚቻል" : "How to Pay via CBE"}</span>
+                      </div>
+                      <div className="space-y-1.5 text-[11px] text-purple-950">
+                        <div className="flex items-start gap-2">
+                          <span className="w-4 h-4 rounded-full bg-purple-700 text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">1</span>
+                          <span className="font-medium">
+                            {isAmharic ? "የ CBE ሞባይል ባንኪንግ ወይም CBE Birr መተግበሪያዎን ይክፈቱ" : "Open CBE Mobile Banking or CBE Birr app"}
+                          </span>
+                        </div>
+                        <div className="flex items-start gap-2">
+                          <span className="w-4 h-4 rounded-full bg-purple-700 text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">2</span>
+                          <span className="font-medium">
+                            {isAmharic
+                              ? `ትክክለኛውን የብር መጠን (${formatPrice(totalPrice)}) ወደ ሂሳብ ቁጥር ${cbeAccount.account_number} ይላኩ`
+                              : `Transfer exact amount (${formatPrice(totalPrice)}) to account ${cbeAccount.account_number}`}
+                          </span>
+                        </div>
+                        <div className="flex items-start gap-2">
+                          <span className="w-4 h-4 rounded-full bg-purple-700 text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">3</span>
+                          <span className="font-medium">{t("orderModal.step3")}</span>
+                        </div>
+                        <div className="flex items-start gap-2 pt-0.5">
+                          <span className="w-4 h-4 rounded-full bg-[#006838] text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">4</span>
+                          <span className="font-bold text-[#006838]">{t("orderModal.step4")}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="relative shrink-0 w-28 sm:w-32 h-28 overflow-hidden flex items-center justify-end self-center">
+                      <div className="w-22 sm:w-24 h-36 sm:h-40 bg-[#1e0828] rounded-[22px] p-1 shadow-2xl -rotate-[10deg] border border-purple-300/40 relative -mr-2">
+                        <div className="w-full h-full bg-gradient-to-b from-[#5C068C] to-[#3B0358] rounded-[18px] flex flex-col items-center justify-center p-2 relative overflow-hidden text-center">
+                          <div className="w-6 h-1.5 bg-black/50 rounded-full mb-auto mt-0.5" />
+                          <div className="my-auto flex flex-col items-center">
+                            <CbeLogo size="sm" variant="phone" />
+                            <span className="text-[9px] text-[#F5A623] font-extrabold mt-1">ንግድ ባንክ</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* ── 3. BANK OF ABYSSINIA BANNER & 3D PHONE MOCKUP ── */}
+              {paymentMethod === "abyssinia" && (
+                <div className="bg-[#fffdf5] border border-amber-200 rounded-2xl p-4 sm:p-5 relative overflow-hidden shadow-2xs animate-fade-up">
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 relative z-10">
+                    <div className="space-y-3 shrink-0 sm:max-w-[220px]">
+                      <div className="flex items-center gap-2">
+                        <AbyssiniaLogo size="sm" />
+                        <span className="bg-amber-100 text-amber-900 border border-amber-300 text-[10px] font-bold px-2 py-0.5 rounded-full">
+                          {isAmharic ? "አቢሲኒያ ባንክ" : "Bank of Abyssinia"}
+                        </span>
+                      </div>
+                      <div>
+                        <p className="text-[11px] text-amber-900/70 font-medium">{t("orderModal.accountName")}</p>
+                        <p className="text-base font-black text-gray-900 mt-0.5">{abyssiniaAccount.account_name}</p>
+                      </div>
+                      <div>
+                        <p className="text-[11px] text-amber-900/70 font-medium">{t("orderModal.accountNumber")}</p>
+                        <div
+                          onClick={() => handleCopy(abyssiniaAccount.account_number, "abyssinia")}
+                          className="flex items-center gap-2 mt-0.5 cursor-pointer group"
+                          title="Click to copy account number"
+                        >
+                          <span className="text-base font-black text-gray-900 group-hover:text-amber-700 transition tracking-wide font-mono">
+                            {abyssiniaAccount.account_number}
+                          </span>
+                          {copiedKey === "abyssinia" ? (
+                            <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md">
+                              ✓ {t("orderModal.copied")}
+                            </span>
+                          ) : (
+                            <span className="text-[10px] font-semibold text-amber-700 bg-amber-100/80 px-2 py-0.5 rounded-md opacity-80 group-hover:opacity-100">
+                              {t("orderModal.copy")}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex-1 sm:border-l sm:border-amber-200/70 sm:pl-5 space-y-2">
+                      <div className="text-xs font-black text-amber-950 flex items-center gap-1.5">
+                        <span className="w-4 h-4 rounded-full bg-amber-700 text-white inline-flex items-center justify-center text-[10px]">i</span>
+                        <span>{isAmharic ? "በአቢሲኒያ ባንክ እንዴት መክፈል እንደሚቻል" : "How to Pay via Bank of Abyssinia"}</span>
+                      </div>
+                      <div className="space-y-1.5 text-[11px] text-amber-950">
+                        <div className="flex items-start gap-2">
+                          <span className="w-4 h-4 rounded-full bg-amber-700 text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">1</span>
+                          <span className="font-medium">
+                            {isAmharic ? "የአቢሲኒያ ሞባይል ባንኪንግ ወይም Apollo መተግበሪያዎን ይክፈቱ" : "Open Bank of Abyssinia (BoA Mobile / Apollo) app"}
+                          </span>
+                        </div>
+                        <div className="flex items-start gap-2">
+                          <span className="w-4 h-4 rounded-full bg-amber-700 text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">2</span>
+                          <span className="font-medium">
+                            {isAmharic
+                              ? `ትክክለኛውን የብር መጠን (${formatPrice(totalPrice)}) ወደ ሂሳብ ቁጥር ${abyssiniaAccount.account_number} ይላኩ`
+                              : `Transfer exact amount (${formatPrice(totalPrice)}) to account ${abyssiniaAccount.account_number}`}
+                          </span>
+                        </div>
+                        <div className="flex items-start gap-2">
+                          <span className="w-4 h-4 rounded-full bg-amber-700 text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">3</span>
+                          <span className="font-medium">{t("orderModal.step3")}</span>
+                        </div>
+                        <div className="flex items-start gap-2 pt-0.5">
+                          <span className="w-4 h-4 rounded-full bg-[#006838] text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">4</span>
+                          <span className="font-bold text-[#006838]">{t("orderModal.step4")}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="relative shrink-0 w-28 sm:w-32 h-28 overflow-hidden flex items-center justify-end self-center">
+                      <div className="w-22 sm:w-24 h-36 sm:h-40 bg-[#2b1b08] rounded-[22px] p-1 shadow-2xl -rotate-[10deg] border border-amber-300/40 relative -mr-2">
+                        <div className="w-full h-full bg-gradient-to-b from-[#B45309] to-[#78350F] rounded-[18px] flex flex-col items-center justify-center p-2 relative overflow-hidden text-center">
+                          <div className="w-6 h-1.5 bg-black/50 rounded-full mb-auto mt-0.5" />
+                          <div className="my-auto flex flex-col items-center">
+                            <AbyssiniaLogo size="sm" variant="phone" />
+                            <span className="text-[9px] text-amber-200 font-extrabold mt-1">አቢሲኒያ</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* ── 4. CASH ON DELIVERY BANNER (200 ETB ADVANCE DEPOSIT) ── */}
+              {paymentMethod === "cash" && (
+                <div className="bg-amber-50/70 border border-amber-200 rounded-2xl p-4 sm:p-5 space-y-4 animate-fade-up">
+                  <div className="flex items-start gap-3">
+                    <span className="text-2xl shrink-0 mt-0.5">🛡️</span>
+                    <div>
+                      <h4 className="text-sm font-black text-amber-950">
+                        {t("orderModal.advanceDepositNotice")}
+                      </h4>
+                      <p className="text-xs text-amber-900/80 leading-relaxed mt-1">
+                        {t("orderModal.advanceDepositExplanation")}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Payment Breakdown */}
+                  <div className="grid grid-cols-3 gap-2 p-3 bg-white rounded-xl border border-amber-200 text-center">
+                    <div>
+                      <span className="text-[10px] text-gray-500 block">{t("orderModal.total")}</span>
+                      <span className="font-extrabold text-xs sm:text-sm text-gray-900">{formatPrice(totalPrice)}</span>
+                    </div>
+                    <div className="border-x border-amber-100">
+                      <span className="text-[10px] text-amber-700 font-bold block">{isAmharic ? "ቅድመ ክፍያ (አሁን)" : "Deposit (Pay Now)"}</span>
+                      <span className="font-black text-xs sm:text-sm text-amber-700">{formatPrice(cashAdvanceAmount)}</span>
+                    </div>
+                    <div>
+                      <span className="text-[10px] text-emerald-700 font-bold block">{isAmharic ? "ሲረከቡ የሚከፈል" : "Due on Delivery"}</span>
+                      <span className="font-black text-xs sm:text-sm text-emerald-700">{formatPrice(Math.max(0, totalPrice - cashAdvanceAmount))}</span>
+                    </div>
+                  </div>
+
+                  {/* 3 Quick Copy Account Options for the 200 ETB Deposit */}
+                  <div className="space-y-2">
+                    <p className="text-xs font-bold text-gray-800">{t("orderModal.payDepositTo")}</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                      {/* Telebirr */}
+                      <div
+                        onClick={() => handleCopy(telebirrAccount.account_number, "deposit_tb")}
+                        className="p-2.5 rounded-xl border border-blue-200 bg-blue-50/60 hover:bg-blue-50 cursor-pointer transition flex items-center justify-between"
+                      >
+                        <div>
+                          <span className="text-[10px] font-bold text-blue-900 block">Telebirr ({telebirrAccount.account_name})</span>
+                          <span className="font-mono text-xs font-black text-gray-900">{telebirrAccount.account_number}</span>
+                        </div>
+                        <span className="text-[10px] font-bold text-blue-700 bg-white px-1.5 py-0.5 rounded shadow-2xs">
+                          {copiedKey === "deposit_tb" ? "✓" : t("orderModal.copy")}
+                        </span>
+                      </div>
+
+                      {/* CBE */}
+                      <div
+                        onClick={() => handleCopy(cbeAccount.account_number, "deposit_cbe")}
+                        className="p-2.5 rounded-xl border border-purple-200 bg-purple-50/60 hover:bg-purple-50 cursor-pointer transition flex items-center justify-between"
+                      >
+                        <div>
+                          <span className="text-[10px] font-bold text-purple-900 block">CBE ({cbeAccount.account_name})</span>
+                          <span className="font-mono text-xs font-black text-gray-900">{cbeAccount.account_number}</span>
+                        </div>
+                        <span className="text-[10px] font-bold text-purple-700 bg-white px-1.5 py-0.5 rounded shadow-2xs">
+                          {copiedKey === "deposit_cbe" ? "✓" : t("orderModal.copy")}
+                        </span>
+                      </div>
+
+                      {/* Abyssinia */}
+                      <div
+                        onClick={() => handleCopy(abyssiniaAccount.account_number, "deposit_boa")}
+                        className="p-2.5 rounded-xl border border-amber-200 bg-amber-50/60 hover:bg-amber-50 cursor-pointer transition flex items-center justify-between"
+                      >
+                        <div>
+                          <span className="text-[10px] font-bold text-amber-900 block">Abyssinia ({abyssiniaAccount.account_name})</span>
+                          <span className="font-mono text-xs font-black text-gray-900">{abyssiniaAccount.account_number}</span>
+                        </div>
+                        <span className="text-[10px] font-bold text-amber-800 bg-white px-1.5 py-0.5 rounded shadow-2xs">
+                          {copiedKey === "deposit_boa" ? "✓" : t("orderModal.copy")}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* ── MANDATORY SCREENSHOT ATTACHMENT BOX (REQUIRED FOR ALL METHODS) ── */}
+              <div className="p-3.5 rounded-2xl bg-white border border-gray-200/90 shadow-2xs space-y-2 animate-fade-up">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-bold text-gray-800 flex items-center gap-1.5">
+                    <span>
+                      {paymentMethod === "cash"
+                        ? (isAmharic ? "የ 200 ብር ቅድመ ክፍያ ደረሰኝ ስክሪንሾት" : "200 ETB Advance Deposit Receipt Screenshot")
+                        : t("orderModal.uploadScreenshot")}
+                    </span>
+                    <span className="text-red-500">*</span>
+                  </label>
+                  <span className="text-[10px] font-bold text-gray-500">
+                    {t("orderModal.uploadFormats")}
+                  </span>
+                </div>
+
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept=".jpg,.jpeg,.png,.webp"
+                  disabled={submitting}
+                  onChange={(e) => handleFileSelect(e.target.files?.[0])}
+                  className="hidden"
+                />
+
+                {!screenshotFile ? (
+                  /* Upload Trigger Box */
+                  <div
+                    onClick={() => fileInputRef.current?.click()}
+                    className="border-2 border-dashed border-emerald-300 hover:border-[#006838] bg-emerald-50/20 hover:bg-emerald-50/40 rounded-xl p-3.5 text-center cursor-pointer transition group"
+                  >
+                    <div className="w-9 h-9 rounded-xl bg-emerald-100/70 text-[#006838] group-hover:bg-[#006838]/10 flex items-center justify-center mx-auto mb-1.5 transition">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                    <p className="text-xs font-bold text-gray-800 group-hover:text-[#006838] transition">
+                      {t("orderModal.uploadPrompt")}
+                    </p>
+                    <p className="text-[11px] font-semibold text-[#006838] mt-1">
+                      ⚠️ {paymentMethod === "cash"
+                        ? (isAmharic ? "የትዕዛዝ ማረጋገጫ የ 200 ብር ቅድመ ክፍያ ደረሰኝ ማያያዝ ግዴታ ነው" : "Attaching the 200 ETB deposit receipt screenshot is required")
+                        : t("orderModal.screenshotNotice")}
+                    </p>
+                  </div>
+                ) : (
+                  /* Selected Screenshot Preview */
+                  <div className="bg-gray-50/80 rounded-xl border border-gray-200 p-3 flex items-center gap-3">
+                    <img
+                      src={screenshotPreview}
+                      alt="Payment screenshot preview"
+                      className="w-14 h-14 rounded-lg object-cover border border-gray-200 bg-white shrink-0"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1.5">
+                        <span className="w-4 h-4 rounded-full bg-emerald-100 text-[#006838] flex items-center justify-center text-[10px] font-black shrink-0">✓</span>
+                        <p className="text-xs font-bold text-gray-900 truncate">
+                          {screenshotFile.name}
+                        </p>
+                      </div>
+                      <p className="text-[10px] text-gray-500 mt-0.5">
+                        {formatFileSize(screenshotFile.size)}
+                      </p>
+                      <div className="flex gap-3 mt-1">
+                        <button
+                          type="button"
+                          onClick={() => fileInputRef.current?.click()}
+                          disabled={submitting}
+                          className="text-[11px] font-bold text-blue-600 hover:text-blue-800 hover:underline cursor-pointer"
+                        >
+                          {t("orderModal.changeScreenshot")}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={handleRemoveScreenshot}
+                          disabled={submitting}
+                          className="text-[11px] font-bold text-red-500 hover:text-red-700 hover:underline cursor-pointer"
+                        >
+                          {t("orderModal.removeScreenshot")}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
 
               {/* Optional Note */}
               <div>

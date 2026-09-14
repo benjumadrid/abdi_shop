@@ -241,8 +241,8 @@ export default function AdminAI() {
           id: 'welcome',
           sender: 'ai',
           text: isAm
-            ? `👋 **ሰላም ወንድም አብዲ! የአስተዳዳሪ ረዳት AI ነኝ።**\n\nስለ ሱቁ የቀጥታ ሁኔታ ማንኛውንም ጥያቄ ይጠይቁኝ፡\n• የዛሬ ገቢ እና የሽያጭ መጠን\n• ማረጋገጫ የሚጠብቁ የቴሌብር ክፍያዎች\n• ያለቁ እቃዎች እና ክምችት\n• የዛሬ ትዕዛዞች እና የመንደር መላኪያ\n\nጥያቄዎን ከታች ይጻፉ ወይም ከፈጣን ጥያቄዎች አንዱን ይምረጡ!`
-            : `👋 **Hello Brother Abdi! I am your Admin AI Copilot.**\n\nI have complete real-time awareness of the store:\n• Today's revenue & sales total (ETB)\n• Pending Telebirr payment screenshots\n• Out-of-stock items & inventory alerts\n• Today's customer orders & village deliveries\n\nAsk me anything or pick a quick question below!`,
+            ? `👋 **ሰላም ወንድም አብደላ! የአስተዳዳሪ ረዳት AI ነኝ።**\n\nስለ ሱቁ የቀጥታ ሁኔታ ማንኛውንም ጥያቄ ይጠይቁኝ፡\n• የዛሬ ገቢ እና የሽያጭ መጠን\n• ማረጋገጫ የሚጠብቁ የክፍያ ደረሰኞች (ቴሌብር፣ CBE፣ አቢሲኒያ፣ የቅድመ ክፍያ)\n• ያለቁ እቃዎች እና ክምችት\n• የዛሬ ትዕዛዞች እና የመንደር መላኪያ\n\nጥያቄዎን ከታች ይጻፉ ወይም ከፈጣን ጥያቄዎች አንዱን ይምረጡ!`
+            : `👋 **Hello Brother Abdela! I am your Admin AI Copilot.**\n\nI have complete real-time awareness of the store:\n• Today's revenue & sales total (ETB)\n• Pending payment screenshots (Telebirr / CBE / BoA / Cash deposit)\n• Out-of-stock items & inventory alerts\n• Today's customer orders & village deliveries\n\nAsk me anything or pick a quick question below!`,
           actions: [
             { type: 'NAVIGATE', path: '/admin/orders?date=today', label: isAm ? 'የዛሬ ገቢ' : "Today's Income" },
             { type: 'NAVIGATE', path: '/admin/payments?status=submitted', label: isAm ? 'ክፍያዎችን መርምር' : 'Pending Payments' },
@@ -439,7 +439,7 @@ export default function AdminAI() {
               <div>
                 <div className="flex items-center gap-2">
                   <h3 className="text-xs font-black tracking-wide text-white">
-                    Abdi Admin Copilot
+                    Abdela Admin Copilot
                   </h3>
                   <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />

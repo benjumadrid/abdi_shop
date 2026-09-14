@@ -68,7 +68,7 @@ export default function AdminLoginPage() {
               A
             </div>
             <div>
-              <span className="font-black text-xl tracking-tight block text-white">Abdi</span>
+              <span className="font-black text-xl tracking-tight block text-white">Abdela</span>
               <span className="text-[10px] font-bold uppercase tracking-widest text-accent-400 block -mt-1">
                 Online Shop
               </span>
@@ -86,7 +86,7 @@ export default function AdminLoginPage() {
             Centralized operations for orders, payments & catalog.
           </h1>
           <p className="text-sm text-surface-300 leading-relaxed font-normal">
-            Real-time management portal for Abdi customer fulfillment in Dessie and across Ethiopia.
+            Real-time management portal for Abdela customer fulfillment in Dessie and across Ethiopia.
           </p>
 
           <div className="pt-4 space-y-3.5 text-xs text-surface-300">
@@ -133,7 +133,7 @@ export default function AdminLoginPage() {
               A
             </div>
             <div>
-              <span className="font-black text-lg tracking-tight text-ink-950 block leading-tight">Abdi</span>
+              <span className="font-black text-lg tracking-tight text-ink-950 block leading-tight">Abdela</span>
               <span className="text-[10px] font-bold uppercase tracking-wider text-accent-600 block">Admin Portal</span>
             </div>
           </Link>

@@ -136,7 +136,7 @@ CREATE INDEX IF NOT EXISTS idx_order_items_product_id ON order_items(product_id)
 CREATE TABLE IF NOT EXISTS payments (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     order_id UUID NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
-    method VARCHAR(30) NOT NULL CHECK (method IN ('telebirr', 'cash')),
+    method VARCHAR(30) NOT NULL CHECK (method IN ('telebirr', 'cbe', 'abyssinia', 'cash')),
     amount NUMERIC(12,2) NOT NULL CHECK (amount >= 0),
     payment_proof_url TEXT,
     status VARCHAR(30) NOT NULL DEFAULT 'pending' CHECK (

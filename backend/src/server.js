@@ -50,7 +50,7 @@ app.use('/api', publicApiLimiter);
 app.get('/api', (req, res) => {
   res.status(200).json({
     success: true,
-    message: 'Welcome to Abdi Online Order System API',
+    message: 'Welcome to Abdela Online Order System API',
     maintenance: process.env.MAINTENANCE_MODE === 'true',
     endpoints: {
       health: '/api/health',
@@ -75,7 +75,7 @@ app.get('/api/health', async (req, res) => {
   res.status(dbStatus.connected ? 200 : 503).json({
     status: dbStatus.connected ? 'ok' : 'degraded',
     server: 'running',
-    service: 'Abdi Backend',
+    service: 'Abdela Backend',
     timestamp: new Date().toISOString(),
     database: {
       connected: dbStatus.connected,
@@ -129,7 +129,7 @@ app.use(globalErrorHandler);
 let server = null;
 if (process.env.NODE_ENV !== 'test') {
   server = app.listen(PORT, async () => {
-    console.log(`[Server] Abdi backend running on port ${PORT}`);
+    console.log(`[Server] Abdela backend running on port ${PORT}`);
     console.log(`[Server] Health check: http://localhost:${PORT}/api/health`);
     console.log(`[Server] Products API: http://localhost:${PORT}/api/products`);
 

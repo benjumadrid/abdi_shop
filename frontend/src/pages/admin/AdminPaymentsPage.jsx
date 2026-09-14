@@ -252,6 +252,22 @@ export default function AdminPaymentsPage() {
         </span>
       );
     }
+    if (method === 'cbe') {
+      return (
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-purple-50 text-purple-700 border border-purple-200/80">
+          <span className="w-2 h-2 rounded-full bg-purple-600" />
+          CBE (ንግድ ባንክ)
+        </span>
+      );
+    }
+    if (method === 'abyssinia') {
+      return (
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-amber-50 text-amber-800 border border-amber-200/80">
+          <span className="w-2 h-2 rounded-full bg-amber-600" />
+          Bank of Abyssinia
+        </span>
+      );
+    }
     return (
       <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200/80">
         <svg className="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -288,6 +304,8 @@ export default function AdminPaymentsPage() {
   const methodTabList = [
     { id: 'all', label: 'All Methods' },
     { id: 'telebirr', label: 'Telebirr' },
+    { id: 'cbe', label: 'CBE (ንግድ ባንክ)' },
+    { id: 'abyssinia', label: 'Abyssinia' },
     { id: 'cash', label: 'Cash on Delivery' }
   ];
 
@@ -672,12 +690,12 @@ export default function AdminPaymentsPage() {
                     </div>
                   )}
 
-                  {/* TELEBIRR PAYMENT PROOF SCREENSHOT */}
-                  {selectedPayment.method === 'telebirr' && (
+                  {/* PAYMENT PROOF SCREENSHOT (Telebirr, CBE, Abyssinia, and Cash advance deposit) */}
+                  {(selectedPayment.payment_proof_url || ['telebirr', 'cbe', 'abyssinia'].includes(selectedPayment.method)) && (
                     <div className="space-y-2.5">
                       <div className="flex items-center justify-between">
                         <span className="text-[11px] font-bold uppercase tracking-wider text-ink-500">
-                          Payment Proof Screenshot
+                          {selectedPayment.method === 'cash' ? '200 ETB Advance Deposit Receipt' : 'Payment Proof Screenshot'}
                         </span>
                         {selectedPayment.payment_proof_url && (
                           <a
@@ -707,7 +725,7 @@ export default function AdminPaymentsPage() {
                         </div>
                       ) : (
                         <div className="p-8 rounded-2xl bg-white border border-dashed border-surface-300 text-center text-xs text-ink-400 font-medium">
-                          No screenshot file was submitted with this Telebirr payment.
+                          No screenshot file was submitted with this payment.
                         </div>
                       )}
                     </div>
@@ -720,10 +738,10 @@ export default function AdminPaymentsPage() {
                         <svg className="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <span>Cash on Delivery Notice</span>
+                        <span>Cash on Delivery (200 ETB Advance Deposit)</span>
                       </div>
                       <p className="text-[11px] text-amber-700 pl-5">
-                        No digital payment receipt is expected. Payment will be collected in cash upon physical delivery.
+                        Customer transferred a 200 ETB advance security deposit. Verify the deposit screenshot above. The remaining order balance will be collected in cash upon doorstep delivery.
                       </p>
                     </div>
                   )}

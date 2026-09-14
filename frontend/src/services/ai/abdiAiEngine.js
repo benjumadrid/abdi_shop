@@ -264,11 +264,12 @@ const AMHARIC_KEYWORDS = {
   available: ['አለ', 'አለ ወይ', 'ይገኛል', 'በክምችት', 'አልቋል', 'ያለቀ', 'የለም', 'ማዘዝ እችላለሁ'],
   products: [
     'ምን እቃዎች', 'ምን ምርቶች', 'የምርቶች ዝርዝር', 'የእቃዎች ዝርዝር', 'ምን አለ', 'ምን ትሸጣላችሁ',
+    'የአብደላ እቃዎች', 'የአብደላ ምርቶች', 'ስለ አብደላ እቃዎች', 'ስለ አብደላ ምርቶች',
     'የአብዲ እቃዎች', 'የአብዲ ምርቶች', 'ስለ አብዲ እቃዎች', 'ስለ አብዲ ምርቶች', 'ስለ ምርቶች', 'ስለ እቃዎች',
     'የሚሸጡ እቃዎች', 'የሚሸጡ ምርቶች', 'ምርቶች', 'እቃዎች'
   ],
   price: ['ዋጋ', 'ስንት ነው', 'ዋጋው', 'በስንት', 'ዋጋቸው'],
-  help: ['እርዳታ', 'ልትረዳኝ', 'አብዲ ማን ነው', 'ስለ አብዲ'],
+  help: ['እርዳታ', 'ልትረዳኝ', 'አብደላ ማን ነው', 'ስለ አብደላ', 'አብዲ ማን ነው', 'ስለ አብዲ'],
   delivery: [
     'ማድረሻ', 'መላኪያ', 'ደሴ', 'የት ታደርሳላችሁ', 'አድራሻ', 'ቧንቧ ውሃ', 'ቧንቧውሃ',
     'ቧንቧ', 'ቦንቧ', 'መንደር', 'መንደሬ', 'መንደሮች', 'ሰፈር', 'ሰፈሬ', 'ሰፈሮች',
@@ -278,7 +279,7 @@ const AMHARIC_KEYWORDS = {
   ],
   speed: ['መቼ', 'ስንት ሰዓት', 'በስንት ሰዓት', 'በስንት ቀን', 'ስንት ቀን', 'ፈጣን', 'የማድረሻ ጊዜ', 'መቼ ይደርሳል', 'መቼ ነው የሚደርሰው'],
   authenticity: ['ኦርጅናል', 'ኦሪጅናል', 'ትክክለኛ', 'ጥራት', 'አስተማማኝ', 'ዋስትና', 'ፌክ', 'የውሸት', 'የሚበረክት', 'ጥንካሬ'],
-  contact: ['ስልክ', 'ስልክ ቁጥር', 'እንዴት ልደውል', 'መደወል', 'ቴሌግራም', 'የአብዲ ስልክ', 'የደውሉልኝ', 'ደውል'],
+  contact: ['ስልክ', 'ስልክ ቁጥር', 'እንዴት ልደውል', 'መደወል', 'ቴሌግራም', 'የአብደላ ስልክ', 'የአብዲ ስልክ', 'የደውሉልኝ', 'ደውል'],
   inspection: ['አይቼ', 'ካላማረኝ', 'ብላሽ', 'መመለስ', 'መቀየር', 'መፈተሽ'],
   discount: ['ቅናሽ', 'መቀነስ', 'ቀንስ', 'ይቀነሳል', 'ረከስ'],
   latest: ['የቅርብ ጊዜ', 'የመጨረሻው', 'የመጨረሻ', 'አሁን ያዘዝኩት', 'የቅርቡ']
@@ -1225,7 +1226,7 @@ export async function processCustomerQuery({
         return {
           text: isAmharicResponse
             ? `ወደ **${villageMention}** እና በመላው ደሴ ደጃፍ ድረስ በፍጥነት እናደርሳለን! 🚚\n\n⚠️ **የክምችት ማስታወሻ**፡ ሆኖም ግን **${pName}** ለጊዜው **አልቋል (Out of Stock)**። አሁን ማዘዝ ባይቻልም አዲስ ክምችት እንደገባ ወዲያውኑ ወደ **${villageMention}** ደጃፍዎ ከ1–2 ሰዓት ባነሰ ጊዜ ውስጥ ማድረስ እንጀምራለን!\n\nለበለጠ መረጃ እና ክምችቱ ሲገባ እንዲገለጽልዎ በ**0931862253** ደውለው ማረጋገጥ ይችላሉ።`
-            : `We provide direct delivery to **${villageMention}** and all across Dessie! 🚚\n\n⚠️ **Stock Notice**: However, please note that **${pName}** is currently **Out of Stock** (temporarily sold out). You cannot place an order for it right now, but as soon as our fresh stock arrives, we will deliver it straight to your doorstep in **${villageMention}** within 1–2 hours!\n\nFeel free to contact Brother Abdi at **0931862253** for restock updates.`,
+            : `We provide direct delivery to **${villageMention}** and all across Dessie! 🚚\n\n⚠️ **Stock Notice**: However, please note that **${pName}** is currently **Out of Stock** (temporarily sold out). You cannot place an order for it right now, but as soon as our fresh stock arrives, we will deliver it straight to your doorstep in **${villageMention}** within 1–2 hours!\n\nFeel free to contact Brother Abdela at **0931862253** for restock updates.`,
           context: updatedContext,
           productCard: matchedProduct,
           action: { type: 'VIEW_PRODUCT', productId: matchedProduct.id, label: isAmharicResponse ? 'ዝርዝር ይመልከቱ' : 'View Details' }
@@ -1433,7 +1434,7 @@ export async function processCustomerQuery({
         return {
           text: isAmharicResponse
             ? `🌸 **ለወር አበባ ህመም እና ቁርጠት ፈጣን ተፈጥሯዊ ማስታገሻ!**\n\nየወር አበባ ህመምን (Period Cramps) እና የወገብ ቁርጠትን ለማስታገስ **${pName}** (**${priceStr}**) ምርጥ መፍትሄ ነው፡\n\n• **3 ደረጃ ያለው ፈጣን ሙቀት (45°C - 65°C)**፡ የሆድ ጡንቻዎችን በማሞቅ ህመሙን በደቂቃዎች ውስጥ ያበርዳል\n• **የማሳጅ ንዝረት (Vibration Massage)**፡ የደም ዝውውርን ያሻሽላል\n• **ቀላልና በልብስ ስር የሚታሰር**፡ ቤት ውስጥ፣ ስራ ቦታ ወይም እያረፉ በምቾት መጠቀም ይቻላል\n• **በዩኤስቢ ቻርጅ የሚደረግ**፡ አስተማማኝ ባትሪ ያለው\n\n⚠️ **የክምችት ማስታወሻ**፡ ይህ ምርት ለጊዜው **ክምችት አልቋል (Out of Stock)**፤ ስለዚህ አሁን ማዘዝ ባይቻልም በቅርቡ አዲስ ክምችት ይመለሳል! በስልክ **0931862253** ደውለው ማረጋገጥ ይችላሉ።`
-            : `🌸 **Fast Natural Relief for Menstrual Cramps!**\n\nFor period cramps and abdominal discomfort, our **${pName}** (**${priceStr}**) provides instant, drug-free comfort:\n\n• **3 Adjustable Heating Levels (45°C - 65°C)**: Soothes cramped muscles within minutes\n• **Multi-Mode Vibration Massage**: Relaxes abdominal tension and improves circulation\n• **Discreet & Comfortable**: Wearable under clothing at work, school, or home\n• **USB Rechargeable**: Long-lasting rechargeable lithium battery\n\n⚠️ **Stock Notice**: Please note that this product is **temporarily out of stock** right now, but will be back in stock soon! Feel free to call Brother Abdi at **0931862253** for restock updates.`,
+            : `🌸 **Fast Natural Relief for Menstrual Cramps!**\n\nFor period cramps and abdominal discomfort, our **${pName}** (**${priceStr}**) provides instant, drug-free comfort:\n\n• **3 Adjustable Heating Levels (45°C - 65°C)**: Soothes cramped muscles within minutes\n• **Multi-Mode Vibration Massage**: Relaxes abdominal tension and improves circulation\n• **Discreet & Comfortable**: Wearable under clothing at work, school, or home\n• **USB Rechargeable**: Long-lasting rechargeable lithium battery\n\n⚠️ **Stock Notice**: Please note that this product is **temporarily out of stock** right now, but will be back in stock soon! Feel free to call Brother Abdela at **0931862253** for restock updates.`,
           context: { ...updatedContext, lastProduct: crampProduct },
           productCard: crampProduct,
           action: crampProduct ? { type: 'VIEW_PRODUCT', productId: crampProduct.id, label: isAmharicResponse ? 'ዝርዝር ይመልከቱ' : 'View Details' } : undefined
@@ -1536,8 +1537,8 @@ export async function processCustomerQuery({
   if (isAskingAuthenticity) {
     return {
       text: isAmharicResponse
-        ? `⭐ **100% ኦርጅናል እና የጥራት ዋስትና**፡\n\nበአብዲ ኦንላይን ሾፒንግ የሚገኙ ምርቶች በሙሉ ኦርጅናልነታቸው እና ጥንካሬያቸው የተረጋገጠ ነው፡\n• **ኦርጅናል የየመን ሲድር ማር** — 100% ንጹህ የተፈጥሮ ማር\n• **F-max 30,000mAh ፓወር ባንክ** — ሙሉ አቅም ያለው እና ፈጣን ቻርጀር\n• **የሴቶች የወር አበባ ህመም መቀነሻ** — ጥራት ያለው ኤሌክትሪክ ማሞቂያ እና ማሳጅ\n• **የዋይፋይ ራውተር ፓወር ኬብል** — መብራት ሲጠፋ ራውተር የሚያሰራ አስተማማኝ ኬብል\n\nእያንዳንዱ እቃ ከመላኩ በፊት በጥንቃቄ ይመረመራል። በተጨማሪም በደረሰኝ ጊዜ በጥሬ ገንዘብ ሲከፍሉ እቃውን በአካል አይተው መረከብ ይችላሉ!`
-        : `⭐ **100% Genuine & Quality Guarantee**:\n\nAll products at Abdi Online Shopping are strictly guaranteed authentic and durable:\n• **Original Yemeni Sidr Honey** — 100% pure, natural harvest\n• **F-max TD-301 30,000mAh Power Bank** — Genuine high-capacity battery with fast charging\n• **Electric Women's Period Cramp Relief Heating Belt** — Certified thermal massage relief\n• **WiFi Router Power Boost Cable** — Heavy-duty boost converter for uninterrupted internet during power cuts\n\nEvery item is thoroughly tested before dispatch. Plus, with Cash on Delivery, you can inspect your package when it arrives!`,
+        ? `⭐ **100% ኦርጅናል እና የጥራት ዋስትና**፡\n\nበአብደላ ኦንላይን ሾፒንግ የሚገኙ ምርቶች በሙሉ ኦርጅናልነታቸው እና ጥንካሬያቸው የተረጋገጠ ነው፡\n• **ኦርጅናል የየመን ሲድር ማር** — 100% ንጹህ የተፈጥሮ ማር\n• **F-max 30,000mAh ፓወር ባንክ** — ሙሉ አቅም ያለው እና ፈጣን ቻርጀር\n• **የሴቶች የወር አበባ ህመም መቀነሻ** — ጥራት ያለው ኤሌክትሪክ ማሞቂያ እና ማሳጅ\n• **የዋይፋይ ራውተር ፓወር ኬብል** — መብራት ሲጠፋ ራውተር የሚያሰራ አስተማማኝ ኬብል\n\nእያንዳንዱ እቃ ከመላኩ በፊት በጥንቃቄ ይመረመራል። በተጨማሪም በደረሰኝ ጊዜ በጥሬ ገንዘብ ሲከፍሉ እቃውን በአካል አይተው መረከብ ይችላሉ!`
+        : `⭐ **100% Genuine & Quality Guarantee**:\n\nAll products at Abdela Online Shopping are strictly guaranteed authentic and durable:\n• **Original Yemeni Sidr Honey** — 100% pure, natural harvest\n• **F-max TD-301 30,000mAh Power Bank** — Genuine high-capacity battery with fast charging\n• **Electric Women's Period Cramp Relief Heating Belt** — Certified thermal massage relief\n• **WiFi Router Power Boost Cable** — Heavy-duty boost converter for uninterrupted internet during power cuts\n\nEvery item is thoroughly tested before dispatch. Plus, with Cash on Delivery, you can inspect your package when it arrives!`,
       context: updatedContext,
       action: { type: 'SCROLL_SECTION', targetId: 'products', label: isAmharicResponse ? 'ምርቶችን ያስሱ' : 'Browse Products' }
     };
@@ -1576,13 +1577,17 @@ export async function processCustomerQuery({
     cleanText.includes('what is in store') ||
     cleanText.includes('what do you have') ||
     cleanText.includes('catalog') ||
+    cleanText.includes('tell me about abdela products') ||
     cleanText.includes('tell me about abdi products') ||
     cleanText.includes('tell me about products') ||
     cleanText.includes('tell me about your products') ||
     cleanText.includes('tell me about our products') ||
+    cleanText.includes('about abdela products') ||
     cleanText.includes('about abdi products') ||
     cleanText.includes('about products') ||
     cleanText.includes('about your products') ||
+    cleanText.includes('abdela products') ||
+    cleanText.includes('abdela product') ||
     cleanText.includes('abdi products') ||
     cleanText.includes('abdi product') ||
     cleanText.includes('your products') ||
@@ -1591,6 +1596,7 @@ export async function processCustomerQuery({
     cleanText.includes('shop products') ||
     cleanText.includes('what are your products') ||
     cleanText.includes('what are the products') ||
+    cleanText.includes('what are abdela products') ||
     cleanText.includes('what are abdi products') ||
     cleanText === 'products' ||
     cleanText === 'product' ||
@@ -1603,6 +1609,10 @@ export async function processCustomerQuery({
     cleanText.includes('የእቃዎች ዝርዝር') ||
     cleanText.includes('ምን አለ') ||
     cleanText.includes('ምን ትሸጣላችሁ') ||
+    cleanText.includes('ስለ አብደላ እቃዎች') ||
+    cleanText.includes('ስለ አብደላ ምርቶች') ||
+    cleanText.includes('የአብደላ እቃዎች') ||
+    cleanText.includes('የአብደላ ምርቶች') ||
     cleanText.includes('ስለ አብዲ እቃዎች') ||
     cleanText.includes('ስለ አብዲ ምርቶች') ||
     cleanText.includes('የአብዲ እቃዎች') ||
@@ -1627,8 +1637,8 @@ export async function processCustomerQuery({
 
     return {
       text: isAmharicResponse
-        ? `🛍️ **በአብዲ ኦንላይን ሾፒንግ በአሁን ሰዓት የሚገኙ 100% ኦርጅናል ምርቶች**፡\n\n${productList}\n\nየፈለጉትን ምርት ከታች ካሉት ካርዶች በመምረጥ ዝርዝሩን መመልከት እና በቀጥታ ማዘዝ ይችላሉ (በደሴ እና ቧንቧ ውሃ ከ1–2 ሰዓት ውስጥ ደጃፍዎ ይደርሳል)!`
-        : `🛍️ **Products Available at Abdi Online Shopping**:\n\nHere is our current catalog of 100% genuine and verified products:\n\n${productList}\n\nClick on any product card below to view full details or place your order directly with fast doorstep delivery!`,
+        ? `🛍️ **በአብደላ ኦንላይን ሾፒንግ በአሁን ሰዓት የሚገኙ 100% ኦርጅናል ምርቶች**፡\n\n${productList}\n\nየፈለጉትን ምርት ከታች ካሉት ካርዶች በመምረጥ ዝርዝሩን መመልከት እና በቀጥታ ማዘዝ ይችላሉ (በደሴ እና ቧንቧ ውሃ ከ1–2 ሰዓት ውስጥ ደጃፍዎ ይደርሳል)!`
+        : `🛍️ **Products Available at Abdela Online Shopping**:\n\nHere is our current catalog of 100% genuine and verified products:\n\n${productList}\n\nClick on any product card below to view full details or place your order directly with fast doorstep delivery!`,
       context: updatedContext,
       productCards: liveProducts,
       action: { type: 'SCROLL_SECTION', targetId: 'products', label: isAmharicResponse ? 'ምርቶችን ያስሱ' : 'Browse Products' }
@@ -1636,13 +1646,16 @@ export async function processCustomerQuery({
   }
 
   // ─────────────────────────────────────────────────────────────────────────
-  // INTENT 8.5: WHY ABDI IS SPECIAL / WHY CHOOSE ABDI / ABOUT ABDI
-  // e.g. "why abdi is so special", "what makes abdi special", "why choose abdi", "who is abdi", "ምን ልዩ ያደርገዋል"
+  // INTENT 8.5: WHY ABDELA IS SPECIAL / WHY CHOOSE ABDELA / ABOUT ABDELA
+  // e.g. "why abdela is so special", "what makes abdela special", "why choose abdela", "who is abdela", "ምን ልዩ ያደርገዋል"
   // ─────────────────────────────────────────────────────────────────────────
   const isAskingWhySpecial =
     !isAskingProducts &&
     !matchedProduct && (
       cleanText.includes('special') ||
+      cleanText.includes('why abdela') ||
+      cleanText.includes('why is abdela') ||
+      cleanText.includes('what makes abdela') ||
       cleanText.includes('why abdi') ||
       cleanText.includes('why is abdi') ||
       cleanText.includes('what makes abdi') ||
@@ -1653,6 +1666,11 @@ export async function processCustomerQuery({
       cleanText.includes('why should i choose') ||
       cleanText.includes('what is special') ||
       cleanText.includes('unique') ||
+      cleanText.includes('who is abdela') ||
+      cleanText.includes('what is abdela') ||
+      cleanText === 'about abdela' ||
+      cleanText === 'tell me about abdela' ||
+      cleanText.includes('about brother abdela') ||
       cleanText.includes('who is abdi') ||
       cleanText.includes('what is abdi') ||
       cleanText === 'about abdi' ||
@@ -1662,6 +1680,13 @@ export async function processCustomerQuery({
       cleanText.includes('about the store') ||
       cleanText.includes('about your shop') ||
       cleanText.includes('about your store') ||
+      cleanText === 'ስለ አብደላ' ||
+      cleanText === 'ስለ አብደላ ንገረኝ' ||
+      cleanText.includes('ስለ ወንድም አብደላ') ||
+      cleanText.includes('አብደላ ማነው') ||
+      cleanText.includes('አብደላ ማን ነው') ||
+      cleanText.includes('የአብደላ ልዩነት') ||
+      cleanText.includes('ለምን ከአብደላ') ||
       cleanText === 'ስለ አብዲ' ||
       cleanText === 'ስለ አብዲ ንገረኝ' ||
       cleanText.includes('ስለ ወንድም አብዲ') ||
@@ -1677,8 +1702,8 @@ export async function processCustomerQuery({
   if (isAskingWhySpecial) {
     return {
       text: isAmharicResponse
-        ? `🌟 **አብዲ ኦንላይን ሾፒንግን (Abdi Online Shopping) ምን ልዩ እና ተመራጭ ያደርገዋል?**\n\nአብዲ ኦንላይን ሾፒንግ በኢትዮጵያ ውስጥ ደንበኞች በሙሉ እምነት፣ ምቾት እና ደህንነት የሚገበያዩበት ዘመናዊ የኢ-ኮሜርስ መደብር ነው፡\n\n1. 🛡️ **100% ኦርጅናል እና የተፈተነ ጥራት**\nምንም አይነት የውሸት (Fake) ወይም አጠራጣሪ እቃ አንሸጥም። እያንዳንዱ እቃ (ኦርጅናል የየመን ሲድር ማር፣ እውነተኛ 30,000mAh ፓወር ባንክ፣ የህመም መቀነሻ ቀበቶ እና የዋይፋይ ኬብል) ከመላኩ በፊት ጥራቱ በተግባር ተፈትሾ የተረጋገጠ ነው።\n\n2. 🚚 **መንደር እና ደጃፍ ድረስ ፈጣን ማድረስ**\nፖስታ ቤት ወይም መናኸሪያ ድረስ ሄደው ሳይደክሙ በደሴ ከተማ ውስጥ (ቧንቧ ውሃ፣ ፒያሳ፣ አራዳ፣ ሆቴ፣ ሮቢት እና ሁሉንም መንደሮች ጨምሮ) **ከ1–2 ሰዓት ባነሰ ጊዜ ውስጥ ደጃፍዎ ድረስ** እናደርሳለን። በመላው ኢትዮጵያም በ1–3 ቀናት ውስጥ በአስተማማኝ ሁኔታ ይደርሳል።\n\n3. 🔍 **እቃውን አይተው የሚከፍሉበት አስተማማኝ አሰራር (Cash on Delivery)**\nእቃው እጅዎ ሲደርስ በዓይንዎ አይተው እና ፈትሸው ካረጋገጡ በኋላ ብቻ በጥሬ ገንዘብ መክፈል ይችላሉ። ምንም አይነት የማጭበርበር ስጋት የለም።\n\n4. 🤖 **ብልህ የደንበኞች ረዳት (Abdi AI)**\nበአማርኛ እና በእንግሊዝኛ አቀላጥፎ የሚረዳ፣ የትዕዛዝ ሁኔታን የሚያሳይ፣ የእቃ አጠቃቀም መመሪያዎችን የሚሰጥ እና እንደ መብራት መጥፋት ላሉ የዕለት ተዕለት ችግሮች መፍትሄ የሚጠቁም ቴክኖሎጂ የታጠቀ ነው።\n\n5. 🤝 **ቀጥተኛ ተጠያቂነት እና ቅርብ አገልግሎት**\nከማይታወቅ የኦንላይን ሻጭ ሳይሆን ከወንድም አብዲ እና ቡድኑ ጋር በስልክ (**0931862253**) እና በቴሌግራም በቀጥታ መገናኘት እና መተማመን ይችላሉ።`
-        : `🌟 **What Makes Abdi Online Shopping So Special?**\n\nAbdi Online Shopping is built to give customers in Ethiopia complete trust, convenience, and superior service:\n\n1. 🛡️ **100% Genuine & Pre-Tested Quality**\nWe strictly reject counterfeit or substandard goods. Every product (authentic Yemeni Sidr Honey, genuine 30,000mAh F-max Power Bank, certified Period Cramp Relief Belt, and WiFi Router Cable) is physically tested and inspected before dispatch.\n\n2. 🚚 **Hyper-Local Village & Doorstep Delivery**\nUnlike other couriers that make you pick up packages at central post offices or bus terminals, we deliver **directly to your specific village and neighborhood** across Dessie (including Buanbuha, Robit, Piassa, Arada, etc.) in **just 1 to 2 hours (same day)**, plus reliable courier delivery nationwide.\n\n3. 🔍 **Inspect Before You Pay (Cash on Delivery)**\nZero scam risk. You inspect the product with your own hands when our delivery rider arrives before paying a single Birr.\n\n4. 🤖 **AI-Powered Customer Assistant (Abdi AI)**\nEthiopia's first localized shopping assistant that understands natural English and Amharic, tracks orders in real-time, provides step-by-step usage guides, and solves real-life problems (like WiFi during power outages).\n\n5. 🤝 **Personal Accountability & Direct Founder Support**\nYou deal with real, accountable people. Brother Abdi and the team are directly reachable via hotline (**0931862253**) and Telegram for any guidance.`,
+        ? `🌟 **አብደላ ኦንላይን ሾፒንግን (Abdela Online Shopping) ምን ልዩ እና ተመራጭ ያደርገዋል?**\n\nአብደላ ኦንላይን ሾፒንግ በኢትዮጵያ ውስጥ ደንበኞች በሙሉ እምነት፣ ምቾት እና ደህንነት የሚገበያዩበት ዘመናዊ የኢ-ኮሜርስ መደብር ነው፡\n\n1. 🛡️ **100% ኦርጅናል እና የተፈተነ ጥራት**\nምንም አይነት የውሸት (Fake) ወይም አጠራጣሪ እቃ አንሸጥም። እያንዳንዱ እቃ (ኦርጅናል የየመን ሲድር ማር፣ እውነተኛ 30,000mAh ፓወር ባንክ፣ የህመም መቀነሻ ቀበቶ እና የዋይፋይ ኬብል) ከመላኩ በፊት ጥራቱ በተግባር ተፈትሾ የተረጋገጠ ነው።\n\n2. 🚚 **መንደር እና ደጃፍ ድረስ ፈጣን ማድረስ**\nፖስታ ቤት ወይም መናኸሪያ ድረስ ሄደው ሳይደክሙ በደሴ ከተማ ውስጥ (ቧንቧ ውሃ፣ ፒያሳ፣ አራዳ፣ ሆቴ፣ ሮቢት እና ሁሉንም መንደሮች ጨምሮ) **ከ1–2 ሰዓት ባነሰ ጊዜ ውስጥ ደጃፍዎ ድረስ** እናደርሳለን። በመላው ኢትዮጵያም በ1–3 ቀናት ውስጥ በአስተማማኝ ሁኔታ ይደርሳል።\n\n3. 🔍 **እቃውን አይተው የሚከፍሉበት አስተማማኝ አሰራር (Cash on Delivery)**\nእቃው እጅዎ ሲደርስ በዓይንዎ አይተው እና ፈትሸው ካረጋገጡ በኋላ ብቻ ቀሪውን በጥሬ ገንዘብ መክፈል ይችላሉ። ምንም አይነት የማጭበርበር ስጋት የለም።\n\n4. 🤖 **ብልህ የደንበኞች ረዳት (Abdela AI)**\nበአማርኛ እና በእንግሊዝኛ አቀላጥፎ የሚረዳ፣ የትዕዛዝ ሁኔታን የሚያሳይ፣ የእቃ አጠቃቀም መመሪያዎችን የሚሰጥ እና እንደ መብራት መጥፋት ላሉ የዕለት ተዕለት ችግሮች መፍትሄ የሚጠቁም ቴክኖሎጂ የታጠቀ ነው።\n\n5. 🤝 **ቀጥተኛ ተጠያቂነት እና ቅርብ አገልግሎት**\nከማይታወቅ የኦንላይን ሻጭ ሳይሆን ከወንድም አብደላ እና ቡድኑ ጋር በስልክ (**0931862253**) እና በቴሌግራም በቀጥታ መገናኘት እና መተማመን ይችላሉ።`
+        : `🌟 **What Makes Abdela Online Shopping So Special?**\n\nAbdela Online Shopping is built to give customers in Ethiopia complete trust, convenience, and superior service:\n\n1. 🛡️ **100% Genuine & Pre-Tested Quality**\nWe strictly reject counterfeit or substandard goods. Every product (authentic Yemeni Sidr Honey, genuine 30,000mAh F-max Power Bank, certified Period Cramp Relief Belt, and WiFi Router Cable) is physically tested and inspected before dispatch.\n\n2. 🚚 **Hyper-Local Village & Doorstep Delivery**\nUnlike other couriers that make you pick up packages at central post offices or bus terminals, we deliver **directly to your specific village and neighborhood** across Dessie (including Buanbuha, Robit, Piassa, Arada, etc.) in **just 1 to 2 hours (same day)**, plus reliable courier delivery nationwide.\n\n3. 🔍 **Inspect Before You Pay (Cash on Delivery)**\nZero scam risk. You inspect the product with your own hands when our delivery rider arrives before paying the remaining balance.\n\n4. 🤖 **AI-Powered Customer Assistant (Abdela AI)**\nEthiopia's first localized shopping assistant that understands natural English and Amharic, tracks orders in real-time, provides step-by-step usage guides, and solves real-life problems (like WiFi during power outages).\n\n5. 🤝 **Personal Accountability & Direct Founder Support**\nYou deal with real, accountable people. Brother Abdela and the team are directly reachable via hotline (**0931862253**) and Telegram for any guidance.`,
       context: updatedContext,
       action: { type: 'SCROLL_SECTION', targetId: 'products', label: isAmharicResponse ? 'ምርቶችን ያስሱ' : 'Browse Products' }
     };
@@ -1686,7 +1711,7 @@ export async function processCustomerQuery({
 
   // ─────────────────────────────────────────────────────────────────────────
   // INTENT 9: DIRECT CUSTOMER SUPPORT PHONE / CALL / TELEGRAM
-  // e.g. "what is your phone number", "how to call Brother Abdi", "call"
+  // e.g. "what is your phone number", "how to call Brother Abdela", "call"
   // ─────────────────────────────────────────────────────────────────────────
   const isAskingContact =
     (tokens.includes('contact') ||
@@ -1706,8 +1731,8 @@ export async function processCustomerQuery({
   if (isAskingContact) {
     return {
       text: isAmharicResponse
-        ? `📞 **የአብዲ ኦንላይን ሾፒንግ ቀጥታ አድራሻ እና ስልክ ቁጥር**፡\n\n• **የደንበኞች አገልግሎት ስልክ**፡ **0931862253** (ወንድም አብዲ)\n• **ቴሌግራም**፡ ቀጥታ መልእክት መላክ ይችላሉ\n• **አድራሻ**፡ ደሴ፣ ኢትዮጵያ\n\nለማንኛውም ልዩ ትዕዛዝ፣ የማድረሻ ጥያቄ ወይም ፈጣን ድጋፍ በ**0931862253** በነፃነት ይደውሉልን!`
-        : `📞 **Abdi Online Shopping Direct Contact & Customer Support**:\n\n• **Phone / Hotline**: **0931862253** (Brother Abdi)\n• **Telegram**: Direct messaging available\n• **Location**: Dessie, Ethiopia\n\nFeel free to call **0931862253** directly for any questions, order follow-ups, or special delivery inquiries!`,
+        ? `📞 **የአብደላ ኦንላይን ሾፒንግ ቀጥታ አድራሻ እና ስልክ ቁጥር**፡\n\n• **የደንበኞች አገልግሎት ስልክ**፡ **0931862253** (ወንድም አብደላ)\n• **ቴሌግራም**፡ ቀጥታ መልእክት መላክ ይችላሉ\n• **አድራሻ**፡ ደሴ፣ ኢትዮጵያ\n\nለማንኛውም ልዩ ትዕዛዝ፣ የማድረሻ ጥያቄ ወይም ፈጣን ድጋፍ በ**0931862253** በነፃነት ይደውሉልን!`
+        : `📞 **Abdela Online Shopping Direct Contact & Customer Support**:\n\n• **Phone / Hotline**: **0931862253** (Brother Abdela)\n• **Telegram**: Direct messaging available\n• **Location**: Dessie, Ethiopia\n\nFeel free to call **0931862253** directly for any questions, order follow-ups, or special delivery inquiries!`,
       context: updatedContext
     };
   }
@@ -1737,8 +1762,8 @@ export async function processCustomerQuery({
   if (isAskingDoorstepInspection) {
     return {
       text: isAmharicResponse
-        ? `🛡️ **እቃውን አይቶ የመክፈል እና የመመለስ መመሪያ**፡\n\n• **በደረሰኝ ጊዜ መክፈል (Cash on Delivery)**፡ እቃው ደጃፍዎ ሲደርስ እሽጉን ከፍተው ትክክለኛነቱን እና ጥራቱን ካረጋገጡ በኋላ በጥሬ ገንዘብ መክፈል ይችላሉ።\n• **የተበላሸ ወይም የተሳሳተ እቃ ቢሆንስ?** እቃው ላይ ማንኛውም ችግር ካለ ወዲያውኑ ለዴሊቨሪ ሰራተኛው መመለስ ወይም ለወንድም አብዲ በ**0931862253** ደውለው ወዲያውኑ መቀየር ይችላሉ!`
-        : `🛡️ **Doorstep Inspection & Protection Policy**:\n\n• **Inspect Before Paying**: With Cash on Delivery, you are welcome to inspect your package upon delivery at your doorstep before paying.\n• **What if there is an issue?**: If an item does not match or has any defect, you can decline it with the delivery agent or immediately call Brother Abdi at **0931862253** for an immediate free exchange!`,
+        ? `🛡️ **እቃውን አይቶ የመክፈል እና የመመለስ መመሪያ**፡\n\n• **በደረሰኝ ጊዜ መክፈል (Cash on Delivery)**፡ እቃው ደጃፍዎ ሲደርስ እሽጉን ከፍተው ትክክለኛነቱን እና ጥራቱን ካረጋገጡ በኋላ ቀሪውን በጥሬ ገንዘብ መክፈል ይችላሉ።\n• **የተበላሸ ወይም የተሳሳተ እቃ ቢሆንስ?** እቃው ላይ ማንኛውም ችግር ካለ ወዲያውኑ ለዴሊቨሪ ሰራተኛው መመለስ ወይም ለወንድም አብደላ በ**0931862253** ደውለው ወዲያውኑ መቀየር ይችላሉ!`
+        : `🛡️ **Doorstep Inspection & Protection Policy**:\n\n• **Inspect Before Paying**: With Cash on Delivery, you are welcome to inspect your package upon delivery at your doorstep before paying the remaining balance.\n• **What if there is an issue?**: If an item does not match or has any defect, you can decline it with the delivery agent or immediately call Brother Abdela at **0931862253** for an immediate free exchange!`,
       context: updatedContext
     };
   }
@@ -1763,8 +1788,8 @@ export async function processCustomerQuery({
   if (isAskingDiscounts) {
     return {
       text: isAmharicResponse
-        ? `💰 **ስለ ቅናሽ እና የጅምላ ዋጋ**፡\n\nበአብዲ ኦንላይን ሾፒንግ የሚገኙ ዋጋዎች ያለ ደላላ በቀጥታ የተመደቡ ትክክለኛና ተመጣጣኝ ዋጋዎች ናቸው።\n\nበብዛት (በጅምላ) ማዘዝ ከፈለጉ ወይም ልዩ የዋጋ ቅናሽ ለመጠየቅ በቀጥታ ለወንድም አብዲ በ**0931862253** ደውለው መነጋገር ይችላሉ!`
-        : `💰 **Discounts & Wholesale Inquiries**:\n\nOur listed prices are already direct, fair retail prices in ETB with zero middleman markups.\n\nFor bulk orders, wholesale purchases, or special volume discounts, feel free to contact Brother Abdi directly at **0931862253**!`,
+        ? `💰 **ስለ ቅናሽ እና የጅምላ ዋጋ**፡\n\nበአብደላ ኦንላይን ሾፒንግ የሚገኙ ዋጋዎች ያለ ደላላ በቀጥታ የተመደቡ ትክክለኛና ተመጣጣኝ ዋጋዎች ናቸው።\n\nበብዛት (በጅምላ) ማዘዝ ከፈለጉ ወይም ልዩ የዋጋ ቅናሽ ለመጠየቅ በቀጥታ ለወንድም አብደላ በ**0931862253** ደውለው መነጋገር ይችላሉ!`
+        : `💰 **Discounts & Wholesale Inquiries**:\n\nOur listed prices are already direct, fair retail prices in ETB with zero middleman markups.\n\nFor bulk orders, wholesale purchases, or special volume discounts, feel free to contact Brother Abdela directly at **0931862253**!`,
       context: updatedContext
     };
   }
@@ -1810,8 +1835,8 @@ export async function processCustomerQuery({
       if (!isAvailable) {
         return {
           text: isAmharicResponse
-            ? `ይቅርታ፣ ለጊዜው የ**${pName}** ክምችት ስላለቀ (**አልቋል / Out of Stock**) ስለዚህ አሁን ማዘዝ አይችሉም። ነገር ግን በቅርቡ አዲስ ክምችት ገብቶ ዳግም መደበኛ አገልግሎት መስጠት ይጀምራል!\n\n📞 እቃው እንደገባ እንዲገለጽልዎ ወይም ለተጨማሪ መረጃ ለወንድም አብዲ በስልክ **0931862253** መደወል ይችላሉ።`
-            : `Sorry, for now there is no stock for **${pName}** (it is currently out of stock / **Out of Stock**), which is why you cannot place an order right now. But don't worry, it will be back in stock soon! Once our new shipment arrives, ordering will reopen immediately.\n\n📞 If you would like to be notified as soon as it arrives, or for any questions, you can contact Brother Abdi directly at **0931862253**!`,
+            ? `ይቅርታ፣ ለጊዜው የ**${pName}** ክምችት ስላለቀ (**አልቋል / Out of Stock**) ስለዚህ አሁን ማዘዝ አይችሉም። ነገር ግን በቅርቡ አዲስ ክምችት ገብቶ ዳግም መደበኛ አገልግሎት መስጠት ይጀምራል!\n\n📞 እቃው እንደገባ እንዲገለጽልዎ ወይም ለተጨማሪ መረጃ ለወንድም አብደላ በስልክ **0931862253** መደወል ይችላሉ።`
+            : `Sorry, for now there is no stock for **${pName}** (it is currently out of stock / **Out of Stock**), which is why you cannot place an order right now. But don't worry, it will be back in stock soon! Once our new shipment arrives, ordering will reopen immediately.\n\n📞 If you would like to be notified as soon as it arrives, or for any questions, you can contact Brother Abdela directly at **0931862253**!`,
           context: updatedContext,
           productCard: matchedProduct,
           action: { type: 'VIEW_PRODUCT', productId: matchedProduct.id, label: isAmharicResponse ? 'ዝርዝር ይመልከቱ' : 'View Details' }
@@ -1899,8 +1924,8 @@ export async function processCustomerQuery({
 
     return {
       text: isAmharicResponse
-        ? `በአብዲ ኦንላይን ሾፒንግ በአሁን ሰዓት የሚገኙ የምርቶች ዋጋ ዝርዝር፡\n\n${productList}\n\nየፈለጉትን እቃ ከታች በመምረጥ **"አሁን እዘዝ"** በሚለው ቁልፍ ወዲያውኑ ማዘዝ ይችላሉ!`
-        : `Here are the current prices for products at Abdi Online Shopping:\n\n${productList}\n\nYou can click **"Order Now"** on any item below to place your order directly!`,
+        ? `በአብደላ ኦንላይን ሾፒንግ በአሁን ሰዓት የሚገኙ የምርቶች ዋጋ ዝርዝር፡\n\n${productList}\n\nየፈለጉትን እቃ ከታች በመምረጥ **"አሁን እዘዝ"** በሚለው ቁልፍ ወዲያውኑ ማዘዝ ይችላሉ!`
+        : `Here are the current prices for products at Abdela Online Shopping:\n\n${productList}\n\nYou can click **"Order Now"** on any item below to place your order directly!`,
       context: updatedContext,
       productCards: liveProducts,
       action: { type: 'SCROLL_SECTION', targetId: 'products', label: isAmharicResponse ? 'ምርቶችን ያስሱ' : 'Browse Products' }
@@ -1909,26 +1934,42 @@ export async function processCustomerQuery({
 
   // ─────────────────────────────────────────────────────────────────────────
   // INTENT 14: SCREENSHOT / PAYMENT PROOF REQUIREMENTS
-  // e.g. "what screenshot can i upload", "upload receipt", "telebirr screenshot"
+  // e.g. "what screenshot can i upload", "upload receipt", "screenshot"
   // ─────────────────────────────────────────────────────────────────────────
   if (tokens.includes('screenshot') || hasAmharicMatch(cleanText, 'screenshot') || cleanText.includes('upload') || cleanText.includes('proof')) {
     return {
       text: isAmharicResponse
-        ? `የቴሌብር ክፍያ ስክሪንሾት (ደረሰኝ) መስፈርቶች፡\n• **የፋይል አይነቶች**፡ JPEG, JPG, PNG ወይም WEBP\n• **ከፍተኛው መጠን**፡ 5MB (ሜጋባይት)\n• **የሚያስፈልገው መረጃ**፡ የተከፈለው መጠን፣ ቀን እና የግብይት ቁጥር (Transaction ID) በግልጽ መታየት አለባቸው።\n\nክፍያውን ከፈጸሙ በኋላ በስልኮ የወሰዱትን ስክሪንሾት በትዕዛዝ መስኮቱ ላይ አያይዘው ይላኩ።`
-        : `Telebirr Payment Screenshot Requirements:\n• **Supported Formats**: JPEG, JPG, PNG, or WEBP\n• **Maximum File Size**: 5MB\n• **Clarity**: The transaction ID, transferred amount, recipient, and date must be clearly readable.\n\nAfter making your Telebirr transfer, attach the screenshot in the checkout popup and submit your order!`,
+        ? `የክፍያ ደረሰኝ ስክሪንሾት (ደረሰኝ) መስፈርቶች (ቴሌብር / CBE / አቢሲኒያ / የቅድመ ክፍያ)፡\n• **የፋይል አይነቶች**፡ JPEG, JPG, PNG ወይም WEBP\n• **ከፍተኛው መጠን**፡ 5MB (ሜጋባይት)\n• **የሚያስፈልገው መረጃ**፡ የተከፈለው መጠን፣ ቀን እና የግብይት ቁጥር (Transaction ID) በግልጽ መታየት አለባቸው።\n\nክፍያውን ከፈጸሙ በኋላ በስልኮ የወሰዱትን ስክሪንሾት በትዕዛዝ መስኮቱ ላይ አያይዘው ይላኩ።`
+        : `Payment Screenshot / Receipt Proof Requirements (Telebirr / CBE / BoA / Cash Deposit):\n• **Supported Formats**: JPEG, JPG, PNG, or WEBP\n• **Maximum File Size**: 5MB\n• **Clarity**: The transaction ID, transferred amount, recipient name, and date must be clearly readable.\n\nAfter making your transfer, attach the receipt screenshot in the checkout popup and submit your order!`,
       context: updatedContext
     };
   }
 
   // ─────────────────────────────────────────────────────────────────────────
-  // INTENT 15: PAYMENT METHODS (TELEBIRR & CASH ON DELIVERY)
-  // e.g. "how do i pay", "can i pay cash", "telebir", "paymant"
+  // INTENT 15: PAYMENT METHODS (TELEBIRR, CBE, ABYSSINIA, CASH ON DELIVERY)
+  // e.g. "how do i pay", "can i pay cash", "telebir", "cbe", "abyssinia", "paymant"
   // ─────────────────────────────────────────────────────────────────────────
-  if (tokens.includes('payment') || tokens.includes('telebirr') || tokens.includes('cash') || hasAmharicMatch(cleanText, 'payment') || hasAmharicMatch(cleanText, 'telebirr') || hasAmharicMatch(cleanText, 'cash')) {
+  if (
+    tokens.includes('payment') ||
+    tokens.includes('telebirr') ||
+    tokens.includes('cbe') ||
+    tokens.includes('abyssinia') ||
+    tokens.includes('cash') ||
+    cleanText.includes('cbe') ||
+    cleanText.includes('abyssinia') ||
+    cleanText.includes('ንግድ') ||
+    cleanText.includes('አቢሲኒያ') ||
+    cleanText.includes('ቅድመ') ||
+    cleanText.includes('advance') ||
+    cleanText.includes('deposit') ||
+    hasAmharicMatch(cleanText, 'payment') ||
+    hasAmharicMatch(cleanText, 'telebirr') ||
+    hasAmharicMatch(cleanText, 'cash')
+  ) {
     return {
       text: isAmharicResponse
-        ? `በአብዲ ኦንላይን ሾፒንግ 2 አይነት አስተማማኝ የክፍያ አማራጮች አሉ፡\n\n1. **በቴሌብር (Telebirr Transfer)**:\n• በሚታየው የቴሌብር ቁጥር ላይ ትክክለኛውን የትዕዛዝ ዋጋ ይክፈሉ።\n• የክፍያውን ደረሰኝ ስክሪንሾት ያንሱ (JPEG/PNG, እስከ 5MB)።\n• ስክሪንሾቱን አያይዘው ትዕዛዙን ይላኩ። አስተዳዳሪው ክፍያውን ፈትሾ ወዲያውኑ ያረጋግጣል።\n\n2. **በደረሰኝ ጊዜ የሚከፈል (Cash on Delivery)**:\n• እቃው አድራሻዎ ድረስ በአካል ደርሶ በእጅዎ ሲገባ በጥሬ ገንዘብ ይክፈሉ።`
-        : `Abdi Online Shopping offers 2 secure payment methods:\n\n1. **Telebirr Transfer**:\n• Transfer the exact order amount to the store's Telebirr account number shown during checkout.\n• Take a screenshot of the successful payment receipt (JPG/PNG/WEBP, under 5MB).\n• Attach the screenshot in the checkout popup and submit. The store manager will review and confirm it.\n\n2. **Cash on Delivery**:\n• No advance payment required. You pay in cash directly to our delivery agent when your package arrives!`,
+        ? `በአብደላ ኦንላይን ሾፒንግ 4 አይነት አስተማማኝ የክፍያ አማራጮች አሉ፡\n\n1. 📱 **በቴሌብር (Telebirr Transfer)**:\n• ቁጥር፡ **0931862253** (ስም፡ Nuru)\n• ትክክለኛውን የትዕዛዝ ዋጋ ይላኩና የደረሰኙን ስክሪንሾት በማያያዝ ትዕዛዙን ያጠናቁ።\n\n2. 🏦 **በኢትዮጵያ ንግድ ባንክ (CBE)**:\n• ሂሳብ ቁጥር፡ **1000584744573** (ስም፡ Behrdin seid)\n• ክፍያ ፈጽመው የደረሰኙን ስክሪንሾት በማያያዝ ይላኩ።\n\n3. 🏦 **በአቢሲኒያ ባንክ (Bank of Abyssinia)**:\n• ሂሳብ ቁጥር፡ **251444412** (ስም፡ Abdulhafiz sani)\n• ክፍያ ፈጽመው የደረሰኙን ስክሪንሾት በማያያዝ ይላኩ።\n\n4. 💵 **በደረሰኝ ጊዜ በጥሬ ገንዘብ (Cash on Delivery)**:\n• **200 ብር ቅድመ ክፍያ (Advance Security Deposit)**፡ ትዕዛዝዎን ለማረጋገጥ 200 ብር በቴሌብር፣ በCBE ወይም በአቢሲኒያ አስቀድመው ይክፈሉ እና የደረሰኙን ስክሪንሾት ያያይዙ።\n• ቀሪውን ሂሳብ እቃው ደጃፍዎ ሲደርስ በጥሬ ገንዘብ ይክፈሉ።`
+        : `Abdela Online Shopping offers 4 secure payment options:\n\n1. 📱 **Telebirr Transfer**:\n• Account: **0931862253** (Name: Nuru)\n• Transfer full amount and attach receipt screenshot.\n\n2. 🏦 **Commercial Bank of Ethiopia (CBE)**:\n• Account Number: **1000584744573** (Name: Behrdin seid)\n• Transfer full amount and attach receipt screenshot.\n\n3. 🏦 **Bank of Abyssinia (BoA)**:\n• Account Number: **251444412** (Name: Abdulhafiz sani)\n• Transfer full amount and attach receipt screenshot.\n\n4. 💵 **Cash on Delivery**:\n• **200 ETB Advance Deposit**: A small 200 ETB security deposit is required via Telebirr, CBE, or BoA with receipt screenshot attached.\n• Pay the remaining balance in cash directly to our delivery courier upon delivery!`,
       context: updatedContext
     };
   }
@@ -1940,8 +1981,8 @@ export async function processCustomerQuery({
   if (tokens.includes('order') || hasAmharicMatch(cleanText, 'order') || cleanText.includes('how to buy') || cleanText.includes('make an order')) {
     return {
       text: isAmharicResponse
-        ? `በአብዲ ኦንላይን ሾፒንግ እቃ ለማዘዝ የሚከተሉትን ቀላል ደረጃዎች ይከተሉ፡\n\n1. **ምርት ይምረጡ**፡ በዋናው ገጽ ላይ ያሉትን እቃዎች ያስሱ።\n2. **ዝርዝሩን ይመልከቱ**፡ የሚፈልጉትን እቃ ነክተው ፎቶውን፣ ዋጋውን እና መረጃውን ያንብቡ።\n3. **"አሁን እዘዝ" (Order Now) የሚለውን ይጫኑ**።\n4. **መረጃዎን ያስገቡ**፡ ሙሉ ስም፣ ስልክ ቁጥር እና ከተማዎን ከተለየ ሰፈር/መንደርዎ ጋር (ለምሳሌ፦ **ደሴ፣ ቧንቧ ውሃ**) ይሙሉ፤ የሚፈልጉትን ብዛት ይምረጡ።\n5. **የክፍያ ዘዴ ይምረጡ**፡ በቴሌብር (ስክሪንሾት በማያያዝ) ወይም ሲደርስ በእጅ መክፈልን (Cash on Delivery) ይምረጡና ትዕዛዝዎን ይላኩ!\n\nትዕዛዝዎ ከተላከ በኋላ በ**"የእኔ ትዕዛዞች" (My Orders)** ክፍል መከታተል ይችላሉ።`
-        : `Ordering from Abdi Online Shopping is easy and takes just a minute:\n\n1. **Browse Products**: Explore our catalog on the home page.\n2. **Open Details**: Click on any product to view full specifications, photos, and live stock.\n3. **Click "Order Now"**.\n4. **Enter Your Details**: Provide your name, phone number, and delivery address with your city and specific village/area (e.g. **Dessie, Buanbuha**), and select quantity.\n5. **Choose Payment Method**: Select either Telebirr (attach your payment receipt) or Cash on Delivery, and submit!\n\nOnce placed, your order appears instantly in **My Orders** so you can follow its progress!`,
+        ? `በአብደላ ኦንላይን ሾፒንግ እቃ ለማዘዝ የሚከተሉትን ቀላል ደረጃዎች ይከተሉ፡\n\n1. **ምርት ይምረጡ**፡ በዋናው ገጽ ላይ ያሉትን እቃዎች ያስሱ።\n2. **ዝርዝሩን ይመልከቱ**፡ የሚፈልጉትን እቃ ነክተው ፎቶውን፣ ዋጋውን እና መረጃውን ያንብቡ።\n3. **"አሁን እዘዝ" (Order Now) የሚለውን ይጫኑ**።\n4. **መረጃዎን ያስገቡ**፡ ሙሉ ስም፣ ስልክ ቁጥር እና ከተማዎን ከተለየ ሰፈር/መንደርዎ ጋር (ለምሳሌ፦ **ደሴ፣ ቧንቧ ውሃ**) ይሙሉ፤ የሚፈልጉትን ብዛት (እስከ 5 እቃ) ይምረጡ።\n5. **የክፍያ ዘዴ ይምረጡ**፡ ከ4ቱ አማራጮች (ቴሌብር፣ CBE፣ አቢሲኒያ ወይም በደረሰኝ መክፈል ከ200 ብር ቅድመ ክፍያ ጋር) አንዱን መርጠው የደረሰኝ ስክሪንሾት በማያያዝ ትዕዛዝዎን ይላኩ!\n\nትዕዛዝዎ ከተላከ በኋላ በ**"የእኔ ትዕዛዞች" (My Orders)** ክፍል መከታተል ይችላሉ።`
+        : `Ordering from Abdela Online Shopping is easy and takes just a minute:\n\n1. **Browse Products**: Explore our catalog on the storefront.\n2. **Open Details**: Click on any product to view full specifications, photos, and live stock.\n3. **Click "Order Now"**.\n4. **Enter Your Details**: Provide your name, phone number, and delivery address with your city and specific village/area (e.g. **Dessie, Buanbuha**), and select quantity (up to 5 items).\n5. **Choose Payment Method**: Select Telebirr, CBE, Bank of Abyssinia, or Cash on Delivery (with 200 ETB deposit), attach your payment screenshot, and submit!\n\nOnce placed, your order appears instantly in **My Orders** so you can track its progress!`,
       context: updatedContext,
       action: { type: 'SCROLL_SECTION', targetId: 'products', label: isAmharicResponse ? 'ምርቶችን ያስሱ' : 'Browse Products' }
     };
@@ -1952,6 +1993,10 @@ export async function processCustomerQuery({
   const isAskingStoreAbout =
     !matchedProduct &&
     !isAskingProducts && (
+      cleanText.includes('who is abdela') ||
+      cleanText.includes('what is abdela') ||
+      cleanText.includes('about abdela') ||
+      cleanText.includes('about brother abdela') ||
       cleanText.includes('who is abdi') ||
       cleanText.includes('what is abdi') ||
       cleanText.includes('about the shop') ||
@@ -1963,6 +2008,9 @@ export async function processCustomerQuery({
       cleanText.includes('about brother abdi') ||
       cleanText === 'about' ||
       cleanText === 'about us' ||
+      cleanText === 'ስለ አብደላ' ||
+      cleanText === 'ስለ አብደላ ንገረኝ' ||
+      cleanText.includes('ስለ ወንድም አብደላ') ||
       cleanText === 'ስለ አብዲ' ||
       cleanText === 'ስለ አብዲ ንገረኝ' ||
       cleanText.includes('ስለ ወንድም አብዲ') ||
@@ -1972,8 +2020,8 @@ export async function processCustomerQuery({
   if (isAskingStoreAbout) {
     return {
       text: isAmharicResponse
-        ? `**አብዲ ኦንላይን ሾፒንግ (Abdi Online Shopping)** ዋና መቀመጫውን በደሴ ከተማ ያደረገ፣ ጥራት ያላቸው ኦርጅናል የጤና እና የውበት ምርቶች፣ ኤሌክትሮኒክስ እና የቤት ውስጥ እቃዎችን የሚያቀርብ ታማኝ የኢ-ኮሜርስ መደብር ነው።\n\n• **የማድረስ አገልግሎት**፡ በደሴ ከተማ (ቧንቧ ውሃ፣ ፒያሳ፣ አራዳ፣ ሆቴ፣ ሮቢት እና ሁሉንም ሰፈሮች ጨምሮ) እንዲሁም በመላው ኢትዮጵያ በፍጥነት እናደርሳለን።\n• **የአድራሻ አሞላል**፡ እቃ ሲያዙ የከተማ ስም ብቻ ሳይሆን መንደርዎን ጭምር ይጥቀሱ (ለምሳሌ፦ **ደሴ፣ ቧንቧ ውሃ**)\n• **ክፍያ**፡ በቴሌብር እና እቃው ሲደርስ በእጅ መክፈል ይቻላል።`
-        : `**Abdi Online Shopping** is a trusted Ethiopian online shopping store based in Dessie, providing 100% authentic health and beauty items, electronics, and household goods.\n\n• **Fast Delivery**: We deliver promptly within Dessie (including Buanbuha, Piassa, Arada, Hote, Robit, and all neighborhoods) and across all regions of Ethiopia.\n• **Address Guidance**: When ordering, please enter your city and specific village/area (e.g. **Dessie, Buanbuha**).\n• **Payment Methods**: Safe Telebirr transfer or Cash on Delivery.\n• **Quality Guarantee**: All products are thoroughly inspected for originality and durability.`,
+        ? `**አብደላ ኦንላይን ሾፒንግ (Abdela Online Shopping)** ዋና መቀመጫውን በደሴ ከተማ ያደረገ፣ ጥራት ያላቸው ኦርጅናል የጤና እና የውበት ምርቶች፣ ኤሌክትሮኒክስ እና የቤት ውስጥ እቃዎችን የሚያቀርብ ታማኝ የኢ-ኮሜርስ መደብር ነው።\n\n• **የማድረስ አገልግሎት**፡ በደሴ ከተማ (ቧንቧ ውሃ፣ ፒያሳ፣ አራዳ፣ ሆቴ፣ ሮቢት እና ሁሉንም ሰፈሮች ጨምሮ) እንዲሁም በመላው ኢትዮጵያ በፍጥነት እናደርሳለን።\n• **የአድራሻ አሞላል**፡ እቃ ሲያዙ የከተማ ስም ብቻ ሳይሆን መንደርዎን ጭምር ይጥቀሱ (ለምሳሌ፦ **ደሴ፣ ቧንቧ ውሃ**)\n• **ክፍያ**፡ በቴሌብር፣ በCBE፣ በአቢሲኒያ ባንክ እና ሲደርስ በጥሬ ገንዘብ (ከ200 ብር ቅድመ ክፍያ ጋር) መክፈል ይቻላል።`
+        : `**Abdela Online Shopping** is a trusted Ethiopian online shopping store based in Dessie, providing 100% authentic health and beauty items, electronics, and household goods.\n\n• **Fast Delivery**: We deliver promptly within Dessie (including Buanbuha, Piassa, Arada, Hote, Robit, and all neighborhoods) and across all regions of Ethiopia.\n• **Address Guidance**: When ordering, please enter your city and specific village/area (e.g. **Dessie, Buanbuha**).\n• **Payment Methods**: Telebirr, Commercial Bank of Ethiopia (CBE), Bank of Abyssinia, and Cash on Delivery (with 200 ETB deposit).\n• **Quality Guarantee**: All products are thoroughly inspected for originality and durability.`,
       context: updatedContext
     };
   }
@@ -2000,8 +2048,8 @@ export async function processCustomerQuery({
   if (isGreeting) {
     return {
       text: isAmharicResponse
-        ? `ሰላም! እኔ **Abdi AI** ነኝ 👋\nየአብዲ ኦንላይን ሾፒንግ ረዳትዎ። ስለ ምርቶች፣ ዋጋ፣ አያያዝ፣ የቴሌብር ክፍያ እና የትዕዛዝ ሁኔታ ማንኛውንም ጥያቄ መጠየቅ ይችላሉ። ዛሬ በምን ልርዳዎት?`
-        : `Hello! I'm **Abdi AI** 👋\nYour official shopping and help assistant for Abdi Online Shopping. I can help you with product prices, stock availability, placing an order, Telebirr payment steps, and order tracking. How can I help you today?`,
+        ? `ሰላም! እኔ **Abdela AI** ነኝ 👋\nየአብደላ ኦንላይን ሾፒንግ ረዳትዎ። ስለ ምርቶች፣ ዋጋ፣ አያያዝ፣ የክፍያ መንገዶች (ቴሌብር፣ CBE፣ አቢሲኒያ፣ ካሽ) እና የትዕዛዝ ሁኔታ ማንኛውንም ጥያቄ መጠየቅ ይችላሉ። ዛሬ በምን ልርዳዎት?`
+        : `Hello! I'm **Abdela AI** 👋\nYour official shopping and help assistant for Abdela Online Shopping. I can help you with product prices, stock availability, placing an order, payment options (Telebirr, CBE, Abyssinia, Cash), and order tracking. How can I help you today?`,
       context: updatedContext
     };
   }
@@ -2011,8 +2059,8 @@ export async function processCustomerQuery({
   // ─────────────────────────────────────────────────────────────────────────
   return {
     text: isAmharicResponse
-      ? `እርስዎን በደንብ ለመርዳት ዝግጁ ነኝ! የሚከተሉትን ጥያቄዎች ሊጠይቁኝ ይችላሉ፡\n\n• **"እቃዬ መንደር ድረስ ይደርሳል?"** (Village delivery in Dessie)\n• **"እንዴት ማዘዝ እችላለሁ?"** (How do I order?)\n• **"የክፍያ ዘዴዎች ምንድን ናቸው?"** (Payment methods & Telebirr)\n• **"ትዕዛዜ የት ደረሰ?"** (Track my orders)\n• **"ስለ ምርቶች ዋጋ እና ክምችት"** (Product availability & prices)\n\nከላይ ከተዘረዘሩት አንዱን ይምረጡ ወይም ጥያቄዎን በግልጽ ይጻፉልኝ!`
-      : `I'm here to help you with anything on Abdi Online Shopping! You can ask me:\n\n• **"Can I get my product in my village?"** — Village delivery across Dessie\n• **"How do I place an order?"** — Complete checkout guidance\n• **"How do I pay with Telebirr?"** — Payment & screenshot upload help\n• **"Where is my order?"** — Check your order status and history\n• **"Is [product] in stock?"** — Real-time price and availability check\n\nFeel free to choose a suggestion below or type your question!`,
+      ? `እርስዎን በደንብ ለመርዳት ዝግጁ ነኝ! የሚከተሉትን ጥያቄዎች ሊጠይቁኝ ይችላሉ፡\n\n• **"እቃዬ መንደር ድረስ ይደርሳል?"** (Village delivery in Dessie)\n• **"እንዴት ማዘዝ እችላለሁ?"** (How do I order?)\n• **"የክፍያ ዘዴዎች ምንድን ናቸው?"** (Payment methods: Telebirr, CBE, BoA, Cash)\n• **"ትዕዛዜ የት ደረሰ?"** (Track my orders)\n• **"ስለ ምርቶች ዋጋ እና ክምችት"** (Product availability & prices)\n\nከላይ ከተዘረዘሩት አንዱን ይምረጡ ወይም ጥያቄዎን በግልጽ ይጻፉልኝ!`
+      : `I'm here to help you with anything on Abdela Online Shopping! You can ask me:\n\n• **"Can I get my product in my village?"** — Village delivery across Dessie\n• **"How do I place an order?"** — Complete checkout guidance\n• **"How do I pay?"** — Payment methods & receipt screenshot upload help\n• **"Where is my order?"** — Check your order status and history\n• **"Is [product] in stock?"** — Real-time price and availability check\n\nFeel free to choose a suggestion below or type your question!`,
     context: updatedContext
   };
 }
@@ -2035,7 +2083,7 @@ export function getQuickSuggestions(language = 'en') {
   return [
     { text: '📍 Village delivery in Dessie?', query: 'Can I get my product in my village Dessie Buanbuha' },
     { text: '🛍️ How do I order?', query: 'How do I place an order' },
-    { text: '💳 How do I pay?', query: 'How do I pay with Telebirr or cash' },
+    { text: '💳 How do I pay?', query: 'What are the payment methods' },
     { text: '📦 Latest order status', query: 'What is my latest order' },
     { text: '⭐ Are products original?', query: 'Are your products original' },
     { text: '🍯 Yemeni Honey price?', query: 'How much is Yemeni Honey' }

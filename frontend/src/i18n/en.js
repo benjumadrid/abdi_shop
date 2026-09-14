@@ -4,7 +4,7 @@
 export default {
   // Navigation
   nav: {
-    brandName: 'Abdi',
+    brandName: 'Abdela',
     brandSub: 'Online Shop',
     home: 'Home',
     products: 'Products',
@@ -21,7 +21,7 @@ export default {
     badge: 'Ethiopia\'s Trusted Local Online Store',
     titleStart: 'Authentic Quality,',
     titleHighlight: 'Delivered to You',
-    description: 'Discover premium lifestyle essentials, genuine electronics, and wellness products. Fast local delivery in Dessie and across Ethiopia with seamless Telebirr and Cash on delivery payment.',
+    description: 'Discover premium lifestyle essentials, genuine electronics, and wellness products. Fast local delivery in Dessie and across Ethiopia with seamless Telebirr, CBE, Bank of Abyssinia, and Cash on delivery payment.',
     shopNow: 'Shop Now',
     exploreProducts: 'Explore Products',
     howItWorks: 'How It Works',
@@ -30,8 +30,8 @@ export default {
       authenticDesc: 'Inspected products',
       delivery: 'Fast Delivery',
       deliveryDesc: 'Dessie & Ethiopia',
-      payments: 'Telebirr & Cash',
-      paymentsDesc: 'Safe on delivery'
+      payments: 'Telebirr, CBE, BoA',
+      paymentsDesc: 'Safe & verified'
     },
     featuredBadge: 'Customer Favorite',
     previewCard: {
@@ -44,7 +44,7 @@ export default {
 
   // Features / Value Props
   features: {
-    badge: 'Why Shop With Abdi',
+    badge: 'Why Shop With Abdela',
     title: 'A Shopping Experience Built On Trust',
     subtitle: 'We remove the hassle from online shopping in Ethiopia with verified products and dependable local support.',
     items: [
@@ -60,8 +60,8 @@ export default {
       },
       {
         id: 'payments',
-        title: 'Telebirr & Cash on Delivery',
-        description: 'Pay conveniently using Telebirr mobile transfer with instant receipt verification, or pay cash when your order arrives.'
+        title: 'Telebirr, CBE, BoA & Cash',
+        description: 'Pay conveniently using Telebirr, Commercial Bank of Ethiopia (CBE), Bank of Abyssinia, or Cash on delivery with instant verification.'
       },
       {
         id: 'delivery',
@@ -107,7 +107,7 @@ export default {
       {
         number: '02',
         title: 'Provide Your Details',
-        description: 'Fill in your name, phone number, and delivery address. Select Telebirr mobile transfer or Cash on delivery.'
+        description: 'Fill in your name, phone number, and delivery address. Select Telebirr, CBE, Bank of Abyssinia, or Cash on delivery.'
       },
       {
         number: '03',
@@ -119,7 +119,7 @@ export default {
 
   // CTA Section
   cta: {
-    badge: 'Ready to Experience Abdi?',
+    badge: 'Ready to Experience Abdela?',
     title: 'Start Shopping With Confidence Today',
     description: 'Join thousands of satisfied customers across Ethiopia enjoying genuine products, fair prices, and friendly local service.',
     button: 'Browse Featured Products'
@@ -135,8 +135,10 @@ export default {
     location: 'Dessie, Ethiopia',
     paymentMethodsTitle: 'Accepted Payment Methods',
     telebirrBadge: 'Telebirr Transfer',
+    cbeBadge: 'CBE Bank',
+    abyssiniaBadge: 'Bank of Abyssinia',
     cashBadge: 'Cash on Delivery',
-    copyright: 'Abdi Online Shop. All rights reserved.'
+    copyright: 'Abdela Online Shop. All rights reserved.'
   },
 
   // 404 Page
@@ -172,8 +174,17 @@ export default {
     paymentMethod: 'Payment Method',
     telebirr: 'Telebirr',
     telebirrSub: 'Pay with your Telebirr account',
+    cbe: 'CBE (Commercial Bank of Ethiopia)',
+    cbeSub: 'Transfer via CBE Mobile Banking or branch',
+    abyssinia: 'Bank of Abyssinia',
+    abyssiniaSub: 'Transfer via BoA Mobile Banking or branch',
     cash: 'Cash on Delivery',
-    cashSub: 'Pay cash when product arrives at your door',
+    cashSub: 'Pay cash on delivery (Requires 200 ETB advance deposit)',
+    advanceDepositNotice: 'Advance Deposit Required: 200 ETB',
+    advanceDepositExplanation: 'To prevent no-shows and guarantee prompt delivery, a 200 ETB advance security deposit is required. Pay via Telebirr, CBE, or Bank of Abyssinia and upload the receipt screenshot below. The remaining balance will be paid in cash upon delivery.',
+    remainingBalance: 'Remaining balance due on delivery',
+    advanceDepositAmount: 'Advance Deposit',
+    payDepositTo: 'Transfer 200 ETB deposit to any of our accounts:',
     note: 'Delivery Note (Optional)',
     notePlaceholder: 'Any instructions for delivery...',
     total: 'Total Amount',
@@ -181,37 +192,47 @@ export default {
     submitting: 'Processing Order & Payment...',
     cancel: 'Cancel',
     howToPay: 'How to Pay',
-    step1: 'Open your Telebirr app',
-    step2: 'Send the exact amount to the number above',
+    step1: 'Open your banking or Telebirr app',
+    step2: 'Send the amount to the account details above',
     step3: 'Keep your payment receipt (screenshot)',
-    step4: 'Attach the correct payment screenshot below (must clearly include transaction time)',
+    step4: 'Attach the correct payment screenshot below (must clearly show transaction time & reference)',
     screenshotNotice: 'Ensure the screenshot clearly shows the amount, transaction date, and time.',
     successTitle: 'Order Placed Successfully!',
     successDesc: 'Thank you for your order. We have received your order and payment proof. Our team will verify and call your phone shortly to confirm delivery.',
-    successDescCash: 'Thank you for your order. We have received your request. Our team will call your phone shortly to confirm delivery and cash payment.',
+    successDescCash: 'Thank you for your order. We have received your order and advance deposit receipt. Our team will verify and call your phone shortly to confirm delivery.',
     orderNumber: 'Order Number',
     paymentStatus: 'Payment Status',
-    paymentReview: 'Under Review (Telebirr)',
-    paymentPendingCash: 'Pending Cash on Delivery',
+    paymentReview: 'Under Review',
+    paymentPendingCash: 'Advance Deposit Under Review',
     done: 'Continue Shopping',
     orCall: 'Or order directly by phone:',
-    // Telebirr payment section
+    // Telebirr & Bank payment section
     telebirrInstructions: 'Please transfer the exact total to our verified Telebirr account below, then upload the payment receipt screenshot.',
     telebirrStep1: '1. Transfer via Telebirr',
     telebirrStep2: '2. Attach Receipt Screenshot',
+    cbeInstructions: 'Please transfer the exact total to our Commercial Bank of Ethiopia (CBE) account below, then upload the payment receipt screenshot.',
+    cbeStep1: '1. Transfer via CBE (የኢትዮጵያ ንግድ ባንክ)',
+    cbeStep2: '2. Attach Receipt Screenshot',
+    abyssiniaInstructions: 'Please transfer the exact total to our Bank of Abyssinia account below, then upload the payment receipt screenshot.',
+    abyssiniaStep1: '1. Transfer via Bank of Abyssinia (አቢሲኒያ ባንክ)',
+    abyssiniaStep2: '2. Attach Receipt Screenshot',
+    cashInstructions: 'Please transfer the 200 ETB advance deposit to our Telebirr, CBE, or Abyssinia account below, then upload the receipt screenshot.',
+    cashStep1: '1. Transfer 200 ETB Advance Deposit',
+    cashStep2: '2. Attach Deposit Receipt Screenshot',
     accountNumber: 'Account Number',
     accountName: 'Account Name',
+    bankName: 'Bank',
     copy: 'Copy',
     copied: 'Copied!',
     uploadScreenshot: 'Payment Receipt Screenshot',
     uploadPrompt: 'Click or drag & drop payment screenshot here',
     uploadFormats: 'JPG, PNG, or WEBP (Max 5 MB)',
-    screenshotRequired: 'Screenshot required for Telebirr verification',
+    screenshotRequired: 'Screenshot required for payment verification',
     removeScreenshot: 'Remove',
     changeScreenshot: 'Change',
     selectedScreenshot: 'Selected Screenshot',
     // Error messages
-    screenshotRequiredError: 'Please upload your Telebirr payment screenshot before submitting.',
+    screenshotRequiredError: 'Please upload your payment screenshot before submitting.',
     fileTooLargeError: 'Screenshot file size exceeds the 5 MB limit. Please select a smaller image.',
     invalidFileTypeError: 'Unsupported image format. Please upload a JPG, PNG, or WEBP screenshot.',
     paymentFailedTitle: 'Payment Submission Incomplete',
@@ -236,7 +257,12 @@ export default {
     telebirrPending: 'Payment submitted — Awaiting verification',
     telebirrVerified: 'Payment Verified',
     telebirrRejected: 'Payment Rejected',
+    cbePending: 'CBE Payment submitted — Awaiting verification',
+    cbeVerified: 'CBE Payment Verified',
+    abyssiniaPending: 'Abyssinia Payment submitted — Awaiting verification',
+    abyssiniaVerified: 'Abyssinia Payment Verified',
     cashOnDelivery: 'Cash on Delivery',
+    cashAdvancePending: 'Advance deposit submitted — Awaiting verification',
     viewDetails: 'View Details',
     orderDetails: 'Order Details',
     customerName: 'Customer Name',
@@ -278,7 +304,7 @@ export default {
     checkStatus: 'Check If We’re Back',
     checking: 'Checking status...',
     adminAccess: 'Store Staff & Admin Portal',
-    copyright: 'Abdi Online Shop. All rights reserved.'
+    copyright: 'Abdela Online Shop. All rights reserved.'
   }
 };
 

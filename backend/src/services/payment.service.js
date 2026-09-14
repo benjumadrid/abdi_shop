@@ -57,13 +57,23 @@ async function getPaymentMethods() {
   const result = await db.query(`
     SELECT setting_key, setting_value
     FROM admin_settings
-    WHERE setting_key IN ('telebirr_account_number', 'telebirr_phone', 'telebirr_account_name');
+    WHERE setting_key IN (
+      'telebirr_account_number', 'telebirr_phone', 'telebirr_account_name',
+      'cbe_account_number', 'cbe_account_name',
+      'abyssinia_account_number', 'abyssinia_account_name',
+      'cash_advance_amount'
+    );
   `);
 
   const settingsMap = new Map(result.rows.map(r => [r.setting_key, r.setting_value]));
 
-  const telebirrAccount = settingsMap.get('telebirr_account_number') || settingsMap.get('telebirr_phone') || null;
-  const telebirrAccountName = settingsMap.get('telebirr_account_name') || null;
+  const telebirrAccount = settingsMap.get('telebirr_account_number') || settingsMap.get('telebirr_phone') || '0931862253';
+  const telebirrAccountName = settingsMap.get('telebirr_account_name') || 'Nuru';
+  const cbeAccount = settingsMap.get('cbe_account_number') || '1000584744573';
+  const cbeAccountName = settingsMap.get('cbe_account_name') || 'Behrdin seid';
+  const abyssiniaAccount = settingsMap.get('abyssinia_account_number') || '251444412';
+  const abyssiniaAccountName = settingsMap.get('abyssinia_account_name') || 'Abdulhafiz sani';
+  const cashAdvanceAmount = parseFloat(settingsMap.get('cash_advance_amount') || '200');
 
   return {
     methods: [
@@ -74,8 +84,22 @@ async function getPaymentMethods() {
         account_name: telebirrAccountName
       },
       {
+        method: 'cbe',
+        name: 'Commercial Bank of Ethiopia (CBE)',
+        account_number: cbeAccount,
+        account_name: cbeAccountName
+      },
+      {
+        method: 'abyssinia',
+        name: 'Bank of Abyssinia',
+        account_number: abyssiniaAccount,
+        account_name: abyssiniaAccountName
+      },
+      {
         method: 'cash',
-        name: 'Cash on Delivery'
+        name: 'Cash on Delivery',
+        advance_deposit: cashAdvanceAmount,
+        advance_deposit_note: 'Requires 200 ETB advance security deposit screenshot'
       }
     ]
   };
@@ -158,15 +182,14 @@ async function submitPayment(paymentData) {
 
     const createdPayment = insertRes.rows[0];
 
-    // 5. Update order status if appropriate
-    if (normalizedMethod === 'telebirr' && order.status === 'pending') {
+    // 5. Update order status if appropriate (all payments with proof require admin review)
+    if (order.status === 'pending') {
       await client.query(`
         UPDATE orders
         SET status = 'payment_review', updated_at = NOW()
         WHERE id = $1;
       `, [order_id]);
     }
-    // For cash: order remains 'pending' because money hasn't been collected yet
 
     await client.query('COMMIT');
 

@@ -111,7 +111,7 @@ export default function AdminLayout() {
               <div className="flex flex-col">
                 <div className="flex items-center gap-1.5">
                   <span className="font-extrabold text-sm tracking-tight text-ink-950 leading-none">
-                    Abdi
+                    Abdela
                   </span>
                   <span className="text-[10px] font-semibold text-ink-400">
                     Store
@@ -243,7 +243,7 @@ export default function AdminLayout() {
               </svg>
             </button>
             <div className="flex items-center gap-2 text-xs font-medium text-ink-500">
-              <span className="hidden sm:inline">Abdi Back-Office</span>
+              <span className="hidden sm:inline">Abdela Back-Office</span>
               <span className="hidden sm:inline text-ink-300">/</span>
               <span className="text-ink-950 font-semibold capitalize">
                 {location.pathname === '/admin' ? 'Dashboard' : location.pathname.replace('/admin/', '')}

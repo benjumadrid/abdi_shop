@@ -130,14 +130,14 @@ export default function AbdiAI() {
       return {
         id: 'initial-greeting',
         sender: 'bot',
-        text: 'ሰላም! እኔ **Abdi AI** ነኝ 👋\nስለ ምርቶች፣ ትዕዛዞች፣ ክፍያዎች እና የአብዲ ኦንላይን ሾፒንግ ማንኛውም ጥያቄ ላይ ልረዳዎት እችላለሁ። ዛሬ በምን ልርዳዎት?',
+        text: 'ሰላም! እኔ **Abdela AI** ነኝ 👋\nስለ ምርቶች፣ ትዕዛዞች፣ ክፍያዎች እና የአብደላ ኦንላይን ሾፒንግ ማንኛውም ጥያቄ ላይ ልረዳዎት እችላለሁ። ዛሬ በምን ልርዳዎት?',
         timestamp: new Date()
       };
     }
     return {
       id: 'initial-greeting',
       sender: 'bot',
-      text: "Hi! I'm **Abdi AI** 👋\nI can help you with products, orders, payments, and anything about shopping with Abdi. How can I assist you today?",
+      text: "Hi! I'm **Abdela AI** 👋\nI can help you with products, orders, payments, and anything about shopping with Abdela. How can I assist you today?",
       timestamp: new Date()
     };
   }, []);
@@ -432,14 +432,14 @@ export default function AbdiAI() {
               className="hidden sm:flex items-center gap-1.5 bg-white text-ink-800 text-xs font-bold py-1.5 px-3 rounded-full shadow-card border border-surface-200/90 cursor-pointer animate-bounce select-none"
             >
               <span>👋</span>
-              <span>{isAmharic ? 'ጥያቄ አለዎት? Abdi AI ይርዳዎት' : 'Need help? Ask Abdi AI'}</span>
+              <span>{isAmharic ? 'ጥያቄ አለዎት? Abdela AI ይርዳዎት' : 'Need help? Ask Abdela AI'}</span>
             </div>
           )}
 
           <button
             type="button"
             onClick={() => setIsOpen(true)}
-            aria-label="Open Abdi AI Assistant"
+            aria-label="Open Abdela AI Assistant"
             className="group relative flex items-center gap-2.5 px-4 py-3 sm:px-4.5 sm:py-3.5 rounded-full bg-gradient-to-r from-brand-600 via-brand-500 to-emerald-600 hover:from-brand-700 hover:to-emerald-700 text-white shadow-float transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
           >
             {/* Pulsing indicator dot */}
@@ -453,7 +453,7 @@ export default function AbdiAI() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
 
-            <span className="font-extrabold text-sm tracking-tight">Abdi AI</span>
+            <span className="font-extrabold text-sm tracking-tight">Abdela AI</span>
           </button>
         </div>
       )}
@@ -463,7 +463,7 @@ export default function AbdiAI() {
         <div
           className="fixed bottom-3 right-3 sm:bottom-6 sm:right-6 z-40 w-[calc(100vw-1.5rem)] max-w-sm sm:max-w-md h-[580px] max-h-[85vh] bg-white rounded-3xl shadow-float border border-surface-200/90 flex flex-col overflow-hidden animate-scale-in"
           role="dialog"
-          aria-label="Abdi AI Help Assistant"
+          aria-label="Abdela AI Help Assistant"
         >
           {/* ── Header ── */}
           <div className="px-4 py-3.5 sm:px-5 bg-gradient-to-r from-brand-700 via-brand-600 to-emerald-600 text-white flex items-center justify-between shadow-xs select-none">
@@ -473,7 +473,7 @@ export default function AbdiAI() {
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
-                  <h3 className="font-black text-sm tracking-tight text-white">Abdi AI</h3>
+                  <h3 className="font-black text-sm tracking-tight text-white">Abdela AI</h3>
                   <span className="text-[10px] uppercase font-mono font-bold px-1.5 py-0.5 rounded bg-white/20 text-white/90">
                     {language.toUpperCase()}
                   </span>
@@ -635,7 +635,7 @@ export default function AbdiAI() {
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder={isListening ? (isAmharic ? 'እያዳመጥኩ ነው...' : 'Listening...') : (isAmharic ? 'የፈለጉትን እዚህ ይጠይቁ...' : 'Ask Abdi AI anything...')}
+              placeholder={isListening ? (isAmharic ? 'እያዳመጥኩ ነው...' : 'Listening...') : (isAmharic ? 'የፈለጉትን እዚህ ይጠይቁ...' : 'Ask Abdela AI anything...')}
               disabled={isTyping}
               className="flex-1 px-3.5 py-2.5 rounded-xl border border-surface-300 bg-surface-50 text-xs sm:text-sm text-ink-900 outline-none focus:border-brand-600 focus:bg-white transition shadow-2xs disabled:opacity-60"
             />
