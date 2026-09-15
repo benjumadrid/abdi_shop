@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useLanguage } from "../hooks/useLanguage";
 import { getProductById, getCachedProductById, subscribeToStoreUpdates } from "../services/api";
@@ -6,68 +6,181 @@ import Button from "../components/common/Button";
 import OrderModal from "../components/common/OrderModal";
 
 /* ============================================================
-   IMAGE GALLERY — shows all product media with thumbnails
+   IMAGE GALLERY — horizontal swipe slider with thumbnails & numbers
 ============================================================ */
 function ImageGallery({ media, name }) {
   const [activeIdx, setActiveIdx] = useState(0);
-  const [mainError, setMainError] = useState(false);
-
-  // Reset index when media changes
-  useEffect(() => {
-    setActiveIdx(0);
-    setMainError(false);
-  }, [media]);
+  const [errors, setErrors] = useState({});
+  const sliderRef = useRef(null);
+  const isProgrammaticScroll = useRef(false);
 
   const images = Array.isArray(media) && media.length > 0 ? media : [];
-  const activeUrl = images[activeIdx]?.url || null;
 
-  const handleThumbClick = (idx) => {
-    if (idx === activeIdx) return;
+  // Reset index and scroll position when media changes
+  useEffect(() => {
+    setActiveIdx(0);
+    setErrors({});
+    if (sliderRef.current) {
+      sliderRef.current.scrollTo({ left: 0, behavior: "instant" });
+    }
+  }, [media]);
+
+  const scrollToImage = (idx) => {
+    if (idx < 0 || idx >= images.length) return;
     setActiveIdx(idx);
-    setMainError(false);
+    if (sliderRef.current) {
+      isProgrammaticScroll.current = true;
+      const width = sliderRef.current.clientWidth;
+      sliderRef.current.scrollTo({
+        left: idx * width,
+        behavior: "smooth",
+      });
+      setTimeout(() => {
+        isProgrammaticScroll.current = false;
+      }, 400);
+    }
+  };
+
+  const handleScroll = () => {
+    if (!sliderRef.current || isProgrammaticScroll.current) return;
+    const { scrollLeft, clientWidth } = sliderRef.current;
+    if (clientWidth > 0) {
+      const newIdx = Math.round(scrollLeft / clientWidth);
+      if (newIdx >= 0 && newIdx < images.length && newIdx !== activeIdx) {
+        setActiveIdx(newIdx);
+      }
+    }
+  };
+
+  const handlePrev = (e) => {
+    e.stopPropagation();
+    const prevIdx = activeIdx > 0 ? activeIdx - 1 : images.length - 1;
+    scrollToImage(prevIdx);
+  };
+
+  const handleNext = (e) => {
+    e.stopPropagation();
+    const nextIdx = activeIdx < images.length - 1 ? activeIdx + 1 : 0;
+    scrollToImage(nextIdx);
+  };
+
+  const handleImageError = (idx) => {
+    setErrors((prev) => ({ ...prev, [idx]: true }));
   };
 
   return (
     <div className="flex flex-col gap-4">
-      {/* ── Main Image ────────────────────────────── */}
-      <div className="relative rounded-3xl overflow-hidden bg-surface-100 border border-surface-200/80 shadow-card">
-        <div className="relative w-full aspect-square">
-          {activeUrl && !mainError ? (
-            <img
-              src={activeUrl}
-              alt={name}
-              fetchPriority="high"
-              decoding="async"
-              onError={() => setMainError(true)}
-              className="w-full h-full object-cover object-center transition-all duration-300"
-            />
+      {/* ── Main Horizontally Scrollable & Swipable Container ── */}
+      <div className="relative rounded-3xl overflow-hidden bg-surface-100 border border-surface-200/80 shadow-card group">
+        <div
+          ref={sliderRef}
+          onScroll={handleScroll}
+          className="relative w-full aspect-square flex overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar touch-pan-x select-none"
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+            WebkitOverflowScrolling: "touch",
+          }}
+        >
+          {images.length > 0 ? (
+            images.map((img, idx) => {
+              const isErrored = errors[idx];
+              return (
+                <div
+                  key={img.id || idx}
+                  className="w-full h-full shrink-0 snap-center snap-always relative overflow-hidden"
+                >
+                  {!isErrored && img.url ? (
+                    <img
+                      src={img.url}
+                      alt={`${name} - ${idx + 1}`}
+                      fetchPriority={idx === 0 ? "high" : "low"}
+                      loading={idx === 0 ? "eager" : "lazy"}
+                      decoding="async"
+                      onError={() => handleImageError(idx)}
+                      className="w-full h-full object-cover object-center pointer-events-none transition-transform duration-300"
+                      draggable={false}
+                    />
+                  ) : (
+                    <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-surface-100 to-surface-200 p-8">
+                      <svg className="w-20 h-20 text-surface-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      <span className="text-sm font-semibold text-surface-500 text-center">{name}</span>
+                    </div>
+                  )}
+                </div>
+              );
+            })
           ) : (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-surface-100 to-surface-200 p-8">
+            <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-surface-100 to-surface-200 p-8">
               <svg className="w-20 h-20 text-surface-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
               <span className="text-sm font-semibold text-surface-500 text-center">{name}</span>
             </div>
           )}
+        </div>
 
-          {/* Image counter badge (only when multiple) */}
-          {images.length > 1 && (
-            <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-full bg-ink-900/70 text-white text-[11px] font-bold backdrop-blur-sm pointer-events-none">
+        {/* ── Left / Right Navigation Buttons (when 2+ images) ── */}
+        {images.length > 1 && (
+          <>
+            <button
+              type="button"
+              onClick={handlePrev}
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/85 hover:bg-white text-ink-800 shadow-md backdrop-blur-md flex items-center justify-center transition-all duration-200 opacity-90 sm:opacity-0 sm:group-hover:opacity-100 focus:opacity-100 hover:scale-110 active:scale-95 cursor-pointer z-10"
+              aria-label="Previous image"
+            >
+              <svg className="w-5 h-5 -ml-0.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleNext}
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/85 hover:bg-white text-ink-800 shadow-md backdrop-blur-md flex items-center justify-center transition-all duration-200 opacity-90 sm:opacity-0 sm:group-hover:opacity-100 focus:opacity-100 hover:scale-110 active:scale-95 cursor-pointer z-10"
+              aria-label="Next image"
+            >
+              <svg className="w-5 h-5 -mr-0.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </>
+        )}
+
+        {/* ── Floating Dots & Counter Overlay (when 2+ images) ── */}
+        {images.length > 1 && (
+          <div className="absolute bottom-3 inset-x-3 flex items-center justify-between pointer-events-none z-10">
+            {/* Dots */}
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-ink-900/60 backdrop-blur-md">
+              {images.map((_, idx) => (
+                <div
+                  key={idx}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    idx === activeIdx ? "w-4 bg-white" : "w-1.5 bg-white/50"
+                  }`}
+                />
+              ))}
+            </div>
+
+            {/* Counter badge */}
+            <div className="px-2.5 py-1 rounded-full bg-ink-900/70 text-white text-[11px] font-bold backdrop-blur-md">
               {activeIdx + 1} / {images.length}
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
-      {/* ── Thumbnails (only when 2+ images) ─────── */}
+      {/* ── Thumbnails with Number Badges (only when 2+ images) ── */}
       {images.length > 1 && (
         <div className="flex gap-3 overflow-x-auto pb-1 no-scrollbar">
           {images.map((img, idx) => (
             <button
               key={img.id || idx}
               type="button"
-              onClick={() => handleThumbClick(idx)}
-              className={`shrink-0 w-20 h-20 rounded-2xl overflow-hidden border-2 transition-all duration-200 focus:outline-none ${
+              onClick={() => scrollToImage(idx)}
+              className={`shrink-0 relative w-20 h-20 rounded-2xl overflow-hidden border-2 transition-all duration-200 focus:outline-none cursor-pointer ${
                 idx === activeIdx
                   ? "border-brand-600 shadow-brand-glow scale-[1.04]"
                   : "border-surface-200 hover:border-brand-300 opacity-70 hover:opacity-100"
@@ -80,6 +193,13 @@ function ImageGallery({ media, name }) {
                 className="w-full h-full object-cover object-center"
                 draggable={false}
               />
+              <span className={`absolute bottom-1 right-1 px-1.5 py-0.5 rounded-md text-[10px] font-bold ${
+                idx === activeIdx
+                  ? "bg-brand-600 text-white shadow-xs"
+                  : "bg-ink-900/70 text-white"
+              }`}>
+                {idx + 1}
+              </span>
             </button>
           ))}
         </div>
