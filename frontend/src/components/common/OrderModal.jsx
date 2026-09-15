@@ -423,19 +423,7 @@ export default function OrderModal({ isOpen, onClose, product }) {
 
     const trimmedAddress = address.trim();
     if (!trimmedAddress) {
-      setErrorMsg(isAmharic ? "እባክዎ ከተማዎን እና የተለየ ሰፈር/መንደርዎን ያስገቡ (ለምሳሌ፦ ደሴ፣ ቧንቧ ውሃ)።" : "Please enter your delivery address (e.g. Dessie, Buanbuha).");
-      return;
-    }
-
-    const lowerAddr = trimmedAddress.toLowerCase();
-    const isSingleWord = !trimmedAddress.includes(',') && !trimmedAddress.includes('፣') && !trimmedAddress.includes(' ') && !trimmedAddress.includes('-');
-    const isGenericCityOnly = isSingleWord || ['dessie', 'ደሴ', 'addis ababa', 'አዲስ አበባ', 'kombolcha', 'ኮምቦልቻ'].includes(lowerAddr);
-    if (isGenericCityOnly) {
-      setErrorMsg(
-        isAmharic
-          ? "እባክዎ የከተማዎን ስም ብቻ ሳይሆን የተለየ ሰፈር ወይም መንደርዎን ጭምር ይጥቀሱ (ለምሳሌ፦ ደሴ፣ ቧንቧ ውሃ)።"
-          : "Please specify your village or neighborhood along with your city (e.g. Dessie, Buanbuha)."
-      );
+      setErrorMsg(isAmharic ? "እባክዎ የማድረሻ አድራሻዎን ያስገቡ።" : "Please enter your delivery address.");
       return;
     }
 
